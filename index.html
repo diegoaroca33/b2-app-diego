@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="B2 Diego">
+<title>B2 — Diego Aroca</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f2f2f0;color:#1a1a1a;font-size:15px;line-height:1.65;min-height:100vh}
+.app{max-width:430px;margin:0 auto;display:flex;flex-direction:column;min-height:100vh}
+.bar{background:#fff;border-bottom:1px solid #e5e5e0;padding:12px 16px 8px;position:sticky;top:0;z-index:200}
+.bar h1{font-size:17px;font-weight:700}.bar .sub{font-size:12px;color:#999}
+.tabs{display:flex;background:#fff;border-bottom:1px solid #e5e5e0;overflow-x:auto;scrollbar-width:none;position:sticky;top:54px;z-index:199}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:10px 12px;font-size:11.5px;font-weight:500;color:#aaa;border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap}
+.tab.on{color:#1a1a1a;border-bottom-color:#1a1a1a;font-weight:700}
+.page{display:none;padding:14px 14px 48px;flex:1}
+.page.on{display:block}
+/* cards */
+.card{background:#fff;border:1px solid #e5e5e0;border-radius:12px;padding:13px 14px;margin-bottom:10px}
+.lbl{font-size:10.5px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.intro{background:#1a1a1a;color:#fff;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:13px;line-height:1.65}
+/* accordions */
+.ac{background:#fff;border:1px solid #e5e5e0;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.ac-h{padding:12px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;user-select:none}
+.ac-h .t{font-size:14px;font-weight:600;flex:1;line-height:1.35}
+.ac-h .ic{font-size:16px;color:#ccc;transition:transform .2s;flex-shrink:0}
+.ac-b{display:none;padding:0 14px 14px;border-top:1px solid #f0f0ee}
+.ac.op .ic{transform:rotate(45deg)}
+.ac.op .ac-b{display:block}
+.ac-b p{font-size:13px;color:#444;line-height:1.65;margin:7px 0}
+.ac-b ul{padding-left:16px;margin:7px 0}
+.ac-b li{font-size:13px;color:#444;line-height:1.6;margin-bottom:3px}
+/* boxes */
+.bw{background:#fef3e2;border-left:3px solid #d97706;padding:8px 10px;border-radius:0 8px 8px 0;font-size:12.5px;color:#444;margin:7px 0;line-height:1.5}
+.bg{background:#e4f5ea;border-left:3px solid #16a34a;padding:8px 10px;border-radius:0 8px 8px 0;font-size:12.5px;color:#444;margin:7px 0;line-height:1.5}
+.be{background:#f4f4f2;border-radius:8px;padding:8px 10px;font-size:12.5px;font-style:italic;color:#333;margin:7px 0;line-height:1.5}
+.bb{background:#e8f0fe;border-left:3px solid #1a56b0;padding:8px 10px;border-radius:0 8px 8px 0;font-size:12.5px;color:#333;margin:7px 0;line-height:1.5}
+/* grammar tags */
+.gt{display:inline-block;font-size:9px;font-weight:700;padding:1px 5px;border-radius:4px;margin:0 2px;vertical-align:middle;line-height:1.4;white-space:nowrap}
+.g2c{background:#dbeafe;color:#1e40af}
+.g3c{background:#ede9fe;color:#5b21b6}
+.g3ci{background:#fce7f3;color:#9d174d}
+.gp{background:#d1fae5;color:#065f46}
+.gw{background:#fee2e2;color:#991b1b}
+.gno{background:#fef3c7;color:#78350f}
+.gre{background:#e0f2fe;color:#0369a1}
+.gun{background:#f3f4f6;color:#374151}
+.gco{background:#fdf4ff;color:#6b21a8}
+.gpp{background:#d1fae5;color:#065f46}
+.gut{background:#e0f2fe;color:#0369a1}
+/* speaking */
+.ag{background:#fff;border:1px solid #e5e5e0;border-radius:14px;margin-bottom:16px;overflow:hidden}
+.ag-head{background:#1a1a1a;color:#fff;padding:12px 14px}
+.ag-head h3{font-size:14px;font-weight:700;margin-bottom:4px}
+.ag-head p{font-size:12px;color:#ccc}
+audio{width:100%;margin:10px 0;border-radius:8px;display:block}
+.topic-block{border-top:1px solid #f0f0ee}
+.topic-h{padding:11px 14px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none}
+.topic-h .tn{font-size:10.5px;font-weight:700;color:#aaa;margin-right:8px}
+.topic-h .tt{font-size:14px;font-weight:600;flex:1}
+.topic-h .tic{font-size:14px;color:#ccc;transition:transform .2s}
+.topic-block.op .tic{transform:rotate(90deg)}
+.topic-body{display:none;padding:0 14px 14px}
+.topic-block.op .topic-body{display:block}
+.topic-text{font-size:13.5px;line-height:1.85;color:#1a1a1a;margin-bottom:12px}
+.topic-text p{margin-bottom:10px}
+.gram-box{background:#f8f8f8;border-radius:10px;padding:10px 12px;border:1px solid #eee}
+.gram-box h4{font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+.gram-item{margin-bottom:8px;font-size:12.5px}
+.gram-item .gs{font-weight:600;color:#1a1a1a;display:block;margin-bottom:2px}
+.gram-item .ge{color:#555;font-style:italic;line-height:1.5}
+/* writing */
+.tpl-line{margin-bottom:11px}
+.tpl-lbl{font-size:10.5px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.tpl-txt{font-size:13px;line-height:1.7;background:#f4f4f2;padding:9px 11px;border-radius:8px;color:#1a1a1a}
+.tpl-txt b{color:#1a56b0}
+.essay-text{font-size:13.5px;line-height:1.85;color:#1a1a1a}
+.essay-text p{margin-bottom:9px}
+/* pills */
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10.5px;font-weight:700;margin-right:4px;margin-bottom:3px}
+.pb{background:#e8f0fe;color:#1a56b0}.pg{background:#e4f5ea;color:#15803d}
+.po{background:#fef3e2;color:#a85c00}.pp{background:#f0e8ff;color:#5b21b6}
+.pr{background:#fde8e8;color:#b91c1c}
+/* plan */
+.day{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid #e5e5e0;border-radius:10px;padding:11px 13px;margin-bottom:8px}
+.dn{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:#fff;background:#1a1a1a}
+.dn.today{background:#1a56b0}
+.dc h4{font-size:13.5px;font-weight:600;margin-bottom:2px}
+.dc p{font-size:12.5px;color:#555;line-height:1.5}
+.dc .m{font-size:11px;color:#aaa;margin-top:3px}
+/* flashcards */
+.fc-cats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.fc-cats button{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;color:#555;font-weight:500}
+.fc-cats button.on{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.fc-bar{background:#eee;border-radius:3px;height:3px;margin-bottom:10px}
+.fc-fill{background:#1a1a1a;border-radius:3px;height:3px;transition:width .3s}
+.fc-info{display:flex;justify-content:space-between;margin-bottom:10px}
+.fc-info span{font-size:12px;color:#aaa}
+.fccard{background:#fff;border:1px solid #e5e5e0;border-radius:14px;min-height:200px;padding:20px 16px;cursor:pointer;text-align:center;position:relative;transition:transform .1s}
+.fccard:active{transform:scale(.98)}
+.fcf,.fcb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:160px}
+.fcb{display:none}
+.fccard.fl .fcf{display:none}
+.fccard.fl .fcb{display:flex}
+.fcf .ftag,.fcb .ftag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:#aaa}
+.fcf .fq{font-size:16px;font-weight:700;color:#1a1a1a;line-height:1.4;max-width:280px}
+.fcb .fa{font-size:13px;font-weight:600;color:#1a56b0;line-height:1.5;max-width:300px}
+.fcb .ff{font-size:11.5px;color:#888;font-style:italic;margin-top:2px}
+.fcb .fex{font-size:12.5px;color:#444;font-style:italic;line-height:1.55;margin-top:5px;max-width:300px}
+.fchint{position:absolute;bottom:9px;right:13px;font-size:11px;color:#ddd}
+.fcbtns{display:flex;gap:8px;margin-top:10px}
+.fcbtns button{flex:1;padding:11px;border-radius:10px;border:none;cursor:pointer;font-size:13px;font-weight:500}
+.fcn{background:#fde8e8;color:#b91c1c}
+.fcy{background:#e4f5ea;color:#15803d}
+/* phrase rows */
+.ph{background:#fff;border:1px solid #e5e5e0;border-radius:8px;padding:10px 12px;margin-bottom:6px;font-size:13.5px;color:#1a1a1a;line-height:1.5}
+.ph .tr{color:#999;font-size:12px;font-style:italic;display:block;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="bar">
+  <h1>B2 Exam — Diego Aroca</h1>
+  <div class="sub">Examen 13 mayo · <b id="dl" style="color:#1a56b0"></b></div>
+</div>
+<div class="tabs">
+  <button class="tab on" onclick="go('plan',this)">📅 Plan</button>
+  <button class="tab" onclick="go('speak',this)">🗣️ Speaking</button>
+  <button class="tab" onclick="go('writ',this)">✍️ Writing</button>
+  <button class="tab" onclick="go('read',this)">📖 Reading</button>
+  <button class="tab" onclick="go('list',this)">🎧 Listening</button>
+  <button class="tab" onclick="go('flash',this)">🃏 Flash</button>
+</div>
+
+<!-- ========== PLAN ========== -->
+<div class="page on" id="page-plan">
+<div class="intro"><b>Objetivo: 8.5/10</b><br>Speaking ya lo tienes. Los puntos clave son Reading y Listening (20 pts cada uno). Writing con plantillas = 8+ seguro. Sigue este orden.</div>
+<div class="card"><div class="lbl">Distribución del examen</div>
+<p style="font-size:13px;line-height:1.9">
+🗣️ <b>Speaking</b> — monólogo 2-4 min + diálogo 4-5 min + mediación oral 2-3 min · 20 pts<br>
+✍️ <b>Writing</b> — 2 tareas · 75 min · 20 pts<br>
+📖 <b>Reading</b> — 4 tareas · 60 min · 20 pts<br>
+🎧 <b>Listening</b> — 3-4 tareas · 40 min · 20 pts<br>
+🔄 <b>Mediación escrita</b> — 1 tarea · 25 min · 10 pts
+</p></div>
+<div class="day"><div class="dn today">1</div><div class="dc"><h4>Hoy — Reading</h4><p>Pestaña Reading. Estudia los 4 tipos de tarea. Lee un examen modelo (PDF que tienes).</p><div class="m">45 min estrategias · 30 min práctica</div></div></div>
+<div class="day"><div class="dn">2</div><div class="dc"><h4>Listening</h4><p>Pestaña Listening. Practica con las transcripciones de Hatton Garden, Brain y Books.</p><div class="m">30 min estrategias · 45 min práctica</div></div></div>
+<div class="day"><div class="dn">3</div><div class="dc"><h4>Writing — essay + mediación</h4><p>Pestaña Writing. Escribe 1 essay con cronómetro. Escribe 1 mediación informal.</p><div class="m">30 min essay · 20 min mediación</div></div></div>
+<div class="day"><div class="dn">4</div><div class="dc"><h4>Speaking — topics 1 a 5</h4><p>Pestaña Speaking. Escucha el audio + lee el texto. Repite en voz alta 3 veces cada topic.</p><div class="m">60 min escucha + lectura activa</div></div></div>
+<div class="day"><div class="dn">5</div><div class="dc"><h4>Flashcards gramática</h4><p>Pestaña Flash. 3 rondas completas. Luego escribe 5 frases propias con las estructuras.</p><div class="m">45 min flash · 15 min escritura</div></div></div>
+<div class="day"><div class="dn">6</div><div class="dc"><h4>Simulacro completo</h4><p>Examen modelo de años anteriores. Todo cronometrado. Sin mirar nada.</p><div class="m">Reading 60 · Listening 40 · Writing 75</div></div></div>
+<div class="day"><div class="dn">7</div><div class="dc"><h4>Corrección + puntos débiles</h4><p>Corrige con answer keys. ¿Qué tipo de tarea falla más? Estudia solo eso hoy.</p><div class="m">30 min corrección · 60 min refuerzo</div></div></div>
+<div class="day"><div class="dn">8</div><div class="dc"><h4>Speaking — topics 6 a 14</h4><p>Repite el proceso del día 4 con los topics restantes. Practica el diálogo.</p><div class="m">60 min speaking en voz alta</div></div></div>
+<div class="day"><div class="dn">9</div><div class="dc"><h4>Repaso ligero</h4><p>1 essay. Repasa errores recurrentes. Lee plantillas y comodines de speaking.</p><div class="m">30 min writing · 30 min repaso</div></div></div>
+<div class="day"><div class="dn">10</div><div class="dc"><h4>Día del examen</h4><p>Lee plantillas 20 min. Escucha 2 audios. Sin material nuevo. Duerme bien.</p><div class="m">Solo repaso mental</div></div></div>
+</div>
+
+<!-- ========== SPEAKING ========== -->
+<div class="page" id="page-speak">
+<div class="intro"><b>Toca cada topic para leer el texto.</b><br>Dale al play del audio y sigue la lectura. Las etiquetas de colores marcan las estructuras B2.2 en el texto. Estúdialas — son las que suben la nota.</div>
+
+<div class="card" style="margin-bottom:14px">
+<div class="lbl">Leyenda de etiquetas gramaticales</div>
+<span class="gt g2c">2C</span> 2ª Condicional &nbsp;
+<span class="gt g3ci">3CI</span> 3ª Cond. Invertida &nbsp;
+<span class="gt gp">PASS</span> Pasiva &nbsp;
+<span class="gt gno">NOBA</span> Not only...but also<br style="margin-bottom:4px">
+<span class="gt gre">REL</span> Cláusula relativa &nbsp;
+<span class="gt gun">UNL</span> Unless &nbsp;
+<span class="gt gco">CONC</span> Although/Despite &nbsp;
+<span class="gt gw">WISH</span> Wish &nbsp;
+<span class="gt gpp">PP</span> Present Perfect &nbsp;
+<span class="gt gut">UT</span> Used to
+</div>
+
+<!-- GROUP 1: Topics 1-2-3 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 1 · 2 · 3</h3>
+    <p>Personal Identity · Housing · Daily Life &amp; Work</p>
+  </div>
+  <div style="padding:10px 14px 0">
+    <audio controls preload="none">
+      <source src="Topics_1-2-3_B2.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+  <!-- Topic 1 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">01</span><span class="tt">Personal Identity</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about identity — who we are, where we come from, and what shapes us over time.</p>
+        <p>In my opinion, identity is built through experience rather than circumstance. I was born in France but grew up in Murcia, and I feel completely Murcian. I am an architect by profession and a musician by necessity. I am outgoing at work, but I need silence to create. I am — as someone once told me — resilient.</p>
+        <p>The person who has shaped my identity most profoundly is my youngest son, Guillermo. He is twelve, dark-haired, with an enormous smile and a strength that surprises everyone <span class="gt gre">REL</span> who meets him. He has Down syndrome and has been through seven heart operations. And yet he skis, he reads, he rides a bike. From my own experience, the people <span class="gt gre">REL</span> who change us most are not always the ones we expect.</p>
+        <p>Another important aspect is the way society defines identity through appearance. People are often judged <span class="gt gp">PASS</span> by how they look before anyone asks who they actually are. I am convinced that what truly defines us is not our complexion or our CV, but how we respond when life does not go as planned.</p>
+        <p>I used to <span class="gt gut">UT</span> be more rigid, more certain. I have become <span class="gt gpp">PP</span> more patient, more curious, and more willing to say: I do not know. That, perhaps, is the most honest thing I can tell you about who I am.</p>
+        <p>To sum up, this is a topic I care deeply about. I am convinced that the choices we make every day shape who we are and the world we live in. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gre">REL</span> Relative clause</span>
+          <span class="ge">"...the people <b>who change us most</b> are not always the ones we expect."<br>→ "who" introduces a clause that defines "the people". No comma = defining clause.</span>
+        </div>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gp">PASS</span> Passive voice</span>
+          <span class="ge">"People are often <b>judged by</b> how they look."<br>→ be + past participle. Subject receives the action. Formal and impersonal.</span>
+        </div>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gut">UT</span> Used to + infinitive</span>
+          <span class="ge">"I <b>used to be</b> more rigid."<br>→ Past habit or state that no longer exists. NOT: I used to being.</span>
+        </div>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gpp">PP</span> Present Perfect</span>
+          <span class="ge">"I <b>have become</b> more patient."<br>→ Change from past to now, relevant in the present.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 2 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">02</span><span class="tt">Housing, Home and Surroundings</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about housing — a topic that is at once very personal and deeply political, because where we live shapes who we become.</p>
+        <p>I live in a flat in Murcia with three children, which means <span class="gt gre">REL</span> that space, light, and organisation are daily necessities. In my opinion, the most important room in a home is not the largest one, but the one where people gather. In our case, that is the kitchen. Household chores are shared <span class="gt gp">PASS</span> — not always perfectly, but shared. I believe strongly that they should be.</p>
+        <p>Nowadays, many people face the reality that buying a home is simply out of reach. Prices have risen <span class="gt gpp">PP</span> dramatically, and salaries have not kept <span class="gt gpp">PP</span> pace. As a result, many young people are forced <span class="gt gp">PASS</span> to rent for years. This is something I feel strongly about, because housing is not a luxury — it is a right.</p>
+        <p>Another important aspect is the neighbourhood itself. A safe, well-connected environment is worth more than the square metres of the flat. I have lived <span class="gt gpp">PP</span> in several cities, and I have learned <span class="gt gpp">PP</span> that you do not just choose a home — you choose a context.</p>
+        <p><b>If house prices were more affordable,</b> <span class="gt g2c">2C</span> <b>more young people would be able to live independently</b> — which would have a significant impact on society as a whole.</p>
+        <p>My ideal home would have a studio for music, natural light, and a small garden where my children can be loud without apology. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: 2ª Condicional</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt g2c">2C</span> 2nd Conditional — hipotético presente/futuro</span>
+          <span class="ge"><b>If + past simple → would + infinitive</b><br>"If house prices <b>were</b> more affordable, more young people <b>would be able</b> to live independently."<br>→ Situación irreal ahora. Importante: "were" (no "was") para todos los sujetos en registro formal.</span>
+        </div>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gp">PASS</span> Passive — forced to, shared</span>
+          <span class="ge">"Many young people <b>are forced to</b> rent." / "Chores <b>are shared</b>."<br>→ Enfatiza el resultado, no quién lo hace.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 3 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">03</span><span class="tt">Daily Life, Work and Entrepreneurship</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about daily life and work — the rhythm we build around our responsibilities.</p>
+        <p>I work as an architect in public administration, managing school building projects. My days involve decisions, reports, meetings, and site visits. I wake up early, plan my day, and try — not always successfully — to protect time for what matters most. I believe that the most productive people are not the ones who do the most, but the ones <span class="gt gre">REL</span> who choose well what they do not do.</p>
+        <p>From my own experience, burnout is real and arrives quietly. Technology has made everything faster, but I am convinced that faster is not always better. The expectation to be constantly available — to reply to messages at any hour — damages relationships and productivity equally. <b>Not only does</b> this affect productivity, <b>but it also damages</b> mental health — something <span class="gt gno">NOBA</span> that is rarely acknowledged <span class="gt gp">PASS</span> in modern workplaces.</p>
+        <p>Another important aspect is remote work. I have found <span class="gt gpp">PP</span> that working from home two days a week reduces stress and improves focus. But full remote work, for me, leads to isolation. A hybrid model, combining office structure with domestic flexibility, is the most human solution for most people.</p>
+        <p>If I could change one thing about my working life, <span class="gt g2c">2C</span> I would dedicate more time to creative projects. I write and produce songs — around thirty so far — and I am working on a novel. These are not hobbies — they are as important to me as my professional work.</p>
+        <p>To sum up, I am convinced that the choices we make every day shape who we are and the world we live in. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: Not only...but also</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gno">NOBA</span> Not only...but also — inversión</span>
+          <span class="ge"><b>Not only + auxiliary + subject + verb... but also...</b><br>"<b>Not only does</b> this affect productivity, <b>but it also damages</b> mental health."<br>→ Requiere INVERSIÓN (does/is/has) después de "not only". Muy B2.2. Añade énfasis.</span>
+        </div>
+        <div class="gram-item">
+          <span class="gs"><span class="gt g2c">2C</span> 2nd Conditional — deseo sobre el presente</span>
+          <span class="ge">"If I <b>could</b> change one thing, I <b>would dedicate</b> more time..."<br>→ Refleja un deseo hipotético sobre la situación actual.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP 2: Topics 4-5-6 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 4 · 5 · 6</h3>
+    <p>Free Time · Travel · Relationships</p>
+  </div>
+  <div style="padding:10px 14px 0">
+    <audio controls preload="none">
+      <source src="Topics_4-5-6__B2.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+  <!-- Topic 4 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">04</span><span class="tt">Free Time and Leisure</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about free time — not as a break from real life, but as a part of real life that we tend to undervalue and under-protect.</p>
+        <p>I play badminton regularly, which <span class="gt gre">REL</span> keeps me active and clears my head. But the activity that means most to me is music. I write and produce songs — around thirty so far — and I find it the most honest thing I do. It is where I am most fully myself. In my opinion, everyone should have at least one activity they pursue with no audience in mind — something done purely because it matters to them.</p>
+        <p>I also sing in a vocal group called The Pelikans — a group of adults from the EOI. I think it depends on what stage of life you are in, but for me, the social dimension of leisure has become increasingly important. The connection I feel with those people is genuine and has nothing to do with work or obligation.</p>
+        <p>Nowadays, many people spend their free time scrolling through social media and emerge an hour later feeling emptier than before. I am convinced that the activities that truly restore us require some effort: a hike, a rehearsal, a book that challenges you.</p>
+        <p><b>I wish I had more time for music,</b> <span class="gt gw">WISH</span> because I have found <span class="gt gpp">PP</span> that writing songs is one of the most effective ways to process emotions — something that cannot be replaced by any other activity.</p>
+        <p>The activities we choose in our free time reveal more about who we are than any job title ever could. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: Wish</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gw">WISH</span> Wish + past simple — situación actual que quieres cambiar</span>
+          <span class="ge"><b>I wish + subject + past simple</b><br>"I <b>wish I had</b> more time for music."<br>→ No tengo ese tiempo ahora. Wish + past simple = lamento sobre el presente.<br>Wish + past perfect = lamento sobre el pasado: "I wish I had started earlier."</span>
+        </div>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gpp">PP</span> Present Perfect</span>
+          <span class="ge">"I <b>have found</b> that writing songs is one of the most effective ways..."<br>→ Experience accumulated up to now, relevant to the present moment.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 5 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">05</span><span class="tt">Travel and Holidays</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about travel — one of the few experiences that genuinely changes the way you see the world, not just the things in it.</p>
+        <p>My favourite trip was to Italy. The architecture, the food, the light in the streets of Rome in the evening — all of it was extraordinary. From my own experience, I once got completely lost in a foreign city and had to ask for help using only gestures and fragments of a language I barely knew. It was frightening for about five minutes, and then it became one of my best memories. That is what travel does.</p>
+        <p>When I travel, I prefer self-catering apartments or small guesthouses to large hotels. I like to feel like a temporary resident rather than a tourist. I shop at local markets, eat where the locals eat, and try to avoid the standard itinerary. I believe that the best things you find while travelling are never listed in any guidebook.</p>
+        <p>Another important aspect is what travel does to your relationship with language. Being immersed in another culture accelerates learning in a way that no classroom can replicate. <b>Had I not travelled to Italy,</b> <span class="gt g3ci">3CI</span> <b>I would never have understood how profoundly a culture's language shapes its way of thinking.</b></p>
+        <p>Every trip leaves a mark that no photograph can fully capture — and that mark stays with you long after the luggage has been unpacked. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: 3ª Condicional Invertida</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt g3ci">3CI</span> 3rd Conditional Inverted — la más sofisticada</span>
+          <span class="ge"><b>Had + subject + past participle → would have + pp</b><br>"<b>Had I not travelled</b> to Italy, I <b>would never have understood</b>..."<br>→ Equivale a: "If I had not travelled..." pero sin "if".<br>→ El "if" se omite y se INVIERTE el orden: "Had I..." / "Were I..." / "Should I..."<br>→ Muy formal. El examinador lo reconocerá inmediatamente.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 6 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">06</span><span class="tt">Personal and Social Relationships</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about relationships — because they are, in my view, the central thread of a meaningful life.</p>
+        <p>I am the father of three children of different ages. My two older ones are teenagers, which means <span class="gt gre">REL</span> our relationship is constantly renegotiating itself — more space, more trust, less control. My youngest son, Guillermo, is twelve and has Down syndrome. He has been through seven heart operations and wears a pacemaker. He says 'papapi' and hugs with a strength that says everything words cannot. The bond I have built <span class="gt gpp">PP</span> with him has taught me <span class="gt gpp">PP</span> more about unconditional love than anything else in my life.</p>
+        <p>In my opinion, real friendship is built on trust and honesty, not on frequency. I value a few close friendships more than many acquaintances. And I have learned <span class="gt gpp">PP</span> that conflict is not the enemy of a good relationship — avoidance is. When I had a serious disagreement with a close friend some years ago, we chose to talk directly. The relationship that came out of that conversation was stronger than the one before it.</p>
+        <p>Professionally, the best colleagues I have worked with <span class="gt gpp">PP</span> were not the most brilliant — they were the most reliable and the most honest. I am convinced that commitment and consistency matter more than intensity.</p>
+        <p>Through him, I have completely changed <span class="gt gpp">PP</span> the way I see the world — which is something <span class="gt gre">REL</span> I would never have experienced <span class="gt g3ci">3CI</span> had I not had the privilege of being his father. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gpp">PP</span> Present Perfect — experiencias acumuladas</span>
+          <span class="ge">"The bond I <b>have built</b> with him <b>has taught</b> me..." / "I <b>have learned</b> that..."<br>→ Experiencias del pasado con relevancia presente. Sin tiempo específico.</span>
+        </div>
+        <div class="gram-item">
+          <span class="gs"><span class="gt g3ci">3CI</span> 3rd Conditional Inverted — al final como remate</span>
+          <span class="ge">"...something I would never have experienced <b>had I not</b> had the privilege of being his father."<br>→ Ponerla al final del monólogo como cierre = máximo impacto.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP 3: Topics 7-8-9 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 7 · 8 · 9</h3>
+    <p>Health · Education · Shopping</p>
+  </div>
+  <div style="padding:10px 14px 0">
+    <audio controls preload="none">
+      <source src="Topics_7-8-9__B2.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+  <!-- Topic 7 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">07</span><span class="tt">Health and Physical Care</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about health — a topic that, as I get older, I take considerably more seriously than I did in my twenties.</p>
+        <p>I try to walk or cycle every day, eat fresh ingredients, and get enough sleep. These habits are not dramatic, but they are consistent — and I believe that consistency is worth more than intensity in almost everything. I once ignored a pain in my knee for months. When I finally saw a physiotherapist, the recovery took three times longer than it would have needed. Prevention is always cheaper than cure.</p>
+        <p>Nowadays, many people overlook mental health until it becomes a crisis. Stress and anxiety do not announce themselves loudly — they accumulate. From my own experience, music, physical movement, and talking honestly with people I trust are the most effective tools I have found.</p>
+        <p>Another important aspect is the healthcare system. I am deeply grateful for public medicine in Spain. My son Guillermo has had <span class="gt gpp">PP</span> seven heart operations, all within the public system. The surgeons, nurses, and specialists who have treated him <span class="gt gre">REL</span> are extraordinary people doing extraordinary work.</p>
+        <p>Mental health is still not given enough attention <span class="gt gp">PASS</span> in our society — and yet it is widely acknowledged <span class="gt gp">PASS</span> that psychological well-being is just as important as physical health. Taking care of ourselves is also taking care of the people who need us. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: Pasiva</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gp">PASS</span> Passive — para dar peso formal a las ideas</span>
+          <span class="ge"><b>be + past participle</b><br>"Mental health is still not <b>given</b> enough attention."<br>"It is widely <b>acknowledged</b> that..."<br>→ La pasiva sin agente ("by...") es más formal y sirve para generalizar.<br>Muy útil en ensayos y speaking formal.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 8 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">08</span><span class="tt">Education and Study</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about education — a topic I think about both as a student and as a parent.</p>
+        <p>I am currently enrolled in a B2.2 course at the EOI in Murcia — which, as you can tell, is going reasonably well. I study in the evenings, which requires a level of organisation and discipline I did not expect. From my own experience, the most effective method for me is repetition combined with real use: listening, speaking, writing things that matter to me. I retain language best when it serves a genuine purpose.</p>
+        <p>In my opinion, the purpose of education is not to produce exam passers — it is to develop curious, critical, resilient human beings. Many schools still focus too heavily on assessment and not enough on creativity and practical problem-solving. I think it depends on the teacher more than the curriculum. The teachers who changed my life were those who treated me <span class="gt gp">PASS</span> as a person, not a student.</p>
+        <p>My youngest son, Guillermo, is educated in a mainstream school. Inclusion is far from perfect, and I often have to advocate for his rights. But I am convinced that mixed classrooms benefit everyone.</p>
+        <p><b>If we invested more in teachers and less in standardised testing,</b> <span class="gt g2c">2C</span> <b>our schools would produce not just better students, but better people.</b> Not just for children like Guillermo — for all children. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: 2ª Condicional con argumento fuerte</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt g2c">2C</span> 2nd Conditional — propuesta de mejora</span>
+          <span class="ge">"If we <b>invested</b> more in teachers, our schools <b>would produce</b> better people."<br>→ Aquí la 2ª condicional funciona como argumento político/social.<br>Es más persuasiva que decir simplemente "we should invest more".</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 9 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">09</span><span class="tt">Shopping and Commercial Activities</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about shopping — something we all do constantly, and which reveals more about our values than we might like to admit.</p>
+        <p>In my opinion, the best shopping experience is still in a small, local store where someone knows the products and can actually advise you. I find large department stores overwhelming — too much choice, too little help, too much temptation to buy things I did not come in for. That said, I also use online shopping, and I would be dishonest if I pretended otherwise. Convenience matters.</p>
+        <p>Nowadays, many people are influenced by advertising and social media trends that create the feeling that you need something you did not know existed until thirty seconds ago. From my own experience, the purchases I regret are always the impulsive ones. The ones I value most are the ones I considered carefully: checked the warranty, kept the receipt, read the reviews.</p>
+        <p>Another important aspect is sustainability. Fast fashion and excessive consumption damage the planet in ways that are no longer abstract — they are measurable.</p>
+        <p><b>If we all chose quality over quantity,</b> <span class="gt g2c">2C</span> <b>not only would we save money in the long run,</b> <span class="gt gno">NOBA</span> <b>but we would also reduce our environmental footprint significantly.</b> Every purchase is a small vote for the kind of world we want to live in. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras combinadas: 2C + NOBA</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt g2c">2C</span> + <span class="gt gno">NOBA</span> combinados</span>
+          <span class="ge">"If we all <b>chose</b> quality, <b>not only would we save</b> money, <b>but we would also reduce</b>..."<br>→ Combinar 2 estructuras B2.2 en una sola frase = nota máxima en repertorio.<br>Nota: NOBA dentro de una condicional también requiere inversión: "not only WOULD we..."</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP 4: Topics 10-11-12 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 10 · 11 · 12</h3>
+    <p>Food · Transport · Language</p>
+  </div>
+  <div style="padding:10px 14px 0">
+    <audio controls preload="none">
+      <source src="Topics_10-11-12__B2.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+  <!-- Topic 10 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">10</span><span class="tt">Food and Restaurants</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about food — not just as nutrition, but as culture, memory, and identity.</p>
+        <p>I cook at home most evenings. Nothing elaborate — Mediterranean food, mostly: fresh vegetables, fish, olive oil, simple preparation. But occasionally, when I have time, I make a paella. A proper one: sofrito first, then the rice, then the stock — never stirred once it goes in. From my own experience, cooking paella is an act of patience and attention, which <span class="gt gre">REL</span> is why it teaches you something beyond cooking. I believe that what we eat and how we eat it reflects who we are more directly than almost anything else we do.</p>
+        <p>I also love eating out — not for the occasion, but for the discovery. When I travel, I avoid tourist menus and look for places where the locals actually eat. Nowadays, many people are choosing plant-based diets for health or environmental reasons, and I respect that. I eat less meat than I used to <span class="gt gut">UT</span>, and I am more conscious of where my food comes from.</p>
+        <p>Another important aspect is the social dimension of food. The best meals I have had <span class="gt gpp">PP</span> in my life were not the most expensive — they were the ones shared around a table with people I love, when the conversation was honest.</p>
+        <p>Eating together — around a shared table, with people you love — is something <span class="gt gre">REL</span> that no technology will ever be able to replace, and which becomes more precious the busier our lives become. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gre">REL</span> Non-defining relative clause</span>
+          <span class="ge">"...cooking paella is an act of patience, <b>which is why</b> it teaches you something beyond cooking."<br>→ "which" con coma = non-defining. Añade información extra, no define.<br>"which is why" = por eso / razón por la que.</span>
+        </div>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gut">UT</span> Used to — comparación pasado/presente</span>
+          <span class="ge">"I eat less meat than I <b>used to</b>."<br>→ "Used to" al final sin verbo = se sobrentiende "used to eat". Natural y correcto.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 11 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">11</span><span class="tt">Transport, Goods and Services</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about transport and public services — a topic that sounds practical but which touches on some of the most important questions about how we organise our society.</p>
+        <p>I use public transport whenever I can. Buses and trains are cheaper, more sustainable, and — in a congested city — often faster than driving. I also walk and cycle for short distances. I believe that every journey by car that is replaced by a bicycle or a bus is a small act of environmental responsibility. It accumulates.</p>
+        <p>Another important aspect is financial services. I use an ATM less than I used to <span class="gt gut">UT</span>, but I have had to navigate loans and mortgages, and from my own experience, the paperwork is always more complex than anyone tells you in advance. I believe financial literacy should be taught <span class="gt gp">PASS</span> in schools.</p>
+        <p>Nowadays, many people underestimate the importance of emergency services until the moment they need them. My son Guillermo has required <span class="gt gpp">PP</span> urgent medical care on several occasions. The professionals in that emergency room were extraordinary.</p>
+        <p><b>Unless governments invest significantly in public transport,</b> <span class="gt gun">UNL</span> <b>particularly in rural areas, the private car will remain the only viable option for millions of people.</b> How we move through the world matters as much as where we are going. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: Unless</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gun">UNL</span> Unless — condición negativa</span>
+          <span class="ge"><b>Unless + present simple → future simple</b><br>"<b>Unless</b> governments invest, the private car <b>will remain</b> the only option."<br>→ Unless = "if not". NO uses "unless...not" — es redundante.<br>Muy útil para temas de sociedad, medio ambiente, educación.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 12 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">12</span><span class="tt">Language and Communication</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about language and communication — perhaps the most human of all topics, and the one I feel most personally invested in.</p>
+        <p>I was born in France, grew up speaking Spanish, and am now studying English at forty-something. In my opinion, learning a new language does not simply add a tool — it adds a perspective. When I write a song in English, I use metaphors I would not reach for in Spanish. The language shapes the thought.</p>
+        <p>Nowadays, many people communicate primarily through screens — messaging apps, social media, video calls. These tools have made contact faster and more frequent, but not always more meaningful. From my own experience, a twenty-minute phone call conveys more than a hundred text messages. Non-verbal communication — tone, eye contact, the pause before an answer — carries information that no caption can replace.</p>
+        <p>Another important aspect is the role of English as a global lingua franca. It allows people from completely different backgrounds to connect and collaborate. But I am convinced that linguistic diversity is one of humanity's greatest treasures. Every language <span class="gt gre">REL</span> that disappears takes with it an irreplaceable way of seeing the world.</p>
+        <p><b>Had I not had the opportunity to learn English,</b> <span class="gt g3ci">3CI</span> <b>many of the professional and personal connections I have made</b> <span class="gt gpp">PP</span> <b>would never have been possible.</b> Every language you learn adds not just words, but a new window onto what it means to be human. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 combinadas</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt g3ci">3CI</span> + <span class="gt gpp">PP</span> combinados</span>
+          <span class="ge">"<b>Had I not</b> had the opportunity, many connections I <b>have made</b> would never <b>have been possible</b>."<br>→ 3CI como hipótesis de pasado + PP para describir lo conseguido hasta ahora.<br>Combinarlos en una frase = nivel muy alto.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP 5: Topics 13-14 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 13 · 14</h3>
+    <p>Weather &amp; Environment · Science &amp; Technology</p>
+  </div>
+  <div style="padding:10px 14px 0">
+    <audio controls preload="none">
+      <source src="Topics_13-14__B2.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+  <!-- Topic 13 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">13</span><span class="tt">Weather and the Natural Environment</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about the weather and the natural environment — two things that are more deeply connected than most of us realised twenty years ago.</p>
+        <p>In Murcia, where I live, the climate is Mediterranean: mild winters, hot and dry summers. I love spring and autumn — the temperatures are comfortable, the light is beautiful, and you want to be outside. But the summers have changed <span class="gt gpp">PP</span>. They are hotter, longer, and more intense than they were when I was young. Wildfires are no longer exceptional events — they happen every year. Droughts are longer.</p>
+        <p>Climate change is not an abstract concern — it is something I can see from my own window. And yet the response, both individually and collectively, is still far too slow. I try to do my part: I recycle carefully, I reduce my carbon footprint by using public transport, I eat less meat, I avoid single-use plastic. These are small choices, I know. But I believe that individual behaviour and political action are both necessary.</p>
+        <p>I am also deeply concerned about biodiversity. We are losing plant and animal species at a rate that scientists describe as a mass extinction event. Protecting national parks, preserving forests, and investing in renewable energy are not optional extras — they are survival strategies.</p>
+        <p><b>Unless we act urgently and collectively to reduce our carbon footprint,</b> <span class="gt gun">UNL</span> <b>the consequences of climate change will become increasingly difficult — and eventually impossible — to reverse.</b> I hope my children inherit a world that is still worth protecting. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: Unless + urgencia</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gun">UNL</span> Unless — para argumentos medioambientales</span>
+          <span class="ge">"<b>Unless</b> we act urgently, the consequences <b>will become</b> impossible to reverse."<br>→ "Unless" al inicio de frase = impacto máximo. Combínalo con adverbios de urgencia: "urgently", "collectively", "immediately".</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 14 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">14</span><span class="tt">Science and Technology</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about science and technology — a subject I encounter every day in my professional work, my creative life, and in the most personal corners of my family story.</p>
+        <p>As an architect and project manager, I use digital tools constantly. I also use artificial intelligence — to organise ideas, generate drafts, and save time on tasks that used to <span class="gt gut">UT</span> take hours. I believe that AI is a powerful tool, not a threat. The difference between humans and machines is not intelligence — it is judgement, emotion, and the capacity to care about something beyond the task at hand. A machine can replicate the sound of my music. It cannot replicate the reason I write it.</p>
+        <p>Another important aspect is data privacy and online security. We share enormous amounts of personal information without fully understanding where it goes or how it is used <span class="gt gp">PASS</span>. I believe that digital literacy should be taught <span class="gt gp">PASS</span> as a core subject in schools — not as an optional extra, but as a fundamental skill.</p>
+        <p>The most personal encounter I have had <span class="gt gpp">PP</span> with technology is medical. My son Guillermo has lived with a pacemaker since he was five months old. Without modern medical science, he would not be here. Technology, in that moment, was not abstract — it was life itself.</p>
+        <p><b>Not only has artificial intelligence changed the way we work,</b> <span class="gt gno">NOBA</span> <b>but it has also raised fundamental questions about creativity, privacy, and what it means to be human.</b> Science gives us possibilities. Wisdom, and compassion, decide how we use them. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: Not only...but also con PP</h4>
+        <div class="gram-item">
+          <span class="gs"><span class="gt gno">NOBA</span> Not only...but also + Present Perfect</span>
+          <span class="ge">"<b>Not only has</b> AI changed the way we work, <b>but it has also raised</b> questions..."<br>→ NOBA con present perfect: "Not only HAS + subject + pp..."<br>→ La inversión es: NOT ONLY + auxiliary (has/have/is/does) + subject + verb.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Comodines speaking -->
+<div class="card"><div class="lbl">Comodines — funcionan en cualquier topic</div>
+<div class="ph">In my opinion, this is a topic that affects all of us in different ways.<span class="tr">Arranque universal — siempre funciona</span></div>
+<div class="ph">From my own experience, I have found that...<span class="tr">Conecta cualquier argumento con tu vida</span></div>
+<div class="ph">I think it depends on the person and their circumstances.<span class="tr">Cuando no tienes posición clara — gana tiempo</span></div>
+<div class="ph">Another important aspect that is often overlooked is...<span class="tr">Para introducir el 2º punto</span></div>
+<div class="ph">I am convinced that the choices we make every day shape who we are and the world we live in.<span class="tr">Cierre universal — funciona para cerrar cualquier topic</span></div>
+<div class="ph">That is a very interesting question. Let me think for a moment.<span class="tr">Para preguntas del examinador — nunca digas "mmm"</span></div>
+</div>
+
+</div><!-- end speaking -->
+
+<!-- ========== WRITING ========== -->
+<div class="page" id="page-writ">
+<div class="intro"><b>2 tareas · 75 min · 20 pts</b><br>Lee primero el ejemplo completo con las estructuras marcadas. Después estudia la plantilla. Así ves cómo funciona en contexto real.</div>
+
+<div class="ac" id="wa0">
+<div class="ac-h" onclick="ac('wa0')"><span class="title">Conectores — usa 8-10 distintos por texto</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Opinión:</b> In my opinion / From my point of view / I believe that / I am convinced that / It seems to me that</p>
+<p><b>Añadir:</b> In addition / Furthermore / Moreover / What is more / Not only...but also</p>
+<p><b>Contraste:</b> However / Although / Whereas / In contrast / Despite / Nevertheless / Even though / While</p>
+<p><b>Resultado:</b> As a result / For this reason / This means that / Therefore / Consequently</p>
+<p><b>Ejemplo:</b> For example / For instance / From my own experience / Such as / In particular</p>
+<p><b>Concesión:</b> Although / Despite the fact that / Admittedly / I also recognise that</p>
+<p><b>Conclusión:</b> In conclusion / To sum up / On balance / Overall / To conclude</p>
+<div class="bw">Nunca uses "Also" tres veces seguidas ni empieces dos párrafos con "Furthermore". Varía.</div>
+</div></div>
+
+<div class="ac" id="wa1">
+<div class="ac-h" onclick="ac('wa1')"><span class="title"><span class="pill pb">Essay</span> Ejemplo completo — Cocinar en casa vs restaurantes</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p style="font-size:11px;color:#aaa;margin-bottom:10px">Lee el essay completo. Las etiquetas muestran qué estructura gramatical se usa y dónde.</p>
+<div class="essay-text">
+<p><b>Intro:</b> <b>From my point of view,</b> cooking at home has more advantages, particularly in terms of health, cost and cultural identity.</p>
+<p><b>Body 1:</b> <b>To begin with,</b> home cooking allows you to control exactly what you eat — the ingredients, the quantities, the method. <b>For example,</b> when I make a paella, I choose the rice, the sofrito, the stock — nothing is hidden. <b>This means that</b> you eat more consciously and, usually, more healthily. <b>In contrast,</b> restaurant food often contains more salt, sugar and fat than we realise.</p>
+<p><b>Body 2:</b> <b>Secondly,</b> cooking at home is significantly cheaper. <b>In addition,</b> it can be a social activity in itself — cooking together with family or friends is, <b>from my own experience,</b> one of the most genuine forms of connection. <b>If we all cooked at home more often,</b> <span class="gt g2c">2C</span> <b>we would be healthier and more connected as families.</b></p>
+<p><b>Concession:</b> <b>However, I also recognise that</b> eating out offers experiences that home cooking cannot replicate <span class="gt gp">PASS</span>: discovering new cuisines, trying dishes from other cultures. <b>Had I never eaten</b> <span class="gt g3ci">3CI</span> <b>in a Lebanese restaurant, I would never have discovered</b> one of my favourite foods.</p>
+<p><b>Conclusion:</b> <b>In conclusion, although</b> restaurants offer discovery and pleasure, <b>I firmly believe that</b> home cooking provides a healthier, more affordable and more meaningful experience. <b>For this reason, I would recommend</b> that anyone who wants to improve their relationship with food starts in their own kitchen — with a good sofrito.</p>
+</div>
+<div class="bw" style="margin-top:10px">Fíjate: 3 estructuras B2.2 en un essay de 185 palabras. Eso es lo que busca el examinador.</div>
+</div></div>
+
+<div class="ac" id="wa2">
+<div class="ac-h" onclick="ac('wa2')"><span class="title"><span class="pill pb">Essay</span> Plantilla universal</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="tpl-line"><div class="tpl-lbl">Intro</div><div class="tpl-txt"><b>From my point of view,</b> [tema] has more advantages, particularly in terms of [A], [B] and [C].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Body 1</div><div class="tpl-txt"><b>To begin with,</b> [argumento]. <b>For example,</b> [ejemplo personal]. <b>This means that</b> [consecuencia]. <b>In contrast,</b> [lado opuesto] tends to [desventaja].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Body 2</div><div class="tpl-txt"><b>Secondly,</b> [argumento]. <b>In addition,</b> [detalle]. <b>As a result,</b> [consecuencia]. <b>From my own experience,</b> [conexión personal]. <b>If [condición], [resultado].</b> <span class="gt g2c">2C</span></div></div>
+<div class="tpl-line"><div class="tpl-lbl">Concesión</div><div class="tpl-txt"><b>However, I also recognise that</b> [punto opuesto]. <b>Had [condición pasada], [resultado].</b> <span class="gt g3ci">3CI</span></div></div>
+<div class="tpl-line"><div class="tpl-lbl">Conclusión</div><div class="tpl-txt"><b>In conclusion, although</b> [vista opuesta], <b>I firmly believe that</b> [posición]. <b>For this reason, I would recommend</b> [consejo] for anyone who [condición].</div></div>
+<div class="bg">150-190 palabras · Sin contracciones · Mínimo 2 estructuras B2.2</div>
+</div></div>
+
+<div class="ac" id="wa3">
+<div class="ac-h" onclick="ac('wa3')"><span class="title"><span class="pill pg">Blog/Post</span> Registro informal — autobiográfico</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p style="font-size:12px;color:#888;margin-bottom:8px">Tarea 1 habitual: escribe sobre tu infancia, logros y planes futuros. ~130 palabras. Contracciones OK.</p>
+<div class="essay-text">
+<p>Hi everyone! My name is Diego and I'm an architect from Murcia, Spain. I'm also a father of three and a musician — yes, all at once!</p>
+<p>When I was younger, I <b>used to</b> <span class="gt gut">UT</span> spend hours drawing and dreaming about buildings. I <b>would</b> <span class="gt gut">UT</span> cycle around my neighbourhood imagining what I'd redesign. I always dreamed of having a creative life, but I never thought I'd end up writing songs too.</p>
+<p>Looking back, I'm proud to say that I've built <span class="gt gpp">PP</span> a career I believe in, raised three incredible children, and found music as a second voice. <b>Not only have I</b> <span class="gt gno">NOBA</span> <b>achieved my professional goals, but I've also discovered</b> that the most meaningful things in life are often the ones you didn't plan for.</p>
+<p>As for the future, <b>I'd love to</b> publish my novel and keep making music with my son Guillermo by my side. I believe it's never too late to reinvent yourself.</p>
+</div>
+</div></div>
+
+<div class="ac" id="wa4">
+<div class="ac-h" onclick="ac('wa4')"><span class="title"><span class="pill po">Mediación</span> Email informal a amigo — parafrasea, no copies</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p style="font-size:12px;color:#888;margin-bottom:8px">Recibes un artículo y lo resumes en un email informal. El error más frecuente: copiar frases del texto. <b>Siempre parafrasea.</b></p>
+<div class="tpl-line"><div class="tpl-lbl">Apertura</div><div class="tpl-txt">Hey [nombre]! How are you? I just read something really interesting and thought of you straight away.</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Introducir tema</div><div class="tpl-txt">The article is about [tema en tus propias palabras]. <b>Apparently,</b> [punto principal 1]. <b>According to what I read,</b> [punto 2].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Punto más relevante</div><div class="tpl-txt"><b>What I found most interesting is that</b> [dato]. <b>It also mentions that</b> [dato secundario].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Opinión + cierre</div><div class="tpl-txt">I think this is [great/surprising/worrying] because [razón breve]. <b>Let me know what you think!</b> Speak soon, Diego</div></div>
+<div class="bw">NUNCA: "The text says that..." / "In the article it is written..."<br>SÍ: "Apparently..." / "It seems that..." / "According to what I read..."</div>
+</div></div>
+
+<div class="ac" id="wa5">
+<div class="ac-h" onclick="ac('wa5')"><span class="title"><span class="pill pp">Report</span> Informe con secciones</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="tpl-line"><div class="tpl-lbl">Intro</div><div class="tpl-txt"><b>The aim of this report is to</b> describe/analyse [tema] and to make recommendations for [propósito].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Current Situation</div><div class="tpl-txt"><b>The area/facility offers</b> [descripción]. <b>One of the main strengths is</b> [fortaleza]. <b>In addition,</b> [fortaleza 2].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Issues Identified</div><div class="tpl-txt"><b>However, some issues can be identified, particularly</b> [problema]. <b>This may affect</b> [grupo] during [circunstancias].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Recommendations</div><div class="tpl-txt"><b>It is recommended that</b> [acción 1]. <b>In addition,</b> [acción 2] should be considered <span class="gt gp">PASS</span> in order to [beneficio].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Conclusion</div><div class="tpl-txt"><b>Overall,</b> [resumen positivo] and, with appropriate improvements, could provide a better experience for [usuarios].</div></div>
+</div></div>
+
+<div class="ac" id="wa6">
+<div class="ac-h" onclick="ac('wa6')"><span class="title"><span class="pill pr">Letter</span> Carta de solicitud formal</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="tpl-line"><div class="tpl-lbl">Apertura</div><div class="tpl-txt">Dear Sir or Madam,</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Motivo</div><div class="tpl-txt"><b>I am writing to apply for the position of</b> [puesto] as advertised [dónde]. <b>I am particularly interested because</b> [razón]. <b>I believe this role would allow me to</b> [beneficio].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Experiencia</div><div class="tpl-txt"><b>I have previous experience in</b> [campo]. <b>In addition, I have developed strong</b> [habilidades], which would be useful in [contexto].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Idoneidad</div><div class="tpl-txt"><b>I believe I am well suited to this position as I am</b> [cualidades]. <b>Furthermore, I am confident that I could make a positive contribution to your organisation.</b></div></div>
+<div class="tpl-line"><div class="tpl-lbl">Cierre</div><div class="tpl-txt"><b>I hope you will consider my application. I look forward to hearing from you.</b><br>Yours faithfully, Diego Aroca Villalba</div></div>
+</div></div>
+
+<div class="card"><div class="lbl">Checklist antes de entregar</div>
+<p style="font-size:13px;line-height:1.9">
+✓ ¿Palabras dentro del rango?<br>
+✓ ¿Contesté TODOS los puntos de la tarea?<br>
+✓ ¿Usé mínimo 2 estructuras B2.2?<br>
+✓ ¿8-10 conectores distintos?<br>
+✓ ¿Sin contracciones en essay/report/carta?<br>
+✓ <b>address</b> (no adress) · <b>destination</b> (no destiny) · <b>climate change</b> (no "the climate change")
+</p></div>
+</div>
+
+<!-- ========== READING ========== -->
+<div class="page" id="page-read">
+<div class="intro"><b>4 tipos de tarea · 60 min · 20 pts</b><br>La clave es la TÉCNICA. Puedes sacar 8/10 en Reading sin vocabulario extra si sigues el proceso exacto.</div>
+
+<div class="ac" id="ra1">
+<div class="ac-h" onclick="ac('ra1')"><span class="title"><span class="pill pb">Tarea 1</span> True / False — 8 frases · 8 pts</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> 8 frases sobre un texto. Decides TRUE o FALSE según el texto. No uses tu conocimiento general.</p>
+<div class="bg"><b>Regla de oro:</b> La respuesta SIEMPRE está en el texto. Si no encuentras la frase correspondiente, busca más.</div>
+<p><b>El proceso (3 pasos):</b></p>
+<ul>
+<li>Lee la frase de la tarea y subraya la idea clave</li>
+<li>Encuentra el párrafo equivalente en el texto</li>
+<li>Compara PALABRA POR PALABRA — cualquier diferencia de significado = FALSE</li>
+</ul>
+<div class="bw"><b>Las 5 trampas más frecuentes:</b><br>
+1. Cuantificador cambiado: "some studies" → dicen "all studies"<br>
+2. Negación añadida: "is easy" → dicen "is not difficult"<br>
+3. Causa/efecto invertidos: A causa B → dicen B causa A<br>
+4. Demasiado extremo: texto dice "can help" → tarea dice "always helps"<br>
+5. Persona equivocada: lo dijo A → dicen que lo dijo B</div>
+<div class="be">Texto: "Some studies suggest mindfulness can be as effective as painkillers."<br>
+Tarea: "Mindfulness has been proven more effective than painkillers." → <b>FALSE</b><br>
+(some ≠ proven; as effective ≠ more effective)</div>
+<div class="be">Texto: "Basil walked past with his face concealed by a black bag on his shoulder."<br>
+Tarea: "Basil was recorded with his face covered under a black cap." → <b>FALSE</b><br>
+(bag ≠ cap — trampa clásica)</div>
+<p><b>Tiempo:</b> 15 min. Nunca dejes en blanco — 50% de probabilidad al azar.</p>
+</div></div>
+
+<div class="ac" id="ra2">
+<div class="ac-h" onclick="ac('ra2')"><span class="title"><span class="pill pg">Tarea 2</span> Párrafos → Títulos · 7 pts</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> 7 párrafos numerados. Los emparejas con 9 títulos. 2 sobran.</p>
+<div class="bg">El título = IDEA PRINCIPAL del párrafo, no un detalle secundario.</div>
+<p><b>El proceso:</b></p>
+<ul>
+<li>Lee SOLO la primera y última frase de cada párrafo</li>
+<li>Formula en tu cabeza la idea central en 2-3 palabras</li>
+<li>Busca el título que expresa ESA IDEA (estará parafraseado)</li>
+<li>Los distractores mencionan algo del párrafo pero no el tema principal</li>
+</ul>
+<div class="bw">El texto puede decir "money" pero el título correcto dice "financial pressure". Busca el CONCEPTO, no la palabra exacta.</div>
+<div class="be">Párrafo: Una familia empieza a visitar a vecinos ancianos, van al parque, luego de compras...<br>
+Título correcto: "Gradually coming closer" ✓<br>
+Título distractor: "Meeting a neighbour" ✗ (solo describe el inicio)</div>
+<p><b>Tiempo:</b> 15 min.</p>
+</div></div>
+
+<div class="ac" id="ra3">
+<div class="ac-h" onclick="ac('ra3')"><span class="title"><span class="pill po">Tarea 3</span> Insertar frases en huecos · 7 pts</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> Texto con 7 huecos. Eliges qué frase (A-I) va en cada hueco. 2 sobran.</p>
+<div class="bg">Las frases se insertan por COHESIÓN — la frase conecta lo que viene antes y lo que viene después.</div>
+<p><b>El proceso:</b></p>
+<ul>
+<li>Lee la frase ANTES del hueco → anota la última idea</li>
+<li>Lee la frase DESPUÉS del hueco → anota de qué empieza</li>
+<li>La frase correcta conecta ambas ideas</li>
+</ul>
+<p><b>Señales de cohesión que buscar en las frases opcionales:</b></p>
+<ul>
+<li>Pronombres: "it", "they", "this" → ¿a qué se refieren en el párrafo anterior?</li>
+<li>Conectores: "however", "therefore", "instead", "as a result"</li>
+<li>Palabras clave repetidas del contexto cercano</li>
+</ul>
+<div class="be">Antes del hueco: "...American teachers focused on correct procedures—"<br>
+Frase D: "primarily ignoring errors and complimenting students on correct answers only"<br>
+Después del hueco: "Japanese teachers, on the other hand, rarely praised..."<br>
+→ "on the other hand" confirma que D es el CONTRASTE con lo que viene después. ✓</div>
+<p><b>Tiempo:</b> 15 min.</p>
+</div></div>
+
+<div class="ac" id="ra4">
+<div class="ac-h" onclick="ac('ra4')"><span class="title"><span class="pill pp">Tarea 4</span> Elegir palabra (a/b/c) · 5 pts</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> Texto con 7-10 huecos. 3 opciones de palabra para cada uno.</p>
+<div class="bg">Proceso: GRAMÁTICA → SIGNIFICADO → COLOCACIÓN</div>
+<ul>
+<li>¿Qué categoría gramatical necesita el hueco? (nombre/verbo/adj/prep)</li>
+<li>¿Cuál tiene el significado correcto en este contexto?</li>
+<li>¿Cuál coloca bien con las palabras de alrededor?</li>
+</ul>
+<div class="bw">Las 3 opciones suelen ser sinónimos cercanos. La diferencia está en la colocación o el registro.<br>
+Ej: feel/bear/sense + "like" → solo "feel like" existe como expresión fija.</div>
+<div class="be">"you don't _____ like you belong anywhere"<br>
+a) bear &nbsp; b) feel &nbsp; c) sense → <b>b) feel</b> ("feel like" = tener la sensación de)</div>
+<div class="be">"a _____ solution, such as staying with family"<br>
+a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocación fija: temporary solution)</div>
+<p><b>Tiempo:</b> 10 min. Gestión total: 60 min = T1:15 + T2:15 + T3:15 + T4:10 + revisión:5</p>
+</div></div>
+</div>
+
+<!-- ========== LISTENING ========== -->
+<div class="page" id="page-list">
+<div class="intro"><b>3-4 tareas · 40 min · 20 pts</b><br>Cada audio se escucha <b>DOS veces</b>. Tienes 2 min para leer ANTES de escuchar. Úsalos siempre — es tu arma más importante.</div>
+
+<div class="card"><div class="lbl">Reglas de oro</div>
+<ul style="font-size:13px;line-height:1.9">
+<li><b>LEE las preguntas ANTES de escuchar.</b> Sin excepción.</li>
+<li>El audio <b>parafrasea</b> — nunca usa las palabras exactas de las opciones.</li>
+<li>1ª escucha: marca tu mejor respuesta. 2ª: confirma o cambia.</li>
+<li>Las preguntas van en <b>orden cronológico</b> en el audio.</li>
+<li>Nunca dejes en blanco.</li>
+</ul></div>
+
+<div class="ac" id="la1">
+<div class="ac-h" onclick="ac('la1')"><span class="title"><span class="pill pb">Tarea 1</span> Rellenar huecos — palabra exacta</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> Escuchas a alguien hablar. Completas frases con UNA o DOS palabras exactas del audio.</p>
+<div class="bg">La respuesta es la palabra LITERAL que dicen. No parafrasees.</div>
+<p><b>Antes de escuchar:</b></p>
+<ul>
+<li>Lee todas las frases incompletas</li>
+<li>Para cada hueco decide: ¿nombre? ¿verbo? ¿número? ¿adjetivo?</li>
+<li>Predice qué tipo de palabra falta</li>
+</ul>
+<p><b>Durante la escucha:</b></p>
+<ul>
+<li>Escucha la frase completa antes de escribir</li>
+<li>Escribe exactamente lo que escuchas</li>
+<li>Si no captas en 1ª escucha, déjalo y vuelves en la 2ª</li>
+</ul>
+<div class="be">Frase: "sleeping with head under sheets may lead to _____ or Alzheimer's"<br>
+Predices: nombre de condición médica<br>
+Escuchas: "dementia" → escribes: DEMENTIA ✓</div>
+<div class="be">Frase: "A good piece of advice is to get some 7-8 hours of _____ continuous sleep."<br>
+→ Predices: adjetivo de calidad<br>
+→ Escuchas: "quality" → QUALITY ✓</div>
+</div></div>
+
+<div class="ac" id="la2">
+<div class="ac-h" onclick="ac('la2')"><span class="title"><span class="pill pg">Tarea 2</span> Emparejar extractos con títulos</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> 8 extractos de audio cortos. Los emparejas con títulos A-J. 2 sobran.</p>
+<div class="bg">Los títulos parafrasean — busca la IDEA, no la palabra exacta.</div>
+<ul>
+<li>Lee TODOS los títulos antes de escuchar y subraya la palabra clave de cada uno</li>
+<li>Al terminar cada extracto, marca inmediatamente tu mejor opción</li>
+<li>Si dudas entre dos, apunta ambas — decides en la 2ª escucha</li>
+</ul>
+<div class="be">Extracto sobre Taylor Swift fans y la web de Ticketmaster caída:<br>
+Título correcto: I — "A website collapsed" ✓<br>
+Distractor: C — "An unconventional job" ✗ (no es el tema principal)</div>
+</div></div>
+
+<div class="ac" id="la3">
+<div class="ac-h" onclick="ac('la3')"><span class="title"><span class="pill po">Tarea 3</span> True / False — del audio</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> 10 frases sobre lo que escuchas. TRUE o FALSE.</p>
+<div class="bg">Igual que el T/F de Reading — pero de lo escuchado, no de lo leído. Mismas trampas.</div>
+<ul>
+<li>Lee las 10 frases antes de escuchar</li>
+<li>Durante la escucha: toma micro-notas al margen (✓ / ✗)</li>
+<li>Las frases van en ORDEN en el audio — no saltan</li>
+</ul>
+<div class="bw">Trampas reales del examen:<br>
+"3 years in the making" → tarea: "over 3 years" → FALSE<br>
+"face concealed by a black bag" → tarea: "face covered under a black cap" → FALSE (bag ≠ cap)<br>
+"nine million has still not been recovered" → tarea: "over nine million has been recovered" → FALSE</div>
+</div></div>
+
+<div class="ac" id="la4">
+<div class="ac-h" onclick="ac('la4')"><span class="title"><span class="pill pp">Tarea 4</span> Múltiple choice (a/b/c)</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> 6-7 preguntas sobre un audio largo. Eliges a, b o c.</p>
+<div class="bg">Las opciones incorrectas usan PALABRAS del audio en el contexto equivocado.</div>
+<ul>
+<li>Lee las preguntas y opciones ANTES de escuchar</li>
+<li>Subraya la palabra clave de cada pregunta</li>
+<li>No elijas algo solo porque escuchas esa palabra — fíjate en el CONTEXTO</li>
+</ul>
+<div class="be">Pregunta: "According to the speaker, who holds the power?"<br>
+Audio: "the power is what we wear every day. It's our clothing."<br>
+a) Citizens ✓ &nbsp; b) Industrialists ✗ &nbsp; c) The government ✗<br>
+→ "What we wear" = the consumer = citizens. El audio menciona industrialists y government en otro contexto.</div>
+<div class="be">Pregunta: "Clothing is one of the most _____ industries."<br>
+a) harmful ✓ &nbsp; b) influential ✗ &nbsp; c) profitable ✗<br>
+Audio: "the apparel industry has actually become the second most polluting industry in the world"<br>
+→ polluting ≈ harmful. El audio NO dice "influential" aunque sí que tiene influencia.</div>
+</div></div>
+</div>
+
+<!-- ========== FLASHCARDS ========== -->
+<div class="page" id="page-flash">
+<div class="intro"><b>42 tarjetas · Anki-style</b><br>Toca para ver la respuesta. Verde si lo sabías, rojo si no. Las tarjetas rojas vuelven al mazo hasta que salgan todas verdes.</div>
+<div class="fc-cats" id="fccats">
+  <button class="on" onclick="cat('all',this)">Todo</button>
+  <button onclick="cat('grammar',this)">Gramática</button>
+  <button onclick="cat('connectors',this)">Conectores</button>
+  <button onclick="cat('errors',this)">Errores</button>
+  <button onclick="cat('vocab',this)">Vocab</button>
+</div>
+<div class="fc-bar"><div class="fc-fill" id="fcfill" style="width:0%"></div></div>
+<div class="fc-info"><span id="fcpos">1 / <span id="fctot"></span></span><span id="fcscore">✓ 0 &nbsp;✗ 0</span></div>
+<div class="fccard" id="fccard" onclick="flip()">
+  <div class="fcf">
+    <div class="ftag" id="ftag">—</div>
+    <div class="fq" id="fq">—</div>
+  </div>
+  <div class="fcb">
+    <div class="ftag" id="ftag2">—</div>
+    <div class="fa" id="fa">—</div>
+    <div class="ff" id="ff"></div>
+    <div class="fex" id="fex"></div>
+  </div>
+  <div class="fchint" id="fchint">toca para ver</div>
+</div>
+<div class="fcbtns" id="fcbtns" style="display:none">
+  <button class="fcn" onclick="grade(false)">No lo sabía</button>
+  <button class="fcy" onclick="grade(true)">Lo tenía</button>
+</div>
+</div>
+
+</div><!-- end app -->
+
+<script>
+// DAYS LEFT
+(function(){
+  const d=new Date('2026-05-13'),t=new Date();t.setHours(0,0,0,0);
+  const n=Math.ceil((d-t)/864e5);
+  document.getElementById('dl').textContent=n>0?n+' días para el examen':n===0?'¡Es hoy!':'Ya pasó';
+})();
+
+// TABS
+function go(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('page-'+id).classList.add('on');
+  btn.classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='flash')render();
+}
+
+// ACCORDIONS
+function ac(id){
+  const el=document.getElementById(id);
+  const was=el.classList.contains('op');
+  document.querySelectorAll('.ac.op').forEach(a=>{
+    a.classList.remove('op');
+    a.querySelector('.ac-b').style.display='none';
+  });
+  if(!was){el.classList.add('op');el.querySelector('.ac-b').style.display='block';}
+}
+
+// TOPICS
+function tp(h){
+  const bl=h.closest('.topic-block');
+  bl.classList.toggle('op');
+}
+
+// FLASHCARD DATA
+const CARDS=[
+// GRAMMAR
+{c:'grammar',q:'2nd Conditional — fórmula',a:'If + past simple → would + infinitive',f:'Situación hipotética en el presente o futuro',e:'"If house prices were more affordable, more young people would be able to live independently." / "If I could change one thing, I would dedicate more time to music."'},
+{c:'grammar',q:'3rd Conditional — fórmula',a:'If + past perfect → would have + past participle',f:'Hipótesis sobre el pasado — algo que no ocurrió',e:'"If I had started earlier, I would have passed." / "If she had known, she would have acted differently."'},
+{c:'grammar',q:'3rd Conditional INVERTIDA — fórmula',a:'Had + subject + pp → would have + pp',f:'Más formal que la 3ª normal. Omites "if" e inviertes.',e:'"Had I not travelled to Italy, I would never have understood..." / "Had she known, she would have acted differently."'},
+{c:'grammar',q:'Wish + past simple',a:'I wish + subject + past simple',f:'Lamento sobre el presente — situación que quieres cambiar',e:'"I wish I had more time for music." / "I wish she were here." (were, no was — registro formal)'},
+{c:'grammar',q:'Wish + past perfect',a:'I wish + subject + had + pp',f:'Lamento sobre el pasado — algo que no hiciste',e:'"I wish I had started learning English earlier." / "I wish I had listened to him."'},
+{c:'grammar',q:'Passive voice',a:'Subject + be (any tense) + past participle',f:'Formal. Énfasis en el resultado, no en quién actúa.',e:'"It is widely believed that..." / "Mental health is not given enough attention." / "Chores are shared equally."'},
+{c:'grammar',q:'Not only...but also — inversión',a:'Not only + auxiliary + subject + verb... but (subject) also...',f:'REQUIERE inversión (does/has/is) después de "not only"',e:'"Not only does this affect productivity, but it also damages health." / "Not only has AI changed work, but it has also raised questions."'},
+{c:'grammar',q:'The more...the more',a:'The + comparative, the + comparative',f:'Relación proporcional entre dos cosas',e:'"The more you practise, the better you become." / "The busier our lives become, the more precious time together is."'},
+{c:'grammar',q:'Modal + perfect — deducción/arrepentimiento',a:'must/can\'t/should/might + have + past participle',f:'Deducción sobre el pasado o arrepentimiento',e:'"He must have forgotten." / "I should have listened." / "She can\'t have known." / "It might have been better."'},
+{c:'grammar',q:'Unless — condición negativa',a:'Unless + present simple → future simple',f:'= "if not". NUNCA uses "unless...not" — es redundante.',e:'"Unless we act now, the situation will get worse." / "Unless governments invest in public transport, people will use cars."'},
+{c:'grammar',q:'Used to + infinitive',a:'Used to + infinitive base',f:'Hábito o estado del pasado que ya no existe',e:'"I used to live in France." / "I used to be more rigid." / "She used to hate coffee."'},
+{c:'grammar',q:'Be used to + -ing',a:'am/is/are/was/were + used to + -ing / noun',f:'Acostumbrado a algo (estado actual)',e:'"I am used to working late." / "I am used to the noise." / "She was used to living alone."'},
+{c:'grammar',q:'Get used to + -ing',a:'get + used to + -ing / noun',f:'Proceso de acostumbrarse (en curso o completado)',e:'"You will get used to the new schedule." / "I got used to living alone after the move."'},
+{c:'grammar',q:'So...that / Such...that',a:'So + adj/adv + that... / Such + (a/an) + noun + that...',f:'Expresa resultado o consecuencia con énfasis',e:'"It was so interesting that I read it twice." / "Such a good idea that everyone agreed." / "He worked so hard that he burned out."'},
+{c:'grammar',q:'Despite / In spite of',a:'Despite/In spite of + noun or -ing (NOT + clause)',f:'Concesión sin "although". NUNCA + that-clause.',e:'"Despite the challenges, he succeeded." / "In spite of being tired, she finished." / NOT: Despite that he was tired ✗'},
+// CONNECTORS
+{c:'connectors',q:'Cómo introducir una opinión (5 opciones)',a:'In my opinion / From my point of view / I believe that / I am convinced that / It seems to me that',f:'Usa opciones diferentes en el mismo texto — no repitas',e:'"In my opinion, this is one of the most pressing issues." / "From my point of view, the advantages outweigh the disadvantages."'},
+{c:'connectors',q:'Cómo añadir información (5 opciones)',a:'In addition / Furthermore / Moreover / What is more / Not only...but also',f:'Gradación de énfasis: in addition < furthermore < moreover',e:'"Furthermore, research has shown that regular exercise improves mental health." / "What is more, the cost is significantly lower."'},
+{c:'connectors',q:'Cómo contrastar (6 opciones)',a:'However / Although / Whereas / In contrast / Despite / Nevertheless',f:'"Although" + clause / "Despite" + noun or -ing',e:'"Although it may seem challenging, it is worth the effort." / "However, not everyone agrees with this view." / "In contrast, the results were very different."'},
+{c:'connectors',q:'Cómo expresar resultado (5 opciones)',a:'As a result / For this reason / This means that / Therefore / Consequently',f:'Van al inicio de frase + coma, o después de punto y coma',e:'"As a result, many young people struggle to afford housing." / "For this reason, I would recommend choosing a coastal destination."'},
+{c:'connectors',q:'Cómo dar un ejemplo (5 opciones)',a:'For example / For instance / From my own experience / Such as / In particular',f:'"For example" y "For instance" son intercambiables',e:'"From my own experience, I found that consistency matters more than intensity." / "Activities such as badminton and cycling are ideal."'},
+{c:'connectors',q:'Cómo conceder el punto contrario',a:'Although / Despite the fact that / Admittedly / I also recognise that / It is true that',f:'Reconoces el lado opuesto antes de reafirmar tu posición',e:'"Admittedly, there are some advantages to fast fashion." / "I also recognise that eating out offers experiences cooking at home cannot replicate."'},
+{c:'connectors',q:'Cómo concluir (5 opciones)',a:'In conclusion / To sum up / On balance / Overall / To conclude',f:'Usa UNO solo al final. No mezcles.',e:'"To sum up, I firmly believe that public transport is the better option for most people." / "On balance, the advantages outweigh the disadvantages."'},
+// ERRORS
+{c:'errors',q:'"the climate change" ❌',a:'"climate change" ✓ — sin artículo',f:'General concepts in English: no article. Like "love", "justice", "technology".',e:'"Climate change is the defining challenge of our generation." NOT: The climate change is... ✗'},
+{c:'errors',q:'"destiny" cuando dices destino ❌',a:'"destination" ✓ — FALSO AMIGO',f:'destiny = destino en el sentido de "fuerza superior / sino" / destination = adónde vas',e:'"The bus takes them to their destination." NOT: their destiny ✗ (unless you mean fate)'},
+{c:'errors',q:'"adress" ❌',a:'"address" ✓ — doble d',f:'Ad-dress. Dos d\'s. Igual que "suggest" → "s" doble.',e:'"Please send it to this address." / "She addressed the problem directly."'},
+{c:'errors',q:'"being in time" ❌',a:'"being on time" ✓ — expresión fija',f:'on time = puntual (llegar cuando debes) / in time = con suficiente tiempo antes',e:'"Public transport helps you be on time." / "We arrived in time to get good seats." (diferente significado)'},
+{c:'errors',q:'"social medias" ❌',a:'"social media" ✓ — incontable, sin plural',f:'"Media" ya es el plural de "medium". Nunca añadas -s.',e:'"Social media has changed how we communicate." NOT: Social medias have... ✗'},
+{c:'errors',q:'"use the car" como sujeto ❌',a:'"using the car" ✓ — gerundio como sujeto',f:'En inglés el sujeto no puede ser un infinitivo suelto como en español',e:'"Using the car in the city is stressful." NOT: Use the car is stressful. ✗'},
+{c:'errors',q:'"although gives / although have" ❌',a:'"although it gives / although they have" ✓',f:'El pronombre sujeto NUNCA se omite en inglés',e:'"Although it gives freedom, it has drawbacks." NOT: Although gives freedom... ✗'},
+{c:'errors',q:'"an important disadvantage like parking" ❌',a:'"a significant disadvantage, such as parking" ✓',f:'"like" = informal. En ensayos formales usa "such as"',e:'"One significant disadvantage, such as the lack of parking, affects many drivers." NOT: a disadvantage like... ✗ (in formal writing)'},
+{c:'errors',q:'"enjoy with people" ❌',a:'"enjoy being with people" / "enjoy spending time with people" ✓',f:'enjoy + gerund. NUNCA enjoy + preposición directamente.',e:'"I really enjoy being with my family." / "She enjoys spending time outdoors." NOT: I enjoy with people ✗'},
+{c:'errors',q:'"I used to working" ❌',a:'"I am used to working" ✓ OR "I used to work" ✓',f:'used to + inf (hábito pasado) / be used to + -ing (acostumbrado)',e:'"I used to work nights." (ya no lo hago) / "I am used to working late." (estoy acostumbrado) NOT: I used to working ✗'},
+// VOCAB
+{c:'vocab',q:'resilient (adj) / resilience (n)',a:'resiliente / que se recupera / con capacidad de recuperación',f:'resilient person, show resilience, build resilience',e:'"Through difficult times, I have become more resilient." / "Resilience is one of the qualities I value most."'},
+{c:'vocab',q:'mainstream (adj)',a:'ordinario / convencional / la corriente principal',f:'mainstream school, mainstream media, mainstream opinion',e:'"Guillermo is educated in a mainstream school." / "This view has become mainstream."'},
+{c:'vocab',q:'carbon footprint',a:'huella de carbono',f:'reduce your carbon footprint, leave a smaller carbon footprint',e:'"Using public transport reduces your carbon footprint significantly."'},
+{c:'vocab',q:'burnout (n)',a:'agotamiento profesional / estar quemado',f:'suffer from burnout, lead to burnout, avoid burnout',e:'"Constant availability can lead to burnout. That is something I know from experience."'},
+{c:'vocab',q:'lingua franca',a:'lengua franca / idioma común de comunicación',f:'English as a lingua franca, serve as a lingua franca',e:'"English has become the world\'s lingua franca, allowing people from different backgrounds to collaborate."'},
+{c:'vocab',q:'precarious (adj)',a:'precario / inestable / inseguro',f:'precarious situation, precarious employment, precarious housing',e:'"Many young people find themselves in a precarious housing situation."'},
+{c:'vocab',q:'biodiversity (n)',a:'biodiversidad',f:'loss of biodiversity, protect biodiversity, biodiversity crisis',e:'"We are facing an unprecedented loss of biodiversity, and the consequences will be irreversible."'},
+{c:'vocab',q:'pacemaker (n)',a:'marcapasos',f:'fitted with a pacemaker, live with a pacemaker',e:'"Guillermo has lived with a pacemaker since he was five months old."'},
+{c:'vocab',q:'unconditional (adj)',a:'incondicional',f:'unconditional love, unconditional support',e:'"He has taught me more about unconditional love than anything else in my life."'},
+{c:'vocab',q:'self-catering (adj)',a:'con cocina propia / en régimen de alojamiento sin comidas incluidas',f:'self-catering apartment, self-catering accommodation',e:'"I prefer self-catering apartments — more space, more independence, and you can cook your own food."'},
+{c:'vocab',q:'overwhelm / overwhelming (v/adj)',a:'abrumar / agobiante / abrumador',f:'feel overwhelmed, find something overwhelming, an overwhelming majority',e:'"Large shopping malls are overwhelming — too much choice, too little help."'},
+{c:'vocab',q:'sustainable / sustainability',a:'sostenible / sostenibilidad',f:'sustainable development, sustainable lifestyle, environmentally sustainable',e:'"Choosing public transport is one of the simplest ways to live a more sustainable life."'},
+];
+
+let deck=[],cur=0,ok=0,nok=0,flipped=false,activeCat='all';
+
+function buildDeck(c){
+  deck=c==='all'?[...CARDS]:CARDS.filter(x=>x.c===c);
+  deck.sort(()=>Math.random()-.5);
+  cur=0;ok=0;nok=0;flipped=false;
+  render();
+}
+
+function cat(c,btn){
+  activeCat=c;
+  document.querySelectorAll('.fc-cats button').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  buildDeck(c);
+}
+
+function render(){
+  if(!deck.length){buildDeck(activeCat);return;}
+  if(cur>=deck.length)cur=0;
+  const card=deck[cur];
+  document.getElementById('ftag').textContent=card.c.toUpperCase();
+  document.getElementById('ftag2').textContent=card.c.toUpperCase();
+  document.getElementById('fq').textContent=card.q;
+  document.getElementById('fa').textContent=card.a;
+  document.getElementById('ff').textContent=card.f||'';
+  document.getElementById('fex').textContent=card.e||'';
+  document.getElementById('fcpos').innerHTML=(cur+1)+' / <span id="fctot">'+deck.length+'</span>';
+  document.getElementById('fcscore').textContent='✓ '+ok+' \u00a0 ✗ '+nok;
+  document.getElementById('fcfill').style.width=Math.round(cur/deck.length*100)+'%';
+  document.getElementById('fccard').classList.remove('fl');
+  document.getElementById('fcbtns').style.display='none';
+  document.getElementById('fchint').style.display='block';
+  flipped=false;
+}
+
+function flip(){
+  if(flipped)return;flipped=true;
+  document.getElementById('fccard').classList.add('fl');
+  document.getElementById('fcbtns').style.display='flex';
+  document.getElementById('fchint').style.display='none';
+}
+
+function grade(yes){
+  if(yes)ok++;else{nok++;deck.push(deck[cur]);}
+  cur++;
+  const all=ok+nok;
+  if(cur>=deck.length&&nok===0){
+    document.getElementById('fq').textContent='¡Completado! '+ok+'/'+all+' a la primera.';
+    document.getElementById('fccard').classList.remove('fl');
+    document.getElementById('fcbtns').style.display='none';
+    document.getElementById('fcfill').style.width='100%';
+    return;
+  }
+  render();
+}
+
+buildDeck('all');
+</script>
+</body>
+</html>
