@@ -213,6 +213,23 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .wc-blank{background:#fffbe6;border:1.5px solid #facc15;border-radius:5px;padding:2px 7px;font-size:12.5px;font-weight:700;color:#92400e;margin:0 2px;display:inline-block}
 .wc-blank.ok{background:#d1fae5;border-color:#16a34a;color:#065f46}
 .wc-blank.bad{background:#fde8e8;border-color:#b91c1c;color:#991b1b}
+/* visible correct-answer hint after checking cloze */
+.cl-fix{display:inline-block;font-size:11.5px;color:#065f46;font-weight:700;background:#d1fae5;padding:2px 7px;border-radius:5px;margin:0 3px;border:1px solid #16a34a;white-space:nowrap;vertical-align:middle}
+.cl-fix::before{content:'→ ';color:#16a34a}
+/* check/cross marks on MCQ/TF after checking */
+.q-row.done .q-opt.ok::after{content:' ✓ correcta';color:#16a34a;font-weight:700;font-size:11px;margin-left:6px}
+.q-row.done .q-opt.bad::after{content:' ✗ tu respuesta';color:#b91c1c;font-weight:700;font-size:11px;margin-left:6px}
+/* TTS speaker buttons */
+.tts-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:6px 0;flex-wrap:wrap}
+.tts-btn{background:#fff;border:1.5px solid #1a56b0;color:#1a56b0;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:15px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;transition:all .15s}
+.tts-btn:hover{background:#eaf2fc}
+.tts-btn:active{transform:scale(.95)}
+.tts-btn.playing{background:#dc2626;border-color:#dc2626;color:#fff;animation:tts-pulse 1.4s ease-in-out infinite}
+@keyframes tts-pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}50%{box-shadow:0 0 0 8px rgba(220,38,38,0)}}
+.tts-lbl{font-size:11.5px;color:#888;font-weight:500;flex:1}
+.tts-rate{font-size:11px;background:#f4f4f2;border:1px solid #e5e5e0;border-radius:6px;padding:5px 9px;cursor:pointer;color:#555;font-weight:600}
+.tts-rate:hover{background:#e5e5e0}
+.tts-rate.on{background:#1a56b0;color:#fff;border-color:#1a56b0}
 </style>
 </head>
 <body>
@@ -1320,6 +1337,10 @@ function go(id,btn){
   if(id==='list')renderListening();
   if(id==='read')renderReading();
   if(id==='plan')initPlan();
+  if(id==='writ'||id==='speak')initTTS();
+  // Stop any audio TTS when switching tabs
+  if(window.speechSynthesis)window.speechSynthesis.cancel();
+  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
 }
 
 // Helper: open a tab from an inline button (Plan CTAs)
@@ -1417,119 +1438,144 @@ function tp(h){
 
 // ============ LISTENING DATA ============
 const LISTEN=[
-{id:'m1',name:'MODELO 1 — 8 short extracts',sub:`Estilo "Match the headings" · ~6:30`,
+{id:'m1',name:`MODELO 1 — 8 short extracts`,sub:`Match the headings · ~6:30`,
  file:`audios/ING_B2_CO_MODELO_1.mp3`,
- tx:`<p><b>Example.</b> The sheer beauty of northern Mexico's Sierra Madre Mountains is only one reason why visitors come to enjoy quiet time in this part of the country known as the Copper Canyon. The opportunity to interact with the region's <span class="hw" data-tr="tribu indígena del norte de México">Tarahumara</span> Indians is another reason this isn't an average mountain destination.</p>
-<p><b>1.</b> In spring we move our clocks forward an hour and in fall we move them back an hour. That section in between, we call <span class="hw" data-tr="horario de verano">daylight saving time</span>. In the United States, 48 states observe daylight saving time, with Hawaii, most of Arizona, and the US territories choosing to ignore it.</p>
-<p><b>2.</b> Indigenous peoples and local communities are among those <span class="hw" data-tr="los más afectados">hardest hit</span> by climate change. Despite this vulnerability, they have generations of experience and their knowledge is central to <span class="hw" data-tr="forjar, crear">forging</span> effective solutions.</p>
-<p><b>3.</b> These <span class="hw" data-tr="caminantes con esmoquin = pingüinos">tuxedoed waddlers</span> are emperor penguins. The remarkable thing is the one who incubates the egg in a brood pouch is dad. Meanwhile, mom goes off to sea looking for food.</p>
-<p><b>4.</b> 65 million years ago, something brought an abrupt end to the dinosaur age. In a mass extinction, dinosaurs <span class="hw" data-tr="desaparecieron">vanished</span>. Most scientists think a giant comet or asteroid <span class="hw" data-tr="se estrelló">smashed</span> into the Earth.</p>
-<p><b>5.</b> Here in the Florida Everglades, they're after some <span class="hw" data-tr="aguafiestas, intrusos">party crashers</span>, invasive Burmese pythons. Over the past decade, escaped or abandoned pythons have made a home of the Everglades and are <span class="hw" data-tr="causando estragos">wreaking havoc</span>.</p>
-<p><b>6.</b> They were the first people ever to live in North America. Many scientists believe that 30,000 years ago, hunters from Asia walked along the coast of a <span class="hw" data-tr="puente terrestre">land bridge</span> that once connected Russia to Alaska.</p>
-<p><b>7.</b> Taylor Swift fans' wildest dreams would be tickets for her tour, but Ticketmaster's website couldn't deliver tickets in a swift manner as it kept <span class="hw" data-tr="se quedaba congelada">freezing</span>.</p>
-<p><b>8.</b> 500 new words have been added to the game's official Merriam-Webster online dictionary, and they're all playable in Scrabble. Guac, short for guacamole, made the cut.</p>`,
- cl:`<p style="font-size:12px;color:#888"><i>Rellena los huecos del extracto sobre daylight saving time:</i></p>
+ tx:`<p style="font-size:12px;color:#888;font-style:italic">Listening comprehension test, part one. Match each extract with a heading from the box. Two extra headings are not used. You will hear the recording twice.</p>
+<p><b>Example.</b> The <span class="hw" data-tr="absoluta, pura">sheer</span> beauty of northern Mexico's Sierra Madre Mountains is only one reason why many visitors come a long way to enjoy some quiet time in this part of the country known as the Copper Canyon. The views of the beautiful canyons are spectacular. A train ride through dozens of tunnels adds to the <span class="hw" data-tr="atractivo, encanto">allure</span> of the mountains. And the opportunity to interact with the region's <span class="hw" data-tr="tribu indígena del norte de México">Tarahumara</span> Indians is another reason this isn't an average mountain destination. The Tarahumara Indians inhabit these mountains and are one of the most unique tribes.</p>
+<p><b>One.</b> In spring we move our clocks forward an hour and in fall we move them back an hour. That section in between, we call that daylight savings time — and oh, it's singular: daylight saving time. It may seem pretty <span class="hw" data-tr="sencillo, directo">straightforward</span>, but daylight saving time has both serious repercussions and major benefits. In the United States of America, 48 states observe daylight saving time with Hawaii, most of Arizona, and the US territories of Guam, American Samoa, Puerto Rico, and the US Virgin Islands choosing to ignore it. In spring, the 48 states all jump ahead an hour and the immediate effects can be <span class="hw" data-tr="desastrosos">disastrous</span>.</p>
+<p><b>Two.</b> Indigenous peoples and local communities are among those <span class="hw" data-tr="los más afectados">hardest hit</span> by climate change. Their dependence on natural resources for basic needs makes them vulnerable to extreme weather. Despite this vulnerability, they have generations of experience <span class="hw" data-tr="sobrellevando, lidiando con">coping with</span> environmental uncertainty and their knowledge is central to <span class="hw" data-tr="forjar, crear">forging</span> effective climate change solutions. The Equator Prize 2015 winners show that community-based adaptation can lead to sustainable <span class="hw" data-tr="medios de vida">livelihoods</span> and local <span class="hw" data-tr="resiliencia">resilience</span>.</p>
+<p><b>Three.</b> These <span class="hw" data-tr="caminantes con esmoquin = pingüinos">tuxedoed waddlers</span> are emperor penguins. You may not know it, but these semi-aquatic birds are some of the most dedicated parents in the animal kingdom. Would you be willing to spend 65 days <span class="hw" data-tr="apretujados, acurrucados">huddled</span> in this penguin pack in temperatures that can drop to 112° below zero with winds of 50 miles an hour? Even Green Bay Packer football fans don't have it this bad. Fortunately, these big birds have evolved dense feathers and a thick layer of body fat. The remarkable thing is the one who incubates the egg in a <span class="hw" data-tr="bolsa incubadora">brood pouch</span> is dad. Meanwhile, mom goes off to sea looking for food.</p>
+<p><b>Four.</b> 65 million years ago, something happened that brought an <span class="hw" data-tr="abrupto, repentino">abrupt</span> end to the dinosaur age. No one knows exactly why, but in a mass extinction, dinosaurs suddenly <span class="hw" data-tr="desaparecieron">vanished</span>. Most scientists think the killer came from outer space. A giant comet or asteroid <span class="hw" data-tr="se estrelló">smashed</span> into the Earth, throwing massive clouds of dust into the atmosphere. As the planet grew cold and dark, the dinosaurs died off.</p>
+<p><b>Five.</b> Skip Snow and Mike Rochford have charming personalities, perfect for anyone who works with snakes. Here in the Florida Everglades, they're after some <span class="hw" data-tr="aguafiestas, intrusos">party crashers</span>: invasive Burmese pythons. Over the past decade, escaped or abandoned pythons have made a home of the Everglades and are <span class="hw" data-tr="causando estragos">wreaking havoc</span> on the local bird, small mammal, and reptile populations. Skip and Mike's team do their best to capture and remove these invasive animals, but they're also trying to study how they live and move around in the <span class="hw" data-tr="pantanos">swamps</span>.</p>
+<p><b>Six.</b> They were the first people ever to live in North America. Exactly when they came and how they arrived is still a mystery. But many scientists believe that as long as 30,000 years ago, some hunters from Asia walked or sailed along the coast of a <span class="hw" data-tr="puente terrestre">land bridge</span> that once connected Russia to Alaska. Their descendants became known as Native Americans or American Indians. As they spread out over the vast continent, Native Americans adapted to living in different regions and hundreds of unique cultures were born. The Plains Indians hunted <span class="hw" data-tr="búfalos">buffalo</span> by <span class="hw" data-tr="haciéndolos estampida">stampeding</span> them over cliffs. On the northern Pacific coast, tribes like the Haida and the Kwakiutl sailed the ocean and fished. They cut down giant red cedar trees for their houses, <span class="hw" data-tr="canoas talladas">dugout canoes</span>, and ceremonial totem poles.</p>
+<p><b>Seven.</b> Good morning. I'm A Martínez. Taylor Swift fans' wildest dreams would be tickets for the Eras tour, but Ticketmaster's website couldn't deliver tickets in a swift manner as it kept <span class="hw" data-tr="se quedaba colgada">freezing</span>. Twitter user K tweeted, "What is Joe Biden's plan to unpause the Ticketmaster queue for Taylor Swift's Eras tour?" Fair question. So, we asked Swift.</p>
+<p><b>Eight.</b> Good morning, I'm Leila Fadel. Scrabble just got a lot more interesting. 500 new words have been added to the game's official Merriam-Webster online dictionary, and they're all playable in Scrabble. "Guac," short for guacamole, <span class="hw" data-tr="fue admitida">made the cut</span>. "Zoink," "zonkey," "unsub," "unmute," "thingy," "roid," to name a few. And finally, an oldie: "Yeehaw." "Zoomer," for members of Gen Z, is now also an official word. It's Morning Edition.</p>`,
+ cl:`<p style="font-size:12px;color:#888;font-style:italic">Rellena los huecos del extracto sobre daylight saving time:</p>
 <p>In spring we move our clocks [[forward]] an hour and in fall we move them [[back]] an hour. That section in between, we call that daylight [[saving]] time. In the United States, [[48]] states observe daylight saving time with [[Hawaii]], most of [[Arizona]], and the US territories of Guam, American Samoa, [[Puerto Rico]], and the US Virgin Islands choosing to [[ignore]] it. In spring, the 48 states all jump [[ahead]] an hour and the immediate effects can be [[disastrous]].</p>`,
  qs:[
   {q:`Why are visitors attracted to the Sierra Madre Mountains?`,opts:[`For shopping and nightlife`,`For peace, beautiful canyons and indigenous culture`,`For winter sports`],correct:1,why:`El audio menciona "quiet time", "the views of the beautiful canyons" y "interact with the Tarahumara Indians".`},
   {q:`Hawaii does NOT observe daylight saving time.`,tf:true,correct:true,why:`"with Hawaii, most of Arizona... choosing to ignore it" — confirmado.`},
   {q:`How long do emperor penguin fathers stay huddled to incubate the egg?`,opts:[`25 days`,`45 days`,`65 days`],correct:2,why:`"Spend 65 days huddled here in this penguin pack".`},
   {q:`Pythons in the Everglades came mainly from escaped or abandoned pets.`,tf:true,correct:true,why:`"escaped or abandoned pythons have made a home of the Everglades".`},
-  {q:`How many new words were added to the Scrabble dictionary?`,opts:[`50`,`100`,`500`],correct:2,why:`"500 new words have been added to the game's official Merriam-Webster online dictionary".`}
- ]},
-{id:'m2',name:'MODELO 2 — Theater history',sub:`Long monologue · ~3:00`,
+  {q:`How many new words were added to the Scrabble dictionary?`,opts:[`50`,`100`,`500`],correct:2,why:`"500 new words have been added to the game's official Merriam-Webster online dictionary".`},
+  {q:`According to the news anchor, why did Ticketmaster fail with Taylor Swift fans?`,opts:[`Servers were hacked`,`The website kept freezing`,`The app crashed on phones`],correct:1,why:`"Ticketmaster's website couldn't deliver tickets in a swift manner as it kept freezing".`}
+ ]
+},
+{id:'m2',name:`MODELO 2 — Theater history`,sub:`Long monologue · ~3:00`,
  file:`audios/ING_B2_CO_MODELO_2.mp3`,
- tx:`<p>The history of theater from the 18th century forward is one of an increasing <span class="hw" data-tr="comercialización">commercialization</span> of the art, accompanied by technological innovations and an emphasis on more natural forms in acting.</p>
-<p>Theater, which had been dominated by the church for centuries, then by the taste of monarchs for another 200 years, became the province of merchants, industrialists and ultimately all segments of society. In the 18th and 19th centuries, theater embraced the romantic movement and <span class="hw" data-tr="melodrama">melodrama</span>.</p>
-<p>Realism as an artistic movement developed historically in tandem with the rise of modern science. Realism began as a <span class="hw" data-tr="rebelión, rechazo">revolt</span> against the conventions of the classic view of art. The artist's function is to report and record what he sees as accurately and honestly as possible.</p>
-<p>In playwriting, Henrik Ibsen was the first to fully realize the goals set forth by the realists, earning him the title "the father of modern drama". One of the paradoxes soon became apparent: the more realistic the play, the more it needed in <span class="hw" data-tr="accesorios, atrezzo">accessories</span>, detailed costumes, lifelike settings.</p>
-<p>Too much insistence on realism was bound to produce a reaction. Much of the history of theater in the 20th century explored alternate ways of theatrical storytelling. For the first time, Asian theatrical forms were studied and <span class="hw" data-tr="emulados, imitados">emulated</span> by theater artists in the West.</p>`,
- cl:`<p style="font-size:12px;color:#888"><i>Rellena los huecos del primer párrafo:</i></p>
+ tx:`<p>The history of theater from the 18th century forward is one of an increasing <span class="hw" data-tr="comercialización">commercialization</span> of the art, accompanied by technological innovations, an expansion of subject matters portrayed to include ordinary people, and an emphasis on more natural forms in acting. Theater, which had been dominated by the church for centuries, then by the taste of <span class="hw" data-tr="monarcas">monarchs</span> for another 200 years, became the <span class="hw" data-tr="ámbito, dominio">province</span> of merchants, industrialists, and ultimately all segments of society.</p>
+<p>In the 18th and 19th centuries, theater embraced the romantic movement and <span class="hw" data-tr="melodrama">melodrama</span> while <span class="hw" data-tr="técnicas escénicas">staging techniques</span> became more and more realistic, in large part due to rapid advances in stage technology. When we think about modern theater, we inevitably think about realism and naturalism in playwriting. Realism as an artistic movement developed historically <span class="hw" data-tr="en paralelo, simultáneamente">in tandem</span> with the rise of modern science, with its emphasis on observation, accurate recording, and theorizing about natural phenomena. In applying this method to the study of society, writers started to <span class="hw" data-tr="mostrar">exhibit</span> a social conscience, seeing the evils of society and calling for reform. Realism was the attempt to <span class="hw" data-tr="recrear">recreate</span> life as it is in the context of an artistic medium.</p>
+<p>The artist's function is to report and record what he sees as accurately and honestly as possible. Realism began as a <span class="hw" data-tr="rebelión, rechazo">revolt</span> against the conventions of the classic view of art, which suggested that life was more rational and orderly than it really is, and a revolt against the romantic traditions in art, which suggested that life was more emotionally satisfying than it really is. Realism attempted to portray life as objectively as possible.</p>
+<p>In playwriting, Henrik Ibsen was the first to fully realize the goals <span class="hw" data-tr="propuestos">set forth</span> by the realists and to make the public aware that a new era in theater had begun, earning him the title "the father of modern drama." One of the <span class="hw" data-tr="paradojas">paradoxes</span> of the form soon became apparent: the more realistic the play, the more it needed in the way of <span class="hw" data-tr="accesorios, atrezzo">accessories</span>. Detailed costumes, lifelike settings, and an <span class="hw" data-tr="abundancia">abundance</span> of <span class="hw" data-tr="utilería">props</span> became the norm in theatrical production.</p>
+<p>As with any other style, too much insistence on realism was bound to produce a reaction, and much of the history of theater in the 20th century is concerned with movements that explored alternate ways of theatrical storytelling. One form of theater that seemed to offer a solution to the realistic dilemma was that of the Far East. And for the first significant time in the history of Western theater, Asian theatrical forms were studied and <span class="hw" data-tr="emulados, imitados">emulated</span> by theater artists in the West.</p>
+<p>In this final four-week unit, we'll first look at the forces and artistic movements that led to the development of modern theater. Then we'll spend some time looking at traditional Asian theatrical forms. Finally, we'll look at the 20th century and the tension that developed between realism and the alternative styles of production and playwriting that developed in response to realism's <span class="hw" data-tr="limitaciones">constraints</span>. We'll finish the course by looking at the dynamic intercultural encounters of our world today and see how they are <span class="hw" data-tr="dando forma a">shaping</span> the future of theater.</p>`,
+ cl:`<p style="font-size:12px;color:#888;font-style:italic">Rellena los huecos del primer párrafo:</p>
 <p>The history of theater from the 18th century forward is one of an [[increasing]] commercialization of the art, accompanied by [[technological]] innovations, an expansion of [[subject]] matters portrayed to include [[ordinary]] people and an emphasis on more [[natural]] forms in acting. Theater, which had been [[dominated]] by the church for centuries, then by the taste of [[monarchs]] for another 200 years, became the [[province]] of merchants, industrialists and ultimately all segments of society.</p>`,
  qs:[
   {q:`Theater was first dominated by:`,opts:[`Merchants and industrialists`,`The church`,`Ordinary citizens`],correct:1,why:`"Theater, which had been dominated by the church for centuries".`},
   {q:`Who is called "the father of modern drama"?`,opts:[`Henrik Ibsen`,`An anonymous Asian playwright`,`William Shakespeare`],correct:0,why:`"Henrik Ibsen was the first... earning him the title the father of modern drama".`},
   {q:`Realism became less popular as theater needed simpler costumes.`,tf:true,correct:false,why:`FALSO. Lo CONTRARIO: "the more realistic the play, the more it needed... detailed costumes". Más realismo = MÁS atrezzo.`},
-  {q:`In the 20th century, Western theater began studying Asian theatrical forms.`,tf:true,correct:true,why:`"Asian theatrical forms were studied and emulated by theater artists in the West".`}
- ]},
-{id:'m3',name:'MODELO 3 — Shakira interview',sub:`Q&A · ~3:00`,
+  {q:`In the 20th century, Western theater began studying Asian theatrical forms.`,tf:true,correct:true,why:`"Asian theatrical forms were studied and emulated by theater artists in the West".`},
+  {q:`Realism was inspired by:`,opts:[`The romantic movement in poetry`,`The rise of modern science`,`Asian philosophy`],correct:1,why:`"Realism developed historically in tandem with the rise of modern science".`}
+ ]
+},
+{id:'m3',name:`MODELO 3 — Shakira interview`,sub:`Q&A · ~3:00`,
  file:`audios/ING_B2_CO_MODELO_3.mp3`,
- tx:`<p><b>Q:</b> Your new album has a more electronic and dance feel. <b>Shakira:</b> The electronica world has a lot to offer. It's going through a very good phase.</p>
-<p><b>Q:</b> Do you enjoy singing more in English or in Spanish? <b>Shakira:</b> They're both such different languages and have different resources. When I started writing in English, I could <span class="hw" data-tr="apenas">barely</span> speak the language, so I had to do it with the help of a dictionary. Now it's more of a spontaneous process.</p>
-<p><b>Q:</b> Have you considered movies? <b>Shakira:</b> I'm not sure if I have a talent for acting. I wouldn't like to <span class="hw" data-tr="comprometerme">commit</span> to something and not do a good job. I think I'll be a terrible actress.</p>
-<p><b>Q:</b> How did you get involved in efforts to combat child poverty? <b>Shakira:</b> When I was 8, my dad went <span class="hw" data-tr="quebró, fue a la quiebra">bankrupt</span>. They took me to the park where all the orphans live. When I had my first big international success at 18, I decided to establish a foundation. We focus on high quality education with nutrition.</p>
-<p><b>Q:</b> Why do hips not lie? <b>Shakira:</b> When I'm in the studio and not convinced about an arrangement, I know because my body doesn't react to the music. So I always say, "Am I moving? My hips don't lie."</p>`,
- cl:`<p style="font-size:12px;color:#888"><i>Rellena el extracto sobre cómo escribió en inglés:</i></p>
-<p>You know, they're both such [[different]] languages. And they both have different [[resources]]. I remember that when I started writing in [[English]], I could [[barely]] speak the language. So, I had to do it with the help of a [[dictionary]] and now is more of a [[spontaneous]] process.</p>`,
+ tx:`<p><b>Interviewer:</b> Shakira, thank you for being with us today. Our first question: your new album has a more electronic and dance feel to it than in previous albums. What about that sound appealed to you and why did you want to move in that direction?</p>
+<p><b>Shakira:</b> I think that the electronica world has a lot to offer to us musicians. I think it's going through a very good phase.</p>
+<p><b>Interviewer:</b> Do you enjoy singing more in English or in Spanish?</p>
+<p><b>Shakira:</b> You know, they're both such different languages and they both have different resources. I remember that when I started writing in English, I could <span class="hw" data-tr="apenas">barely</span> speak the language. So, I had to do it with the help of a dictionary and now it's more of a <span class="hw" data-tr="espontáneo, natural">spontaneous</span> process.</p>
+<p><b>Interviewer:</b> Many musicians feel the need to try their hand at movies. Is that something that you've ever considered?</p>
+<p><b>Shakira:</b> No, actually, I don't know. I mean, I still <span class="hw" data-tr="debato, dudo">debate</span> about that in my own head. So, I'm not very sure if it's something I want to <span class="hw" data-tr="emprender, perseguir">pursue</span> because I'm not really sure if I have a talent for acting. I wouldn't like to <span class="hw" data-tr="comprometerme">commit</span> to something and not do a good job. I think I'll be a terrible actress.</p>
+<p><b>Interviewer:</b> Our next question is from Hayden Sin: "How did you get involved in the efforts to combat child poverty?"</p>
+<p><b>Shakira:</b> When I was 8 years old, my dad went <span class="hw" data-tr="quebró, fue a la quiebra">bankrupt</span> and lost his business and our whole life changed so much because of this bankruptcy, and I was really upset about it. So they took me to the park where all the orphans live and <span class="hw" data-tr="inhalan pegamento">sniff glue</span> to deal with the tragedies of their own lives. And I remember this moment <span class="hw" data-tr="vívidamente">vividly</span> because I think it was a <span class="hw" data-tr="punto de inflexión">turning point</span> in my life and in my views of the world. And when I had my first big international success at 18, I decided to establish a foundation for children. And since then we've been focusing on providing high-quality education with nutrition, and it's just become something very, very essential in my life.</p>
+<p><b>Interviewer:</b> Ever injured yourself from dancing too vigorously?</p>
+<p><b>Shakira:</b> Yes, I have, actually, many times. After the She Wolf video, there was not one muscle in my body that didn't <span class="hw" data-tr="doliera">ache</span>. I was in so much pain.</p>
+<p><b>Interviewer:</b> Why is it that you think that hips do not lie?</p>
+<p><b>Shakira:</b> Whenever I'm in the recording studio or with my band rehearsing and I'm not too convinced about the arrangement, or if I'm mixing a record and I'm not reacting to it, the way I know this is because my body doesn't react to the music. So, I always say, "Hey, am I moving? Are my hips moving? My hips don't lie. If they're not moving, this is not going anywhere." So, basically, I do <span class="hw" data-tr="confío en">rely on</span> my body and my physical relationship to music.</p>`,
+ cl:`<p style="font-size:12px;color:#888;font-style:italic">Rellena el extracto sobre cómo escribió en inglés:</p>
+<p>You know, they're both such [[different]] languages. And they both have different [[resources]]. I remember that when I started writing in [[English]], I could [[barely]] speak the language. So, I had to do it with the help of a [[dictionary]] and now it's more of a [[spontaneous]] process.</p>`,
  qs:[
   {q:`How does Shakira describe her acting talent?`,opts:[`She would be a great actress`,`She would be a terrible actress`,`She is taking acting lessons`],correct:1,why:`"I think I'll be a terrible actress".`},
   {q:`Why did Shakira start her foundation?`,opts:[`A government request`,`Her father's bankruptcy and visiting orphans`,`After winning a Grammy`],correct:1,why:`"my dad went bankrupt... they took me to the park where all the orphans live. I decided to establish a foundation".`},
   {q:`Shakira had her first big international success at age 18.`,tf:true,correct:true,why:`"when I had my first big success when I was 18 years old".`},
-  {q:`Shakira knows she likes a song when her hips do NOT move.`,tf:true,correct:false,why:`FALSO — al revés. Si no se mueven, "this is not going anywhere". Tienen que SÍ moverse.`}
- ]},
-{id:'m4',name:'MODELO 4 — Fashion industry pollution',sub:`Talk · ~3:30`,
+  {q:`Shakira knows she likes a song when her hips do NOT move.`,tf:true,correct:false,why:`FALSO — al revés. Si no se mueven, "this is not going anywhere". Tienen que SÍ moverse.`},
+  {q:`After which video did Shakira have intense muscle pain?`,opts:[`Hips Don't Lie`,`She Wolf`,`Waka Waka`],correct:1,why:`"After the She Wolf video, there was not one muscle in my body that didn't ache".`}
+ ]
+},
+{id:'m4',name:`MODELO 4 — Fashion industry pollution`,sub:`Talk · ~3:30`,
  file:`audios/ING_B2_CO_MODELO_4.mp3`,
- tx:`<p>Scientists have been warning us that we're <span class="hw" data-tr="causando estragos">wreaking havoc</span> on our planet. We feel powerless against this issue. It seems like it's the responsibility of government, and yet government is in <span class="hw" data-tr="paralizada">gridlock</span>.</p>
-<p>What if I told you we actually do hold the power? That power is what we wear every day — our clothing. Under the radar, the apparel industry has actually become the second most <span class="hw" data-tr="contaminante">polluting</span> industry in the world.</p>
-<p>In the 1960s, the average American invested in 25 new pieces of clothing every year. A generation later we purchase three times as much. It started as trade barriers came down, creating financial incentives for brands to move their production overseas. This trend created cheaper and cheaper clothing using cheap materials and labor.</p>
-<p>In the 1960s we spent over 10% of our salary on clothing. 95% of American clothing was American-made. Today it is less than 2%. That drop represents an 80% drop in apparel manufacturing jobs in this country.</p>
-<p>The fast fashion industry is fueled by a new type of fiber, polyester. Polyester is a polluting plastic made from fossil fuels, and it's now in over half of our clothing.</p>`,
- cl:`<p style="font-size:12px;color:#888"><i>Rellena los huecos:</i></p>
+ tx:`<p>So scientists have been warning us that we're <span class="hw" data-tr="causando estragos">wreaking havoc</span> on our planet. We're told about how our soil is getting <span class="hw" data-tr="degradado">deteriorated</span> and our freshwater supplies are getting polluted. We're told about all of these problems and how it's going to impact us. It's not just our polar ice caps that are going to be melting — it's going to impact our coastal cities. We're told about all of this, but then we're not really given many options on what we might be able to do about it. We're told to recycle, use fuel-efficient cars, maybe turn the lights off when we're leaving the room. We feel <span class="hw" data-tr="impotentes">powerless</span> against this issue. And it also seems as if it's the responsibility of government, and yet we know that government is in <span class="hw" data-tr="paralizada">gridlock</span>.</p>
+<p>So now what are we left to do? Well, what if I told you that we actually do hold the power? And that power is what we wear every day. It's our clothing. Because what people haven't told you is, under the radar, the apparel industry has actually become the second most <span class="hw" data-tr="contaminante">polluting</span> industry in the world. So, as the leadership of IKEA recently said, we have reached "peak stuff," and that is certainly true when it comes to our clothing.</p>
+<p>If you see here, in the 1960s the average American invested in 25 new pieces of clothing every year. A generation later, today, we purchase three times as much clothing as we did in the 60s. It started as trade barriers came down, which created financial incentives for brands to move their production overseas. And this generally created a trend for cheaper and cheaper clothing using cheaper materials and cheap labor. Meanwhile, these <span class="hw" data-tr="moda rápida (ropa barata y desechable)">fast fashion</span> companies — and that's what this industry is called — had huge marketing budgets to try to convince all of us that their cheap clothing was somehow <span class="hw" data-tr="codiciable, deseable">covetable</span>. So, we bought more and more.</p>
+<p>But more isn't always more. You see, in the 1960s when we were investing in 25 pieces of clothing, they really were investments, because at that time we spent over 10% of our salary on clothing every year. 95% of American clothing — what we wore — was American-made. Today it is less than 2%. And that drop actually represents an 80% drop in apparel manufacturing jobs in this country.</p>
+<p>I have my own experience of fast fashion. Having come from Minnesota, I remember going to New York when H&amp;M first opened and I was so excited. I have to admit I loved the size of the store and the lights and the smell, and there was this blasting music and I just like ate it up and I bought clothes by the <span class="hw" data-tr="bolsas llenas">bagful</span>. So it turns out that the fast fashion industry is fueled by a new type of fiber: polyester. Polyester, for those who don't know, is a polluting plastic made from fossil fuels, and it's now in over half of our clothing. Let's talk about why that might be an issue.</p>`,
+ cl:`<p style="font-size:12px;color:#888;font-style:italic">Rellena los huecos:</p>
 <p>The apparel industry has actually become the [[second]] most [[polluting]] industry in the world. In the [[1960s]] the average American invested in [[25]] new pieces of clothing every year. A generation later we purchase [[three]] times as much clothing as we did in the 60s. 95% of American clothing was [[American-made]]. Today it is less than [[2%]].</p>`,
  qs:[
   {q:`Today, what % of clothing worn by Americans is American-made?`,opts:[`95%`,`50%`,`Less than 2%`],correct:2,why:`"Today it is less than 2%".`},
   {q:`The apparel industry is the second most polluting in the world.`,tf:true,correct:true,why:`"the apparel industry has become the second most polluting industry in the world".`},
   {q:`What new fiber fuels the fast fashion industry?`,opts:[`Cotton`,`Wool`,`Polyester`],correct:2,why:`"the fast fashion industry is fueled by a new type of fiber, polyester".`},
-  {q:`In the 1960s, Americans spent over 10% of their salary on clothing each year.`,tf:true,correct:true,why:`"at that time we spent over 10% of our salary on clothing every year".`}
- ]},
-{id:'br',name:'BRAIN — 5 brain habits',sub:`Health talk · ~5:00`,
+  {q:`In the 1960s, Americans spent over 10% of their salary on clothing each year.`,tf:true,correct:true,why:`"at that time we spent over 10% of our salary on clothing every year".`},
+  {q:`According to IKEA, what concept describes our current consumption?`,opts:[`"Slow living"`,`"Peak stuff"`,`"Less is more"`],correct:1,why:`"as the leadership of IKEA recently said, we have reached peak stuff".`},
+  {q:`The drop in American-made clothing since the 1960s represents:`,opts:[`A 30% drop in manufacturing jobs`,`A 50% drop in manufacturing jobs`,`An 80% drop in manufacturing jobs`],correct:2,why:`"that drop actually represents an 80% drop in apparel manufacturing jobs".`}
+ ]
+},
+{id:'br',name:`BRAIN — 5 brain habits`,sub:`Health talk · ~5:00`,
  file:`audios/IN_B2_COMTO_ORD21_AUD1_Brain.mp3`,
- tx:`<p>Your brain is the <span class="hw" data-tr="sin rival, supremo">unrivaled</span> organ in chief. Most people have negative habits they're seemingly unaware of that is causing damage to their brain.</p>
-<p><b>1. Covering your head during sleep.</b> Up to 23% of individuals develop dementia and possibly even Alzheimer's. These conditions result from lack of enough oxygen to the brain.</p>
-<p><b>2. Chronic lack of sleep.</b> Continuous lack of sleep harms your memory. Get between 7 to 8 hours of quality undisrupted sleep every single night.</p>
-<p><b>3. Dehydration.</b> Water makes up at least two-thirds of the human body. Dehydration can lead to migraines, constipations and <span class="hw" data-tr="cálculos renales">kidney stones</span>. Symptoms include irritability, anxiety, and fatigue.</p>
-<p><b>4. Chronic stress.</b> Two main kinds: acute (fight-or-flight, no long-lasting effects) and chronic. Chronic stress takes a toll on adrenal glands, leaving you feel <span class="hw" data-tr="acelerado pero agotado">wired but tired</span>. It changes brain structure down to the level of your DNA.</p>
-<p><b>5. Lack of mental stimulation.</b> Mental decline is not an inevitable part of aging. People who lead mentally stimulating lives are more likely to be free of dementia. Read more, stay socially active, start a course.</p>`,
- cl:`<p style="font-size:12px;color:#888"><i>Rellena el extracto sobre el sueño y el cerebro:</i></p>
+ tx:`<p>Your brain, as far as your body goes, is the <span class="hw" data-tr="órgano principal">organ-in-chief</span>. We're talking 100 billion-plus cells that collectively control basically everything your body does. But what I find very odd is most people have got negative habits that they're doing every single day, seemingly unaware of, that is causing damage to their brain.</p>
+<p><b>1. Covering your head during sleep.</b> Research shows that sleeping with the head beneath the covers can cause brain damage. In fact, some studies indicate that up to 23% of individuals that sleep with their head below the sheets develop dementia and possibly even Alzheimer's. These conditions are, in most cases, a result of lack of enough oxygen to the brain. Keeping your head free is a useful way of keeping this issue <span class="hw" data-tr="a raya, controlado">at bay</span>. Covering your head as you sleep means you'll be <span class="hw" data-tr="re-respirando">rebreathing</span> the air you breathe out, which does not contain a lot of oxygen.</p>
+<p><b>2. Chronic lack of sleep.</b> Research has shown that chronic lack of sleep puts people at risk of Alzheimer's disease and other neurological disorders. A continuous lack of sleep harms your memory too. This is because in your sleep, mechanisms are hard at work. So here's a solution: get between 7 to 8 hours of quality, undisrupted sleep every single night.</p>
+<p><b>3. Dehydration.</b> Water makes up at least two-thirds of the human body and plays an important role in your normal functions. Dehydration can lead to a number of issues — from migraines, constipation, to <span class="hw" data-tr="cálculos renales">kidney stones</span>. It can also <span class="hw" data-tr="afectar negativamente">take a toll</span> on your brain health, affecting your mood and overall brain function. Symptoms of dehydration include being more <span class="hw" data-tr="propenso">prone</span> to irritability, anxiety, and fatigue.</p>
+<p><b>4. Chronic stress.</b> There are two main kinds of stress: acute stress and chronic stress. Despite what you think, not all stress is bad for you. Acute stress is a reaction to an immediate threat, commonly known as the <span class="hw" data-tr="lucha o huida">fight-or-flight</span> response. Once the threat has passed, your level of stress hormones returns to normal with no long-lasting effects. Chronic stress takes a toll on adrenal glands, leaving you feeling <span class="hw" data-tr="acelerado pero agotado">wired but tired</span>. Some brain-related stress symptoms include memory loss, brain fog, anxiety, and worrying. When stress becomes chronic, it changes your brain function and even its structure down to the level of your DNA. You don't notice that these are happening, but you will notice the side effects eventually.</p>
+<p><b>5. Lack of mental stimulation and exercise.</b> There is some truth in the saying, "use it or lose it." Studies show that mental decline is not an inevitable part of aging. People who lead mentally stimulating lives are more likely to be free of dementia conditions like Alzheimer's. The more active your brain is, the better your memory is likely to be. The greater the variety of the ways in which you use your mind, the easier you'll find remembering the things you keep on forgetting. So, here are some things I recommend: read more, including topics you may have not considered before. Make sure you're constantly educating yourself. Stay socially active — the last thing you want to do is constantly isolate yourself. When you're socially engaging with people, this triggers parts of your brain that you will not get from isolation. Make sure to go out networking, join groups online, and stay socially active. Start an online course, or maybe a day or evening class. You can go out also with a friend.</p>
+<p>So, to put it simply, constantly challenge yourself every day to do something new, challenge yourself in a unique way, or learn something new. Go out there and give this a shot right now.</p>`,
+ cl:`<p style="font-size:12px;color:#888;font-style:italic">Rellena el extracto sobre el sueño y el cerebro:</p>
 <p>Sleeping with the head beneath the covers can cause brain [[damage]]. Some studies indicate that up to [[23%]] of individuals develop [[dementia]] and possibly even [[Alzheimer's]]. These conditions are a result of lack of enough [[oxygen]] to the brain. Get between [[7]] to [[8]] hours of [[quality]] undisrupted sleep every single night.</p>`,
  qs:[
   {q:`What % of people who sleep with head under sheets develop dementia?`,opts:[`10%`,`23%`,`50%`],correct:1,why:`"up to 23% of individuals... develop dementia".`},
   {q:`Water makes up at least ___ of the human body.`,opts:[`one third`,`two thirds`,`three quarters`],correct:1,why:`"Water makes up at least two-thirds of the human body".`},
-  {q:`Acute stress has long-lasting harmful effects.`,tf:true,correct:false,why:`FALSO. "once the threat has passed, your level of stress hormones return to normal with no long-lasting effects". Es la stress CRÓNICA la que daña.`},
+  {q:`Acute stress has long-lasting harmful effects.`,tf:true,correct:false,why:`FALSO. "once the threat has passed, your level of stress hormones returns to normal with no long-lasting effects". Es la stress CRÓNICA la que daña.`},
   {q:`The speaker recommends staying socially isolated to protect the brain.`,tf:true,correct:false,why:`FALSO — al revés: "Stay socially active. The last thing you want to do is constantly isolate yourself".`},
-  {q:`How many hours of quality sleep does the speaker recommend?`,opts:[`5–6`,`6–7`,`7–8`],correct:2,why:`"Get between 7 to 8 hours of quality undisrupted sleep".`}
- ]},
-{id:'bk',name:'BOOKS — 4 reviewers',sub:`Book recommendations · ~5:30`,
+  {q:`How many hours of quality sleep does the speaker recommend?`,opts:[`5–6`,`6–7`,`7–8`],correct:2,why:`"Get between 7 to 8 hours of quality undisrupted sleep".`},
+  {q:`According to the speaker, mental decline is an inevitable part of aging.`,tf:true,correct:false,why:`FALSO. "Studies show that mental decline is not an inevitable part of aging".`}
+ ]
+},
+{id:'bk',name:`BOOKS — 4 reviewers`,sub:`Book recommendations · ~5:30`,
  file:`audios/IN_B2_COMTO_ORD21_AUD2_Books.mp3`,
- tx:`<p><b>Reviewer 1:</b> "Before the Ever After" by Jacqueline Woodson. About <span class="hw" data-tr="encefalopatía traumática crónica">CTE</span> — a brain disease many former NFL players have. The story of a 12-year-old boy whose dad is a big football star who suddenly can't remember his son's name. Beautiful, touching, not depressing.</p>
-<p><b>Reviewer 2 (Barry Hardyman):</b> "The List of Things That Will Not Change" by Rebecca Stead. Narrated by a 12-year-old named Bee. Tells the story of life since her parents' divorce. Bee is funny, charming, insightful — feels like a real child.</p>
-<p><b>Reviewer 3 (Mary Glendining):</b> "Midnight at the Barkley Hotel" by Fleur Bradley. Three kids team up to solve a mystery at the historic and possibly haunted Barkley Hotel. Some guests receive unexpected invitations promising a free weekend, but one of them is a murderer.</p>
-<p><b>Reviewer 4 (Melissa Adworn):</b> "Stamped" by Jason Reynolds and Ibram X Kendi. The history of racist ideas told through different characters. Doesn't feel like a typical school history book — weaves in lyrics, commercials, pop culture.</p>`,
- cl:`<p style="font-size:12px;color:#888"><i>Rellena los huecos del primer libro:</i></p>
-<p>It's [[Before]] the Ever After by Jacqueline [[Woodson]]. Wood writes about [[CTE]] through the story of a [[12]]-year-old boy whose dad is a big [[football]] star. He's a giant of a guy who wears a [[Super Bowl]] ring. And suddenly, he can't [[remember]] his son's name.</p>`,
+ tx:`<p>Today we have four recommendations of books for kids and young adults, or for adults who like to read books for kids and young adults. To <span class="hw" data-tr="empezar, dar el pistoletazo">kick it off</span>, I'll share my recommendation. It's <i>Before the Ever After</i> by Jacqueline Woodson. I realize this is not going to sound like an obvious topic for young readers: <span class="hw" data-tr="encefalopatía traumática crónica">Chronic traumatic encephalopathy</span>, otherwise known as CTE. It's the brain disease many former NFL players have been diagnosed with. But that's what Woodson writes about in her latest book. She takes on the subject of CTE through the story of a 12-year-old boy whose dad is a big football star. He's a giant of a guy who wears a Super Bowl ring and always gets asked for his autograph. And suddenly, he can't remember his son's name. Woodson writes about how dreams fall apart and how you keep loving someone even as you're losing them. But she does this in a beautiful, touching way. It's not a depressing book, and I think it could help young athletes and their parents talk about the risks and benefits of playing football. It's a wonderful story with a non-preachy message.</p>
+<p>I'm Barry Hardymon, books editor here at Weekend Edition, and I'm recommending <i>The List of Things That Will Not Change</i> by Rebecca Stead. Last summer, I was reading a feature on what famous people read, which is usually quite irritating, but in this case, Jia Tolentino recommended middle-grade author Rebecca Stead. Truly, I cannot thank her enough. All of her books are <span class="hw" data-tr="maravillosos">marvelous</span>, and her most recent, <i>The List of Things That Will Not Change</i>, is no exception. It's narrated by a 12-year-old. Her name is Bea, and the book tells the story of life since her parents' divorce. Bea is funny and charming and insightful, and she is in that kind of <span class="hw" data-tr="peculiaridad encantadora">quirk</span> that only really great writers can pull off: a real child. She reads like a real person, and her perspectives and her emotions feel authentic. So, Stead actually accomplishes this great <span class="hw" data-tr="hazaña">feat</span> of creating a family that does feel familiar and warm, but without being that classically sentimental or too <span class="hw" data-tr="empalagoso, sensiblero">maudlin</span> kind of middle-grade book. So with thanks to Jia Tolentino, I give you <i>The List of Things That Will Not Change</i>, a novel made for 2021 family book clubs.</p>
+<p>I'm Mary Glendinning with NPR's Research, Archives, and Data Strategy team. The rad book I want to tell you about is <i>Midnight at the Barclay Hotel</i>. It was written by Fleur Bradley and illustrated by Xavier Bonet. It's about three kids who team up to solve a mystery at the historic and quite possibly haunted Barclay Hotel. Some guests receive unexpected invitations, promising a free and relaxing weekend getaway. But there's a <span class="hw" data-tr="trampa, truco">catch</span>: it turns out one of them is a murderer. This book has it all: a group of strangers with secrets, ghost hunting, deadly desserts, a spring snowstorm, and a nice bit of teamwork. If you're a middle-grade reader who might have secrets of your own, or sometimes feels a little out of place, and you're ready for a sweet and mild taste of <span class="hw" data-tr="pistas falsas">red herrings</span>, this book is for you. Next stop, Agatha Christie.</p>
+<p>I'm Elissa Nadworny and I cover higher ed for NPR. I'm recommending <i>Stamped</i> by Jason Reynolds and Ibram X. Kendi. It's basically the history of racist ideas told through different characters throughout history. This is an adaptation of a much larger, denser adult book on the same topic. I love this because it's a history book, but it's not really a history book — it doesn't feel like a history book. Doesn't feel like something you would read for school. And they do a really awesome job of <span class="hw" data-tr="entretejer">weaving in</span> contemporary ideas, lyrics from songs, commercials, things from pop culture. So, it feels like it's a now book even though it's talking about history. It's so good. I want to read everything he's written.</p>`,
+ cl:`<p style="font-size:12px;color:#888;font-style:italic">Rellena los huecos del primer libro:</p>
+<p>It's [[Before]] the Ever After by Jacqueline [[Woodson]]. Woodson writes about [[CTE]] through the story of a [[12]]-year-old boy whose dad is a big [[football]] star. He's a giant of a guy who wears a [[Super Bowl]] ring. And suddenly, he can't [[remember]] his son's name.</p>`,
  qs:[
   {q:`Which book is about a father with CTE who can't remember his son's name?`,opts:[`The List of Things That Will Not Change`,`Before the Ever After`,`Stamped`],correct:1,why:`Reviewer 1 — Jacqueline Woodson, sobre un niño de 12 años cuyo padre tiene CTE.`},
-  {q:`Who narrates "The List of Things That Will Not Change"?`,opts:[`A 12-year-old girl named Bee`,`The parents`,`A grandmother`],correct:0,why:`"narrated by a 12-year-old. Her name is Bee".`},
-  {q:`"Midnight at the Barkley Hotel" is set in a haunted hotel where one guest is a murderer.`,tf:true,correct:true,why:`"a mystery at the historic and quite possibly haunted Barkley Hotel... one of them is a murderer".`},
-  {q:`"Stamped" is described as feeling like a typical school history book.`,tf:true,correct:false,why:`FALSO. "it doesn't feel like a history book. Doesn't feel like something you would read for school".`}
- ]},
-{id:'he',name:'HEIST — Hatton Garden robbery',sub:`News report · ~3:30`,
+  {q:`Who narrates "The List of Things That Will Not Change"?`,opts:[`A 12-year-old girl named Bea`,`The parents`,`A grandmother`],correct:0,why:`"narrated by a 12-year-old. Her name is Bea".`},
+  {q:`"Midnight at the Barclay Hotel" is set in a haunted hotel where one guest is a murderer.`,tf:true,correct:true,why:`"a mystery at the historic and quite possibly haunted Barclay Hotel... one of them is a murderer".`},
+  {q:`"Stamped" is described as feeling like a typical school history book.`,tf:true,correct:false,why:`FALSO. "it doesn't feel like a history book. Doesn't feel like something you would read for school".`},
+  {q:`Who recommended Rebecca Stead's books to Barry Hardymon?`,opts:[`Jia Tolentino`,`Jason Reynolds`,`Ibram X. Kendi`],correct:0,why:`"Jia Tolentino recommended middle-grade author Rebecca Stead".`}
+ ]
+},
+{id:'he',name:`HEIST — Hatton Garden robbery`,sub:`News report · ~3:30`,
  file:`audios/IN_B2_COMTO_ORD21_AUD3_Heist.mp3`,
- tx:`<p>It would have been the country's biggest ever <span class="hw" data-tr="atraco, robo">heist</span>. Only a third of the jewelry has been recovered, and an unnamed ginger-haired man known as Basil got away. Total years in prison: 441, average age: 63.</p>
-<p>It was 3 years in the making, a raid on a safety deposit <span class="hw" data-tr="cámara acorazada">vault</span> whose security system was well past its sell-by date. From the moment a white van pulled up in Hatton Garden late on the night of Thursday, the 2nd of April last year, there was no going back. Basil was first in through the main door — he had keys (how is not known).</p>
-<p>From a parked van, the gang unloaded bags, tools, and wheelie bins. From the ground floor, some <span class="hw" data-tr="descendieron en rappel">abseiled</span> down the lift shaft to the basement. The CCTV was disabled.</p>
-<p>That night, the gang hit a <span class="hw" data-tr="contratiempo, problema">snag</span>: their hydraulic pump wasn't powerful enough. They abandoned the vault but not the plan. They got another pump on the Saturday that did the job.</p>
-<p>Brian Reer was the governor — at 76, the veteran villain. £14 million were stolen from 44 boxes. £9 million has still not been recovered. A £20,000 reward is on offer to identify Basil, whose face was concealed by a black bag on his shoulder when filmed by CCTV.</p>`,
- cl:`<p style="font-size:12px;color:#888"><i>Rellena los huecos:</i></p>
-<p>The way in was through the fire [[escape]] round the corner next to number 38. From the moment a white [[van]] pulled up in Hatton Garden late on the night of Thursday, the [[2nd]] of [[April]] last year, there was no going back. Basil was first in through the [[main]] door. He had [[keys]]. From the ground floor, some [[abseiled]] down the lift shaft to the basement. Their hydraulic [[pump]] wasn't powerful enough.</p>`,
+ tx:`<p>It would have been the country's biggest-ever <span class="hw" data-tr="atraco, robo">heist</span>, but for the need for more tools, they might have got away with it. Only a third of the jewelry, rings, gold, diamonds, other precious stones, and cash has been recovered, and an unnamed ginger-haired man known as Basil got away. But not these seven. Not William Lincoln, known as Billy the Fish, nor Carl Wood, or plumber Hugh Doyle, who were all found guilty today. And not the <span class="hw" data-tr="cerebros, mentes maestras">masterminds</span> behind this last job: Brian Reader, John Collins, Daniel Jones, and Terry Perkins, who all confessed. Total years: 441. Average age: 63.</p>
+<p>It was 3 years in the making, a raid on this safety deposit <span class="hw" data-tr="cámara acorazada">vault</span> whose security system was well past its <span class="hw" data-tr="caducado, obsoleto">sell-by date</span>. The way in was through the fire escape round the corner next to number 38. From the moment a white van pulled up in Greville Street late on the night of Thursday, the 2nd of April last year, there was no going back. This was the culmination of <span class="hw" data-tr="meticuloso">meticulous</span> planning. That evening, Basil was first in through the main door to the building. He had keys — how, is not known. At just after 20 past 9, he's in the courtyard and opens from the inside the fire exit door into Greville Street. From a parked van, the gang unload bags, tools, and <span class="hw" data-tr="contenedores con ruedas">wheelie bins</span>, take them through the fire exit and down the stairs.</p>
+<p>Inside the building, the lift is disabled on the second floor, and from the ground floor, some <span class="hw" data-tr="descienden en rappel">abseil</span> down the lift shaft to the basement, and then break into the area between the iron gates which guard the passage to the vault. The CCTV is disabled. The phone cable from the alarm box is cut. Game on.</p>
+<p>Through the night, the men cut and drilled their way into the vault. That night, the gang hit a <span class="hw" data-tr="contratiempo, problema">snag</span>. When they peered through the hole, blocking the vision of hundreds of safe deposit boxes was the back of a large steel cabinet bolted to the floor and the ceiling. Their hydraulic pump wasn't powerful enough to force it. They abandoned the vault, but not the plan. So near, yet so far. They got another on the Saturday that did the job. Several weeks later, three were secretly filmed in a North London pub, reliving that breakthrough. By then, the Flying Squad had connected the dots. The key was this white Mercedes, which was seen on CCTV driving around Hatton Garden the weekend of the heist. It was traced to John Collins, and from then the network fell into place.</p>
+<p>Brian Reader was the governor. At 76, he's the veteran villain. His lifetime of crime included the £26 million Brink's-Mat armed robbery in 1983, where he was jailed for handling the proceeds from the gold bullion heist. 32 years on, he was back. You wouldn't think that the brains behind this daring heist would have caught a bus to the vaults. But that's exactly what Brian Reader did. It was not to be his last <span class="hw" data-tr="último triunfo">hurrah</span>, and he walked away when the gang hit the snag. £14 million worth of valuables were stolen from 44 boxes, most of them owned by diamond traders and jewelers. £9 million has still not been recovered. And what of the mysterious Basil, the only member of the gang to get away? Several cameras caught him over that weekend walking past with his face concealed by a black bag on his shoulder. A £20,000 reward is still on offer to help identify and capture the one outstanding suspect in the country's largest-ever heist.</p>`,
+ cl:`<p style="font-size:12px;color:#888;font-style:italic">Rellena los huecos:</p>
+<p>The way in was through the fire [[escape]] round the corner next to number 38. From the moment a white [[van]] pulled up in Greville Street late on the night of Thursday, the [[2nd]] of [[April]] last year, there was no going back. Basil was first in through the [[main]] door. He had [[keys]]. From the ground floor, some [[abseil]] down the lift shaft to the basement. Their hydraulic [[pump]] wasn't powerful enough.</p>`,
  qs:[
   {q:`How long did the gang plan the heist?`,opts:[`1 year`,`3 years`,`5 years`],correct:1,why:`"It was 3 years in the making".`},
   {q:`What was the average age of the gang?`,opts:[`43`,`53`,`63`],correct:2,why:`"Total years 441, average age 63".`},
   {q:`All the stolen jewelry has been recovered.`,tf:true,correct:false,why:`FALSO. "Only a third of the jewelry... has been recovered" + "9 million has still not been recovered".`},
   {q:`How did the gang reach the basement vault?`,opts:[`Through a sewer tunnel`,`Abseiled down the lift shaft`,`Smashed a wall from outside`],correct:1,why:`"some abseil down the lift shaft to the basement".`},
-  {q:`Brian Reer is described as the youngest member of the gang.`,tf:true,correct:false,why:`FALSO. "At 76, he's the veteran villain" — es el más mayor.`},
-  {q:`What is the reward for identifying Basil?`,opts:[`£5,000`,`£20,000`,`£100,000`],correct:1,why:`"A 20,000 reward is still on offer".`}
- ]}
+  {q:`Brian Reader is described as the youngest member of the gang.`,tf:true,correct:false,why:`FALSO. "At 76, he's the veteran villain" — es el más mayor.`},
+  {q:`What is the reward for identifying Basil?`,opts:[`£5,000`,`£20,000`,`£100,000`],correct:1,why:`"A £20,000 reward is still on offer".`},
+  {q:`Brian Reader had previously been jailed for which famous robbery?`,opts:[`The Great Train Robbery`,`The Brink's-Mat heist`,`The Hatton Garden previous attempt`],correct:1,why:`"His lifetime of crime included the 26 million pound Brink's-Mat armed robbery in 1983".`}
+ ]
+}
 ];
 
 const READ={
@@ -1648,16 +1694,83 @@ function incPlay(id){
 function norm(s){return (s||'').toString().toLowerCase().replace(/[^a-z0-9%]/g,'');}
 
 function checkCloze(id){
- const inputs=document.querySelectorAll('#m-'+id+'-cl .cl-i');
+ const cont=document.getElementById('m-'+id+'-cl');
+ // Remove any existing visible hints from previous check
+ cont.querySelectorAll('.cl-fix').forEach(e=>e.remove());
+ const inputs=cont.querySelectorAll('.cl-i');
  let ok=0;
  inputs.forEach(i=>{
   i.classList.remove('ok','bad');
-  if(norm(i.value)===norm(i.dataset.ans)){i.classList.add('ok');ok++;}
-  else {i.classList.add('bad');i.title='Correcta: '+i.dataset.ans;}
+  if(norm(i.value)===norm(i.dataset.ans)){
+   i.classList.add('ok');ok++;
+  } else {
+   i.classList.add('bad');
+   // Inject the correct answer VISIBLY next to the failed input (not just hover)
+   const hint=document.createElement('span');
+   hint.className='cl-fix';
+   hint.textContent=i.dataset.ans;
+   i.insertAdjacentElement('afterend',hint);
+  }
  });
  const r=document.getElementById('cl-res-'+id);
  r.className='result-box show '+(ok===inputs.length?'good':ok>=inputs.length/2?'mid':'bad');
- r.innerHTML=`<b>${ok}/${inputs.length}</b> ${ok===inputs.length?'¡Perfecto!':'Pasa el cursor sobre las casillas en rojo para ver la respuesta correcta.'}`;
+ r.innerHTML=`<b>${ok}/${inputs.length}</b> ${ok===inputs.length?'¡Perfecto!':'La respuesta correcta aparece en verde junto a cada hueco fallado.'}`;
+}
+
+// ===== TTS (Text-to-Speech) for writing/speaking texts =====
+let _ttsRate = parseFloat(localStorage.getItem('tts-rate')||'0.95');
+function ttsToggle(btn){
+ const synth=window.speechSynthesis;
+ if(!synth){alert('Tu navegador no soporta lectura por voz.');return;}
+ if(btn.classList.contains('playing')){synth.cancel();return;} // onend will reset
+ // Stop any other currently playing
+ document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
+ synth.cancel();
+ // Find nearest text container
+ const container=btn.closest('.ac-b, .topic-body');
+ const txtEl=container?(container.querySelector('.essay-text')||container.querySelector('.topic-text')):null;
+ const text=txtEl?txtEl.innerText.replace(/\s+/g,' ').trim():'';
+ if(!text){alert('No encuentro texto que leer aquí.');return;}
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang='en-GB';
+ u.rate=_ttsRate;
+ u.pitch=1;
+ const reset=()=>{btn.classList.remove('playing');btn.textContent='🔊';};
+ u.onend=reset; u.onerror=reset;
+ synth.speak(u);
+ btn.classList.add('playing');
+ btn.textContent='⏹';
+}
+function ttsSetRate(btn,rate){
+ _ttsRate=rate;
+ try{localStorage.setItem('tts-rate',rate);}catch(e){}
+ // Update visual selection on all rate selectors
+ document.querySelectorAll('.tts-rate').forEach(b=>{
+  const r=parseFloat(b.dataset.r);
+  b.classList.toggle('on',r===rate);
+ });
+ // If something is playing, restart at new rate
+ const playingBtn=document.querySelector('.tts-btn.playing');
+ if(playingBtn){window.speechSynthesis.cancel();setTimeout(()=>ttsToggle(playingBtn),100);}
+}
+function initTTS(){
+ // Add TTS bar to each .essay-text and .topic-text that doesn't already have one
+ document.querySelectorAll('.essay-text, .topic-text').forEach(el=>{
+  if(el.previousElementSibling && el.previousElementSibling.classList && el.previousElementSibling.classList.contains('tts-bar'))return;
+  const bar=document.createElement('div');
+  bar.className='tts-bar';
+  bar.innerHTML=`<button class="tts-btn" onclick="ttsToggle(this)" title="Leer en voz alta">🔊</button>
+   <span class="tts-lbl">Escuchar texto</span>
+   <button class="tts-rate" data-r="0.75" onclick="ttsSetRate(this,0.75)">Lento</button>
+   <button class="tts-rate" data-r="0.95" onclick="ttsSetRate(this,0.95)">Normal</button>
+   <button class="tts-rate" data-r="1.15" onclick="ttsSetRate(this,1.15)">Rápido</button>`;
+  el.parentElement.insertBefore(bar,el);
+ });
+ // Mark current rate as on
+ document.querySelectorAll('.tts-rate').forEach(b=>{
+  const r=parseFloat(b.dataset.r);
+  b.classList.toggle('on',Math.abs(r-_ttsRate)<0.02);
+ });
 }
 
 function checkQs(id){
@@ -1882,6 +1995,7 @@ function grade(yes){
 
 buildDeck('all');
 initPlan();
+initTTS();
 </script>
 </body>
 </html>
