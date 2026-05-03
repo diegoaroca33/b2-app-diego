@@ -117,6 +117,41 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 /* phrase rows */
 .ph{background:#fff;border:1px solid #e5e5e0;border-radius:8px;padding:10px 12px;margin-bottom:6px;font-size:13.5px;color:#1a1a1a;line-height:1.5}
 .ph .tr{color:#999;font-size:12px;font-style:italic;display:block;margin-top:2px}
+/* plan — daily routine */
+.countdown-pair{display:flex;gap:8px;margin-bottom:12px}
+.cd-card{flex:1;background:#1a1a1a;color:#fff;padding:13px 14px;border-radius:12px;text-align:center}
+.cd-card.cd-oral{background:#7c3aed}
+.cd-card .cd-lbl{font-size:10.5px;color:#bbb;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.cd-card.cd-oral .cd-lbl{color:#e9d5ff}
+.cd-card .cd-num{font-size:30px;font-weight:800;line-height:1.05;margin:5px 0 2px}
+.cd-card .cd-num small{font-size:13px;font-weight:500;opacity:.85}
+.cd-card .cd-date{font-size:11.5px;opacity:.85}
+.time-block{background:#fff;border:1px solid #e5e5e0;border-radius:14px;padding:14px 16px;margin-bottom:10px;border-left:4px solid #1a1a1a}
+.tb-am{border-left-color:#f59e0b;background:linear-gradient(90deg,#fffbeb 0%,#fff 35%)}
+.tb-md{border-left-color:#3b82f6;background:linear-gradient(90deg,#eff6ff 0%,#fff 35%)}
+.tb-pm{border-left-color:#7c3aed;background:linear-gradient(90deg,#f5f3ff 0%,#fff 35%)}
+.tb-h{display:flex;gap:12px;align-items:flex-start;margin-bottom:6px}
+.tb-emoji{font-size:30px;line-height:1;margin-top:2px;flex-shrink:0}
+.tb-h h4{font-size:14.5px;font-weight:700;margin-bottom:3px;line-height:1.3}
+.tb-h p{font-size:12.5px;color:#555;line-height:1.55}
+.tb-cta{display:inline-block;font-size:12px;font-weight:600;color:#1a1a1a;background:#f4f4f2;padding:7px 12px;border-radius:8px;cursor:pointer;margin-top:6px;text-decoration:none;border:none}
+.tb-cta:active{background:#e5e5e0;transform:scale(.98)}
+.tb-rotation{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px}
+.tb-rotation span{font-size:10.5px;text-align:center;background:#fff;border:1px solid #e5e5e0;padding:7px 2px;border-radius:7px;line-height:1.3;color:#555;font-weight:500}
+.tb-rotation span.today{background:#1a1a1a;color:#fff;font-weight:700;border-color:#1a1a1a}
+.today-check{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.tc-row{display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer;padding:9px 11px;border-radius:8px;background:#fafaf8;border:1px solid #f0f0ee;user-select:none}
+.tc-row input{width:18px;height:18px;cursor:pointer;accent-color:#1a1a1a;flex-shrink:0}
+.tc-row.done{opacity:.55;background:#e4f5ea;border-color:#bbf7d0}
+.tc-row.done span{text-decoration:line-through}
+.streak-line{font-size:12.5px;color:#666;margin-top:10px;padding-top:8px;border-top:1px dashed #e5e5e0}
+.streak-line b{color:#1a1a1a}
+.phase{display:flex;gap:10px;align-items:flex-start;padding:9px 11px;border-radius:8px;margin-bottom:6px;font-size:12.5px;line-height:1.55}
+.phase .phd{font-size:11px;font-weight:700;background:#1a1a1a;color:#fff;padding:3px 8px;border-radius:5px;flex-shrink:0;letter-spacing:.03em;white-space:nowrap}
+.ph-1{background:#eff6ff}.ph-1 .phd{background:#3b82f6}
+.ph-2{background:#fef3e2}.ph-2 .phd{background:#d97706}
+.ph-3{background:#f0fdf4}.ph-3 .phd{background:#16a34a}
+.ph-4{background:#f5f3ff}.ph-4 .phd{background:#7c3aed}
 /* listening cards + interactive exercises */
 .lst-counter{font-size:11.5px;color:#888;margin:4px 0 0}
 .lst-counter b{color:#1a56b0;font-size:13px}
@@ -197,25 +232,97 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 
 <!-- ========== PLAN ========== -->
 <div class="page on" id="page-plan">
-<div class="intro"><b>Objetivo: 8.5/10</b><br>Speaking ya lo tienes. Los puntos clave son Reading y Listening (20 pts cada uno). Writing con plantillas = 8+ seguro. Sigue este orden.</div>
-<div class="card"><div class="lbl">Distribución del examen</div>
-<p style="font-size:13px;line-height:1.9">
-🗣️ <b>Speaking</b> — monólogo 2-4 min + diálogo 4-5 min + mediación oral 2-3 min · 20 pts<br>
-✍️ <b>Writing</b> — 2 tareas · 75 min · 20 pts<br>
-📖 <b>Reading</b> — 4 tareas · 60 min · 20 pts<br>
-🎧 <b>Listening</b> — 3-4 tareas · 40 min · 20 pts<br>
-🔄 <b>Mediación escrita</b> — 1 tarea · 25 min · 10 pts
-</p></div>
-<div class="day"><div class="dn today">1</div><div class="dc"><h4>Hoy — Reading</h4><p>Pestaña Reading. Estudia los 4 tipos de tarea. Lee un examen modelo (PDF que tienes).</p><div class="m">45 min estrategias · 30 min práctica</div></div></div>
-<div class="day"><div class="dn">2</div><div class="dc"><h4>Listening</h4><p>Pestaña Listening. Practica con las transcripciones de Hatton Garden, Brain y Books.</p><div class="m">30 min estrategias · 45 min práctica</div></div></div>
-<div class="day"><div class="dn">3</div><div class="dc"><h4>Writing — essay + mediación</h4><p>Pestaña Writing. Escribe 1 essay con cronómetro. Escribe 1 mediación informal.</p><div class="m">30 min essay · 20 min mediación</div></div></div>
-<div class="day"><div class="dn">4</div><div class="dc"><h4>Speaking — topics 1 a 5</h4><p>Pestaña Speaking. Escucha el audio + lee el texto. Repite en voz alta 3 veces cada topic.</p><div class="m">60 min escucha + lectura activa</div></div></div>
-<div class="day"><div class="dn">5</div><div class="dc"><h4>Flashcards gramática</h4><p>Pestaña Flash. 3 rondas completas. Luego escribe 5 frases propias con las estructuras.</p><div class="m">45 min flash · 15 min escritura</div></div></div>
-<div class="day"><div class="dn">6</div><div class="dc"><h4>Simulacro completo</h4><p>Examen modelo de años anteriores. Todo cronometrado. Sin mirar nada.</p><div class="m">Reading 60 · Listening 40 · Writing 75</div></div></div>
-<div class="day"><div class="dn">7</div><div class="dc"><h4>Corrección + puntos débiles</h4><p>Corrige con answer keys. ¿Qué tipo de tarea falla más? Estudia solo eso hoy.</p><div class="m">30 min corrección · 60 min refuerzo</div></div></div>
-<div class="day"><div class="dn">8</div><div class="dc"><h4>Speaking — topics 6 a 14</h4><p>Repite el proceso del día 4 con los topics restantes. Practica el diálogo.</p><div class="m">60 min speaking en voz alta</div></div></div>
-<div class="day"><div class="dn">9</div><div class="dc"><h4>Repaso ligero</h4><p>1 essay. Repasa errores recurrentes. Lee plantillas y comodines de speaking.</p><div class="m">30 min writing · 30 min repaso</div></div></div>
-<div class="day"><div class="dn">10</div><div class="dc"><h4>Día del examen</h4><p>Lee plantillas 20 min. Escucha 2 audios. Sin material nuevo. Duerme bien.</p><div class="m">Solo repaso mental</div></div></div>
+
+<div class="countdown-pair">
+  <div class="cd-card">
+    <div class="cd-lbl">📝 Examen escrito</div>
+    <div class="cd-num"><span id="dl1">—</span> <small>días</small></div>
+    <div class="cd-date">13 mayo</div>
+  </div>
+  <div class="cd-card cd-oral">
+    <div class="cd-lbl">🗣️ Examen oral</div>
+    <div class="cd-num"><span id="dl2">—</span> <small>días</small></div>
+    <div class="cd-date">21 mayo</div>
+  </div>
+</div>
+
+<div class="intro"><b>Tu rutina diaria — 3 bloques</b><br>Mañana flashcards (rapidez y precisión) · mediodía rotación (writing/reading/listening/mediación) · noche speaking (todos los días). Repetición + variación = llegas con voz, frases y mente entrenadas.</div>
+
+<div class="time-block tb-am">
+  <div class="tb-h">
+    <span class="tb-emoji">🌅</span>
+    <div style="flex:1">
+      <h4>Mañana · Flashcards</h4>
+      <p>10–15 min. Te da <b>seguridad y rapidez</b> para escribir con precisión. Objetivo: que a final de la primera semana ya no las necesites.</p>
+    </div>
+  </div>
+  <button class="tb-cta" onclick="goTab('flash')">🃏 Abrir Flashcards</button>
+</div>
+
+<div class="time-block tb-md">
+  <div class="tb-h">
+    <span class="tb-emoji">☀️</span>
+    <div style="flex:1">
+      <h4>Mediodía · rotación</h4>
+      <p>30–45 min. Alterna cada día entre <b>Writing</b>, <b>Reading</b>, <b>Listening</b> y <b>Mediación</b> escrita. La rotación de la semana:</p>
+    </div>
+  </div>
+  <div class="tb-rotation" id="rotweek">
+    <span data-d="1">L<br>Writing</span>
+    <span data-d="2">M<br>Reading</span>
+    <span data-d="3">X<br>Listening</span>
+    <span data-d="4">J<br>Mediación</span>
+    <span data-d="5">V<br>Writing</span>
+    <span data-d="6">S<br>Reading</span>
+    <span data-d="0">D<br>Listening</span>
+  </div>
+  <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+    <button class="tb-cta" onclick="goTab('writ')">✍️ Writing</button>
+    <button class="tb-cta" onclick="goTab('read')">📖 Reading</button>
+    <button class="tb-cta" onclick="goTab('list')">🎧 Listening</button>
+  </div>
+</div>
+
+<div class="time-block tb-pm">
+  <div class="tb-h">
+    <span class="tb-emoji">🌙</span>
+    <div style="flex:1">
+      <h4>Noche · Speaking — todos los días</h4>
+      <p>~30 min. <b>1–2 topics</b>: escucha el audio, lee el texto, repítelo en voz alta y escribe a mano una o dos frases clave. Es la mejor forma de fijarlo antes de dormir.</p>
+    </div>
+  </div>
+  <button class="tb-cta" onclick="goTab('speak')">🗣️ Abrir Speaking</button>
+</div>
+
+<div class="card">
+  <div class="lbl">Hoy · marca lo que ya has hecho</div>
+  <div class="today-check">
+    <label class="tc-row" id="tcr-am"><input type="checkbox" id="tc-am" onchange="saveCheck()"><span>🌅 Mañana — Flashcards</span></label>
+    <label class="tc-row" id="tcr-md"><input type="checkbox" id="tc-md" onchange="saveCheck()"><span>☀️ Mediodía — <b id="tc-md-task">según rotación</b></span></label>
+    <label class="tc-row" id="tcr-pm"><input type="checkbox" id="tc-pm" onchange="saveCheck()"><span>🌙 Noche — Speaking (1–2 topics)</span></label>
+  </div>
+  <div id="tc-streak" class="streak-line"></div>
+</div>
+
+<div class="card">
+  <div class="lbl">Fases — adapta el énfasis según fecha</div>
+  <div class="phase ph-1"><span class="phd">Hasta 12 may</span><div>Rutina completa. Énfasis equilibrado: writing, reading, listening, speaking. Mediación escrita 1–2 veces por semana.</div></div>
+  <div class="phase ph-2"><span class="phd">13 may</span><div><b>Examen escrito.</b> Por la mañana: flashcards de errores y conectores (15 min). Lleva agua y sal el día con calma.</div></div>
+  <div class="phase ph-3"><span class="phd">14–20 may</span><div>Vira casi todo a <b>Speaking</b>. Mañana: flashcards solo de conectores. Mediodía: 1 listening corto + 1 lectura ligera. Noche: 2–3 topics en voz alta + grábate.</div></div>
+  <div class="phase ph-4"><span class="phd">21 may</span><div><b>Examen oral.</b> Por la mañana: 5 minutos repasando los comodines de speaking. Sin material nuevo. Confía en lo que ya tienes.</div></div>
+</div>
+
+<div class="card">
+  <div class="lbl">Distribución del examen</div>
+  <p style="font-size:12.5px;line-height:1.85">
+    🗣️ <b>Speaking</b> — monólogo 2-4 min + diálogo 4-5 min + mediación oral 2-3 min · 20 pts<br>
+    ✍️ <b>Writing</b> — 2 tareas · 75 min · 20 pts<br>
+    📖 <b>Reading</b> — 4 tareas · 60 min · 20 pts<br>
+    🎧 <b>Listening</b> — 3-4 tareas · 40 min · 20 pts<br>
+    🔄 <b>Mediación escrita</b> — 1 tarea · 25 min · 10 pts
+  </p>
+</div>
+
 </div>
 
 <!-- ========== SPEAKING ========== -->
@@ -1188,11 +1295,18 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div><!-- end app -->
 
 <script>
-// DAYS LEFT
+// DAYS LEFT (header bar — closer of the two exams)
 (function(){
-  const d=new Date('2026-05-13'),t=new Date();t.setHours(0,0,0,0);
-  const n=Math.ceil((d-t)/864e5);
-  document.getElementById('dl').textContent=n>0?n+' días para el examen':n===0?'¡Es hoy!':'Ya pasó';
+  const t=new Date();t.setHours(0,0,0,0);
+  const escr=new Date('2026-05-13'),oral=new Date('2026-05-21');
+  const d1=Math.ceil((escr-t)/864e5),d2=Math.ceil((oral-t)/864e5);
+  let txt;
+  if(d1>0)txt=d1+' días para el escrito';
+  else if(d1===0)txt='¡Hoy es el escrito!';
+  else if(d2>0)txt=d2+' días para el oral';
+  else if(d2===0)txt='¡Hoy es el oral!';
+  else txt='Exámenes pasados';
+  document.getElementById('dl').textContent=txt;
 })();
 
 // TABS
@@ -1205,6 +1319,83 @@ function go(id,btn){
   if(id==='flash')render();
   if(id==='list')renderListening();
   if(id==='read')renderReading();
+  if(id==='plan')initPlan();
+}
+
+// Helper: open a tab from an inline button (Plan CTAs)
+function goTab(id){
+  const map={plan:0,speak:1,writ:2,read:3,list:4,flash:5};
+  const btn=document.querySelectorAll('.tab')[map[id]];
+  if(btn)go(id,btn);
+}
+
+// PLAN — countdowns, today's rotation, checklist, streak
+const TASK_BY_DOW={1:'Writing',2:'Reading',3:'Listening',4:'Mediación escrita',5:'Writing',6:'Reading',0:'Listening'};
+function todayKey(){const d=new Date();return d.toISOString().slice(0,10);}
+function initPlan(){
+  const t=new Date();t.setHours(0,0,0,0);
+  const escr=new Date('2026-05-13'),oral=new Date('2026-05-21');
+  const d1=Math.ceil((escr-t)/864e5),d2=Math.ceil((oral-t)/864e5);
+  const dl1=document.getElementById('dl1'),dl2=document.getElementById('dl2');
+  if(dl1)dl1.textContent=d1>=0?d1:'—';
+  if(dl2)dl2.textContent=d2>=0?d2:'—';
+  const dow=t.getDay();
+  document.querySelectorAll('#rotweek span').forEach(s=>{
+    s.classList.toggle('today',parseInt(s.dataset.d)===dow);
+  });
+  const taskEl=document.getElementById('tc-md-task');
+  if(taskEl)taskEl.textContent=TASK_BY_DOW[dow]||'según rotación';
+  loadCheck();
+}
+function saveCheck(){
+  const k='check-'+todayKey();
+  const v={am:document.getElementById('tc-am').checked,md:document.getElementById('tc-md').checked,pm:document.getElementById('tc-pm').checked};
+  try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}
+  paintCheck();
+  updateStreak();
+}
+function loadCheck(){
+  const k='check-'+todayKey();
+  try{
+    const raw=localStorage.getItem(k);
+    if(raw){
+      const v=JSON.parse(raw);
+      document.getElementById('tc-am').checked=!!v.am;
+      document.getElementById('tc-md').checked=!!v.md;
+      document.getElementById('tc-pm').checked=!!v.pm;
+    } else {
+      document.getElementById('tc-am').checked=false;
+      document.getElementById('tc-md').checked=false;
+      document.getElementById('tc-pm').checked=false;
+    }
+  }catch(e){}
+  paintCheck();
+  updateStreak();
+}
+function paintCheck(){
+  ['am','md','pm'].forEach(s=>{
+    const row=document.getElementById('tcr-'+s),inp=document.getElementById('tc-'+s);
+    if(row&&inp)row.classList.toggle('done',inp.checked);
+  });
+}
+function updateStreak(){
+  let streak=0;
+  for(let i=0;i<60;i++){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const k='check-'+d.toISOString().slice(0,10);
+    try{
+      const raw=localStorage.getItem(k);
+      if(!raw){if(i===0){streak=0;break;}else break;}
+      const v=JSON.parse(raw);
+      if(v.am&&v.md&&v.pm)streak++;
+      else if(i===0){break;}
+      else break;
+    }catch(e){break;}
+  }
+  let todayDone=0;
+  try{const v=JSON.parse(localStorage.getItem('check-'+todayKey())||'{}');if(v.am)todayDone++;if(v.md)todayDone++;if(v.pm)todayDone++;}catch(e){}
+  const el=document.getElementById('tc-streak');
+  if(el)el.innerHTML=`Hoy: <b>${todayDone}/3</b> bloques · racha de días completos: <b>${streak}</b>${streak>=3?' 🔥':''}${streak>=7?' 🚀':''}`;
 }
 
 // ACCORDIONS
@@ -1690,6 +1881,7 @@ function grade(yes){
 }
 
 buildDeck('all');
+initPlan();
 </script>
 </body>
 </html>
