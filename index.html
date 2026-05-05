@@ -152,6 +152,22 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .ph-2{background:#fef3e2}.ph-2 .phd{background:#d97706}
 .ph-3{background:#f0fdf4}.ph-3 .phd{background:#16a34a}
 .ph-4{background:#f5f3ff}.ph-4 .phd{background:#7c3aed}
+/* favoritos / prioridades */
+.fav-card{background:linear-gradient(135deg,#fff1f2 0%,#fff7ed 100%);border:1px solid #fecdd3;border-left:4px solid #dc2626;border-radius:0 14px 14px 0;padding:13px 15px;margin-bottom:12px;position:relative}
+.fav-card .lbl{color:#b91c1c;font-size:11.5px;font-weight:800}
+.fav-card>p:first-of-type{font-size:12.5px;color:#555;line-height:1.55;margin-bottom:10px}
+.prio-row{display:flex;gap:10px;margin-top:8px;align-items:flex-start;padding:10px 12px;background:#fff;border-radius:8px;border:1px solid #fee2e2}
+.prio-tag{font-size:10.5px;font-weight:800;background:#1a1a1a;color:#fff;padding:5px 10px;border-radius:6px;flex-shrink:0;letter-spacing:.03em;text-transform:uppercase;align-self:flex-start}
+.prio-content{font-size:12.5px;line-height:1.6;color:#1a1a1a;flex:1}
+.prio-content b{color:#b91c1c}
+.prio-content i{color:#666;font-size:11.5px;display:block;margin-top:4px}
+/* Heart marker shown next to favorite topic/exercise/essay titles */
+.fav-mark{display:inline-block;font-size:14px;margin-right:4px;animation:fav-pulse 2.5s ease-in-out infinite;filter:drop-shadow(0 1px 2px rgba(220,38,38,.3))}
+@keyframes fav-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+/* Subtle highlight on favorite cards' parent containers */
+.ag.is-fav .ag-head{background:linear-gradient(135deg,#1a1a1a 0%,#7f1d1d 100%)}
+.ag.is-fav .ag-head h3::before{content:'';display:inline-block;width:3px;height:14px;background:#dc2626;margin-right:8px;border-radius:2px;vertical-align:middle}
+.ac.is-fav{box-shadow:0 0 0 2px #fecdd3;border-color:#dc2626}
 /* listening cards + interactive exercises */
 .lst-counter{font-size:11.5px;color:#888;margin:4px 0 0}
 .lst-counter b{color:#1a56b0;font-size:13px}
@@ -264,6 +280,23 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 </div>
 
 <div class="intro"><b>Tu rutina diaria — 3 bloques</b><br>Mañana flashcards (rapidez y precisión) · mediodía rotación (writing/reading/listening/mediación) · noche speaking (todos los días). Repetición + variación = llegas con voz, frases y mente entrenadas.</div>
+
+<div class="fav-card">
+  <div class="lbl">❤️ LO IMPRESCINDIBLE — si solo tuvieras 2 horas</div>
+  <p>Estos son los 3 elementos que más nota dan en el menor tiempo. Los verás marcados con ❤️ por la app — busca el corazón.</p>
+  <div class="prio-row">
+    <div class="prio-tag">🗣️ Speaking</div>
+    <div class="prio-content">Memoriza <b>Topic 14 — Science and Technology</b> (200 palabras, lleva la NOBA estrella + Guillermo + IA). Como comodín emocional, <b>Welcome to Holland</b>. Y aprende los 3 "patches" para cualquier topic: <b>3CI</b> ("Had I not travelled..."), <b>NOBA</b> ("Not only has..., but it has also..."), <b>2C+NOBA combo</b> del topic 9 ("If we all chose..., not only would we save..., but we would also reduce...").</div>
+  </div>
+  <div class="prio-row">
+    <div class="prio-tag">📖 Reading</div>
+    <div class="prio-content"><b>Cero memorización.</b> Domina la TÉCNICA del <b>Ejercicio 1 · T/F Heist</b> — concentra las 5 trampas reales del examen (números, sustantivos, cuantificadores, negaciones, persona). Si lo haces 3 veces sin fallos, los demás T/F del examen te resultan fáciles.<i>El reading se gana con ojo crítico, no con vocabulario.</i></div>
+  </div>
+  <div class="prio-row">
+    <div class="prio-tag">✍️ Writing</div>
+    <div class="prio-content">Memoriza la <b>plantilla del Essay "Cooking at home vs eating out"</b> (acordeón Essay en Writing) — 3 estructuras B2.2 en 185 palabras, sirve para CUALQUIER tema cambiando el contenido. Para Letter of Application, memoriza el <b>esqueleto formal</b> (las frases fijas). Para Mediación, el modelo corto <b>Multitask</b> (~80 palabras).</div>
+  </div>
+</div>
 
 <div class="time-block tb-am">
   <div class="tb-h">
@@ -796,7 +829,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   <!-- Topic 14 -->
   <div class="topic-block">
     <div class="topic-h" onclick="tp(this)">
-      <span class="tn">14</span><span class="tt">Science and Technology</span><span class="tic">›</span>
+      <span class="tn">14</span><span class="tt"><span class="fav-mark">❤️</span>Science and Technology</span><span class="tic">›</span>
     </div>
     <div class="topic-body">
       <div class="topic-text">
@@ -826,10 +859,10 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 </div>
 
 <!-- WELCOME TO HOLLAND (extra topic) -->
-<div class="ag">
+<div class="ag is-fav">
   <div class="ag-head">
-    <h3>🌷 Welcome to Holland</h3>
-    <p>Texto extra · Emily Perl Kingsley · sobre expectativas, aceptación e inclusión</p>
+    <h3><span class="fav-mark">❤️</span>Welcome to Holland — comodín emocional</h3>
+    <p>Texto extra · Emily Perl Kingsley · expectativas, aceptación e inclusión</p>
   </div>
   <div style="padding:10px 14px 0">
     <audio controls preload="none">
@@ -838,7 +871,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   </div>
   <div class="topic-block">
     <div class="topic-h" onclick="tp(this)">
-      <span class="tn">★</span><span class="tt">Welcome to Holland</span><span class="tic">›</span>
+      <span class="tn">★</span><span class="tt"><span class="fav-mark">❤️</span>Welcome to Holland</span><span class="tic">›</span>
     </div>
     <div class="topic-body">
       <div class="topic-text">
@@ -996,8 +1029,8 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 <div class="bw">Nunca uses "Also" tres veces seguidas ni empieces dos párrafos con "Furthermore". Varía.</div>
 </div></div>
 
-<div class="ac" id="wa1">
-<div class="ac-h" onclick="ac('wa1')"><span class="title"><span class="pill pb">Essay</span> Ejemplo completo — Cocinar en casa vs restaurantes</span><span class="ic">+</span></div>
+<div class="ac is-fav" id="wa1">
+<div class="ac-h" onclick="ac('wa1')"><span class="title"><span class="fav-mark">❤️</span><span class="pill pb">Essay</span> Cocinar en casa vs restaurantes — plantilla universal</span><span class="ic">+</span></div>
 <div class="ac-b">
 <p style="font-size:11px;color:#aaa;margin-bottom:10px">Lee el essay completo. Las etiquetas muestran qué estructura gramatical se usa y dónde.</p>
 <div class="essay-text">
@@ -1270,8 +1303,8 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 <p style="font-size:13px;line-height:1.7;color:#444">Aquí tienes <b>4 ejercicios reales</b>, uno de cada tipo de tarea, sacados de los textos del examen modelo. Haz uno cada día y compara con la solución al final.</p></div>
 
 <!-- READING EXERCISE 1: T/F (Heist text) -->
-<div class="ag" id="rex1">
-  <div class="ag-head"><h3>📖 Ejercicio 1 · True / False</h3><p>Texto: <i>The Hatton Garden Heist</i> — 8 frases · 15 min</p></div>
+<div class="ag is-fav" id="rex1">
+  <div class="ag-head"><h3><span class="fav-mark">❤️</span>Ejercicio 1 · True / False — la técnica clave</h3><p>Texto: <i>The Hatton Garden Heist</i> — 8 frases · 15 min · domina las 5 trampas</p></div>
   <div style="padding:12px 14px">
     <div class="lbl" style="margin-bottom:8px">Texto</div>
     <div class="essay-text" style="font-size:13px;background:#fafaf8;padding:12px;border-radius:8px;border:1px solid #f0f0ee">
