@@ -152,6 +152,25 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .ph-2{background:#fef3e2}.ph-2 .phd{background:#d97706}
 .ph-3{background:#f0fdf4}.ph-3 .phd{background:#16a34a}
 .ph-4{background:#f5f3ff}.ph-4 .phd{background:#7c3aed}
+/* repaso turbo */
+.turbo-launch{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#ef4444 0%,#b91c1c 100%);color:#fff;font-weight:800;padding:14px 18px;border-radius:12px;border:none;cursor:pointer;font-size:14px;width:100%;margin-bottom:14px;letter-spacing:.02em;box-shadow:0 6px 16px rgba(220,38,38,.35);transition:transform .15s,box-shadow .15s}
+.turbo-launch:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(220,38,38,.45)}
+.turbo-launch:active{transform:translateY(0)}
+.turbo-launch .icon{font-size:20px}
+.turbo-launch .sub{font-size:11px;font-weight:500;opacity:.9;display:block;margin-top:2px}
+.turbo-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#1a1a1a 0%,#2d1010 100%);color:#fff;padding:12px 16px;display:none;justify-content:space-between;align-items:center;gap:10px;z-index:9999;box-shadow:0 -6px 24px rgba(0,0,0,.3);border-top:2px solid #dc2626}
+.turbo-bar.show{display:flex}
+.turbo-info{flex:1;min-width:0}
+.turbo-title{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff}
+.turbo-progress{font-size:11px;color:#fca5a5;margin-top:3px;font-weight:600;letter-spacing:.04em}
+.turbo-controls{display:flex;gap:6px;flex-shrink:0}
+.turbo-controls button{background:#333;color:#fff;border:none;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.turbo-controls button:hover{background:#555}
+.turbo-controls button:active{transform:scale(.92)}
+.turbo-controls .stop{background:#dc2626}
+.turbo-controls .stop:hover{background:#b91c1c}
+.turbo-controls .play{background:#16a34a}
+.turbo-controls .play:hover{background:#15803d}
 /* favoritos / prioridades */
 .fav-card{background:linear-gradient(135deg,#fff1f2 0%,#fff7ed 100%);border:1px solid #fecdd3;border-left:4px solid #dc2626;border-radius:0 14px 14px 0;padding:13px 15px;margin-bottom:12px;position:relative}
 .fav-card .lbl{color:#b91c1c;font-size:11.5px;font-weight:800}
@@ -278,6 +297,11 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
     <div class="cd-date">21 mayo</div>
   </div>
 </div>
+
+<button class="turbo-launch" onclick="turboStart()">
+  <span class="icon">🚀</span>
+  <div>Iniciar Repaso turbo<span class="sub">~1h 17min · 31 textos en orden de prioridad · auto-TTS + scroll</span></div>
+</button>
 
 <div class="intro"><b>Rutina diaria — 3 bloques</b><br>Mañana flashcards (rapidez y precisión) · mediodía rotación (writing/reading/listening/mediación) · noche speaking (todos los días). Repetición + variación = voz, frases y mente entrenadas.</div>
 
@@ -1599,6 +1623,20 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 </div>
 
+<!-- Repaso Turbo barra flotante -->
+<div id="turbo-bar" class="turbo-bar">
+  <div class="turbo-info">
+    <div class="turbo-title" id="turbo-title">—</div>
+    <div class="turbo-progress" id="turbo-progress">0 / 0</div>
+  </div>
+  <div class="turbo-controls">
+    <button onclick="turboPrev()" title="Anterior">⏮</button>
+    <button onclick="turboPauseToggle()" id="turbo-play-btn" title="Pausa">⏸</button>
+    <button onclick="turboNext()" title="Siguiente">⏭</button>
+    <button onclick="turboStop()" class="stop" title="Detener">✕</button>
+  </div>
+</div>
+
 </div><!-- end app -->
 
 <script>
@@ -2202,6 +2240,180 @@ function checkReading(id){
  const r=document.getElementById(id+'-result');
  r.className='result-box show '+(ok===total?'good':ok>=total/2?'mid':'bad');
  r.innerHTML=`<b>${ok}/${total}</b> ${ok===total?'¡Perfecto!':'Lee las explicaciones bajo cada pregunta.'}`;
+}
+
+// === REPASO TURBO ===
+const TURBO_PLAYLIST=[
+ // PARA MEMORIZAR · IMPORTANTE
+ {kind:'topic',tab:'speak',find:'Report — Environmental Proposals',label:'❤️ Report — Environmental Proposals'},
+ {kind:'ac',tab:'writ',id:'wa7',label:'❤️ Complaint Letter'},
+ {kind:'topic',tab:'speak',find:'TV News — DANA Valencia',label:'❤️ TV News — DANA Valencia'},
+ {kind:'topic',tab:'speak',find:'Food Waste — Decálogo Unilever',label:'❤️ Food Waste — Decálogo'},
+ {kind:'topic',tab:'speak',find:'School Bullying',label:'❤️ School Bullying'},
+ {kind:'topic',tab:'speak',find:'Shopping — Monólogo',label:'❤️ Shopping — Monólogo'},
+ // DE APOYO · ALTERNATIVAS
+ {kind:'topic',tab:'speak',find:'Science and Technology',label:'❤️ Topic 14 — Science and Technology'},
+ {kind:'topic',tab:'speak',find:'Welcome to Holland',label:'❤️ Welcome to Holland'},
+ {kind:'topic',tab:'speak',find:'Badminton — My Favourite Sport',label:'Badminton — Topic 4'},
+ {kind:'ag',tab:'read',id:'rex1',label:'❤️ Reading T/F — Hatton Garden Heist'},
+ {kind:'ac',tab:'writ',id:'wa1',label:'❤️ Essay Cooking at home (plantilla)'},
+ {kind:'ac',tab:'writ',id:'wm5',label:'Letter Application volunteer'},
+ {kind:'ac',tab:'writ',id:'wm7',label:'Mediación Multitask'},
+ {kind:'ac',tab:'writ',id:'wm4',label:'❤️ Parks Report'},
+ // RESTO — Topics oficiales
+ {kind:'topic',tab:'speak',find:'Personal Identity',label:'Topic 01 — Personal Identity'},
+ {kind:'topic',tab:'speak',find:'Housing, Home and Surroundings',label:'Topic 02 — Housing'},
+ {kind:'topic',tab:'speak',find:'Daily Life, Work and Entrepreneurship',label:'Topic 03 — Daily Life'},
+ {kind:'topic',tab:'speak',find:'Free Time and Leisure',label:'Topic 04 — Free Time'},
+ {kind:'topic',tab:'speak',find:'Travel and Holidays',label:'Topic 05 — Travel'},
+ {kind:'topic',tab:'speak',find:'Personal and Social Relationships',label:'Topic 06 — Relationships'},
+ {kind:'topic',tab:'speak',find:'Health and Physical Care',label:'Topic 07 — Health'},
+ {kind:'topic',tab:'speak',find:'Education and Study',label:'Topic 08 — Education'},
+ {kind:'topic',tab:'speak',find:'Shopping and Commercial Activities',label:'Topic 09 — Shopping'},
+ {kind:'topic',tab:'speak',find:'Food and Restaurants',label:'Topic 10 — Food'},
+ {kind:'topic',tab:'speak',find:'Transport, Goods and Services',label:'Topic 11 — Transport'},
+ {kind:'topic',tab:'speak',find:'Language and Communication',label:'Topic 12 — Language'},
+ {kind:'topic',tab:'speak',find:'Weather and the Natural Environment',label:'Topic 13 — Weather'},
+ // RESTO — cómodos no prioritarios
+ {kind:'topic',tab:'speak',find:'Family — Relationships',label:'Family (cómodo)'},
+ {kind:'topic',tab:'speak',find:'AI and the Future of Work',label:'AI and the Future of Work (cómodo)'},
+ {kind:'topic',tab:'speak',find:'Modern Life',label:'Modern Life (cómodo)'},
+ // RESTO — Writing pendiente
+ {kind:'ac',tab:'writ',id:'wa4',label:'Mediación Email informal a amigo'},
+ {kind:'ac',tab:'writ',id:'wa6',label:'Letter solicitud formal'},
+ {kind:'ac',tab:'writ',id:'wm6',label:'Mediación Life in the city'},
+];
+
+let turboState={idx:0,paused:false,active:false,currentBtn:null,currentUtter:null};
+
+function turboStart(){
+ // Stop any current TTS
+ if(window.speechSynthesis)window.speechSynthesis.cancel();
+ document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
+ turboState={idx:0,paused:false,active:true,currentBtn:null,currentUtter:null};
+ document.getElementById('turbo-bar').classList.add('show');
+ document.getElementById('turbo-play-btn').textContent='⏸';
+ turboPlay();
+}
+
+function turboStop(){
+ try{window.speechSynthesis.cancel();}catch(e){}
+ if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
+ turboState.active=false;
+ turboState.currentUtter=null;
+ turboState.currentBtn=null;
+ document.getElementById('turbo-bar').classList.remove('show');
+}
+
+function turboNext(){
+ if(!turboState.active)return;
+ try{window.speechSynthesis.cancel();}catch(e){}
+ if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
+ turboState.idx++;
+ if(!turboState.paused)turboPlay();
+}
+
+function turboPrev(){
+ if(!turboState.active)return;
+ try{window.speechSynthesis.cancel();}catch(e){}
+ if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
+ turboState.idx=Math.max(0,turboState.idx-1);
+ if(!turboState.paused)turboPlay();
+}
+
+function turboPauseToggle(){
+ if(!turboState.active)return;
+ const btn=document.getElementById('turbo-play-btn');
+ if(turboState.paused){
+  // Resume
+  turboState.paused=false;
+  btn.textContent='⏸';btn.title='Pausa';btn.classList.remove('play');
+  try{window.speechSynthesis.resume();}catch(e){}
+  // If nothing is speaking (browser cancelled), restart current item
+  setTimeout(()=>{if(turboState.active && !turboState.paused && !window.speechSynthesis.speaking)turboPlay();},150);
+ } else {
+  // Pause
+  turboState.paused=true;
+  btn.textContent='▶️';btn.title='Reanudar';btn.classList.add('play');
+  try{window.speechSynthesis.pause();}catch(e){}
+ }
+}
+
+function turboPlay(){
+ if(!turboState.active)return;
+ if(turboState.idx>=TURBO_PLAYLIST.length){
+  document.getElementById('turbo-title').textContent='✓ Repaso completado';
+  document.getElementById('turbo-progress').textContent=TURBO_PLAYLIST.length+' / '+TURBO_PLAYLIST.length;
+  setTimeout(()=>turboStop(),3000);
+  return;
+ }
+ const item=TURBO_PLAYLIST[turboState.idx];
+ document.getElementById('turbo-title').textContent=item.label;
+ document.getElementById('turbo-progress').textContent=(turboState.idx+1)+' / '+TURBO_PLAYLIST.length;
+ // Switch tab
+ goTab(item.tab);
+ // Wait for tab content + initTTS, then locate
+ setTimeout(()=>turboLocateAndPlay(item),400);
+}
+
+function turboLocateAndPlay(item){
+ if(!turboState.active)return;
+ let container=null;
+ if(item.kind==='ac'){
+  container=document.getElementById(item.id);
+  if(container && !container.classList.contains('op')){
+   if(typeof ac==='function')ac(item.id);
+  }
+ } else if(item.kind==='ag'){
+  container=document.getElementById(item.id);
+ } else if(item.kind==='topic'){
+  const all=document.querySelectorAll('.topic-block');
+  for(const t of all){
+   const tt=t.querySelector('.tt');
+   if(tt && tt.textContent.includes(item.find)){
+    container=t;
+    if(!t.classList.contains('op'))t.classList.add('op');
+    break;
+   }
+  }
+ }
+ if(!container){console.warn('Turbo: not found',item);setTimeout(()=>{turboState.idx++;turboPlay();},300);return;}
+ // Smooth scroll into view
+ container.scrollIntoView({behavior:'smooth',block:'start'});
+ // Wait for scroll + open animation, then start TTS
+ setTimeout(()=>{
+  if(!turboState.active||turboState.paused)return;
+  // Find the TTS bar inside this container
+  const ttsBar=container.querySelector('.tts-bar');
+  if(!ttsBar){console.warn('Turbo: no tts-bar',item);setTimeout(()=>{turboState.idx++;turboPlay();},300);return;}
+  const txtEl=ttsBar.nextElementSibling;
+  if(!txtEl||(!txtEl.classList.contains('essay-text')&&!txtEl.classList.contains('topic-text'))){
+   console.warn('Turbo: text element missing',item);
+   setTimeout(()=>{turboState.idx++;turboPlay();},300);return;
+  }
+  const text=ttsCleanText(txtEl);
+  if(!text){console.warn('Turbo: empty text',item);setTimeout(()=>{turboState.idx++;turboPlay();},300);return;}
+  const synth=window.speechSynthesis;
+  synth.cancel();
+  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-GB';
+  u.rate=_ttsRate;
+  u.pitch=1;
+  const btn=ttsBar.querySelector('.tts-btn');
+  if(btn){btn.classList.add('playing');btn.textContent='⏹';}
+  turboState.currentBtn=btn;
+  u.onend=()=>{
+   if(btn){btn.classList.remove('playing');btn.textContent='🔊';}
+   turboState.currentUtter=null;turboState.currentBtn=null;
+   if(turboState.active && !turboState.paused){
+    setTimeout(()=>{turboState.idx++;turboPlay();},800);
+   }
+  };
+  u.onerror=u.onend;
+  turboState.currentUtter=u;
+  synth.speak(u);
+ },800);
 }
 
 // FLASHCARD DATA
