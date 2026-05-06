@@ -234,7 +234,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .cl-fix::before{content:'→ ';color:#16a34a}
 /* check/cross marks on MCQ/TF after checking */
 .q-row.done .q-opt.ok::after{content:' ✓ correcta';color:#16a34a;font-weight:700;font-size:11px;margin-left:6px}
-.q-row.done .q-opt.bad::after{content:' ✗ tu respuesta';color:#b91c1c;font-weight:700;font-size:11px;margin-left:6px}
+.q-row.done .q-opt.bad::after{content:' ✗ elegida';color:#b91c1c;font-weight:700;font-size:11px;margin-left:6px}
 /* TTS speaker buttons */
 .tts-bar{display:flex;align-items:center;gap:10px;margin-bottom:10px;padding:6px 0;flex-wrap:wrap}
 .tts-btn{background:#fff;border:1.5px solid #1a56b0;color:#1a56b0;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:15px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;transition:all .15s}
@@ -279,7 +279,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   </div>
 </div>
 
-<div class="intro"><b>Tu rutina diaria — 3 bloques</b><br>Mañana flashcards (rapidez y precisión) · mediodía rotación (writing/reading/listening/mediación) · noche speaking (todos los días). Repetición + variación = llegas con voz, frases y mente entrenadas.</div>
+<div class="intro"><b>Rutina diaria — 3 bloques</b><br>Mañana flashcards (rapidez y precisión) · mediodía rotación (writing/reading/listening/mediación) · noche speaking (todos los días). Repetición + variación = voz, frases y mente entrenadas.</div>
 
 <div class="fav-card">
   <div class="lbl">❤️ LO IMPRESCINDIBLE</div>
@@ -319,7 +319,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
     <span class="tb-emoji">🌅</span>
     <div style="flex:1">
       <h4>Mañana · Flashcards</h4>
-      <p>10–15 min. Te da <b>seguridad y rapidez</b> para escribir con precisión. Objetivo: que a final de la primera semana ya no las necesites.</p>
+      <p>10–15 min. Aporta <b>seguridad y rapidez</b> para escribir con precisión. A final de la primera semana deja de ser necesario.</p>
     </div>
   </div>
   <button class="tb-cta" onclick="goTab('flash')">🃏 Abrir Flashcards</button>
@@ -1043,7 +1043,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
         <h4>Estructuras B2.2 en este texto</h4>
         <div class="gram-item">
           <span class="gs"><span class="gt gpp">PP</span> Present Perfect — experiencia personal</span>
-          <span class="ge">"I <b>have found</b> that practising this sport regularly <b>has had</b> a positive impact..."<br>→ Doble PP en una frase: PP + PP. Conecta tu experiencia con el presente.</span>
+          <span class="ge">"I <b>have found</b> that practising this sport regularly <b>has had</b> a positive impact..."<br>→ Doble PP en una frase: PP + PP. Conecta la experiencia personal con el presente.</span>
         </div>
         <div class="gram-item">
           <span class="gs"><span class="gt gp">PASS</span> Modal pasiva — can be adapted</span>
@@ -1085,11 +1085,10 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   <!-- Modern Life -->
   <div class="topic-block">
     <div class="topic-h" onclick="tp(this)">
-      <span class="tn">🏙️</span><span class="tt">Modern Life — short opinion <small style="font-size:11px;color:#888;font-weight:500">(speaking · varios topics)</small></span><span class="tic">›</span>
+      <span class="tn">🏙️</span><span class="tt">Modern Life — daily life · transport · social topics <small style="font-size:11px;color:#888;font-weight:500">(speaking)</small></span><span class="tic">›</span>
     </div>
     <div class="topic-body">
       <div class="topic-text">
-        <p style="font-size:11.5px;color:#888;font-style:italic">Tu texto corto del docx · adaptable a Topic 3 (Daily Life), Topic 11 (Transport), o cualquier topic de actualidad social.</p>
         <p><b>Nowadays,</b> many people believe that modern life is becoming increasingly fast-paced and demanding. Technology <b>has made</b> <span class="gt gpp">PP</span> communication easier, but it has also created new pressures, <b>such as</b> the need to be constantly available.</p>
         <p>In large cities, daily routines are often organised <span class="gt gp">PASS</span> around work schedules, transport and digital tools. <b>As a result,</b> people may feel stressed or overwhelmed, especially when trying to balance professional responsibilities with personal life.</p>
         <p><b>However,</b> this situation also presents several advantages. Access to education, cultural activities and professional opportunities <b>has increased</b> <span class="gt gpp">PP</span> significantly. <b>In addition,</b> people can connect with others from different backgrounds.</p>
@@ -1112,13 +1111,13 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
     </div>
     <div class="topic-body">
       <div class="topic-text">
-        <p style="font-size:11.5px;color:#888;font-style:italic">Contexto: un amigo auxiliar de conversación necesita un resumen oral en inglés de un folleto sobre desperdicio de alimentos.</p>
-        <div style="background:#fef3e2;padding:10px 12px;border-radius:8px;border-left:3px solid #d97706;margin:10px 0">
+        <p class="no-tts" style="font-size:11.5px;color:#888;font-style:italic">Contexto: un amigo auxiliar de conversación necesita un resumen oral en inglés de un folleto sobre desperdicio de alimentos.</p>
+        <div class="no-tts" style="background:#fef3e2;padding:10px 12px;border-radius:8px;border-left:3px solid #d97706;margin:10px 0">
           <div style="font-size:10.5px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px">📄 Texto fuente (español)</div>
           <p style="font-size:12.5px;color:#444;line-height:1.55">Cada familia española desecha más de 76 kilos de alimentos al año, es decir, más del 18% de la comida que se compra acaba en la basura. Unilever ha creado un decálogo:</p>
           <p style="font-size:12px;color:#555;line-height:1.55">PLANIFICAR (lista de la compra + menú semanal) · REAPROVECHAR (sobras en nuevas recetas) · ESCOGER (comprobar caducidades) · ORGANIZAR (poner delante lo que caduca antes) · CONGELAR (lo que no vas a usar) · RACIONAR (porciones moderadas) · RECICLAR (compost con pieles y restos) · TECNOLOGÍA (apps de seguimiento) · PROMOVER (charlas y talleres) · EN RESTAURANTE (pide las sobras para llevar)</p>
         </div>
-        <div style="font-size:10.5px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 5px">🗣️ Modelo de mediación oral (inglés)</div>
+        <div class="no-tts" style="font-size:10.5px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 5px">🗣️ Modelo de mediación oral (inglés)</div>
         <p>Hi! I came across an interesting article on food waste that might be useful for your class. <b>Apparently,</b> every Spanish family throws away more than 76 kilos of food per year — that's about 18% of what they buy ending up in the bin. Unilever <b>has put together</b> <span class="gt gpp">PP</span> a list of ten tips to help reduce this waste at home.</p>
         <p><b>The main ideas are:</b> plan ahead by making a shopping list and a weekly menu; reuse leftovers in new recipes; check expiry dates regularly; organise your fridge so the food that expires first is at the front; freeze what you cannot use in time; serve moderate portions; recycle peels and food scraps as compost for plants; use apps that track what you have bought; spread the message at school or work; and at restaurants, ask to take leftovers home.</p>
         <p>It is a really practical list — every small habit adds up. <b>Hope it helps</b> for your class!</p>
@@ -1143,13 +1142,13 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
     </div>
     <div class="topic-body">
       <div class="topic-text">
-        <p style="font-size:11.5px;color:#888;font-style:italic">Contexto: un vecino auxiliar de conversación necesita un resumen oral en inglés de una guía sobre acoso escolar.</p>
-        <div style="background:#fef3e2;padding:10px 12px;border-radius:8px;border-left:3px solid #d97706;margin:10px 0">
+        <p class="no-tts" style="font-size:11.5px;color:#888;font-style:italic">Contexto: un vecino auxiliar de conversación necesita un resumen oral en inglés de una guía sobre acoso escolar.</p>
+        <div class="no-tts" style="background:#fef3e2;padding:10px 12px;border-radius:8px;border-left:3px solid #d97706;margin:10px 0">
           <div style="font-size:10.5px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px">📄 Texto fuente (español)</div>
           <p style="font-size:12.5px;color:#444;line-height:1.55">ACCIONES PARA PREVENIR EL ACOSO ESCOLAR — 4 pasos:</p>
           <p style="font-size:12px;color:#555;line-height:1.55"><b>01. ENTENDER:</b> ver las cosas desde su perspectiva, sin demonizar a nadie. Comunicación y respeto. · <b>02. CONECTAR:</b> participar de su realidad como espectadores, tratarles con la misma dignidad que un adulto, respetarles. · <b>03. PREVENIR:</b> estar pendiente de las señales y saber detectarlas. · <b>04. ACTUAR:</b> no entrar en pánico, buscar soluciones eficaces, confiar en el profesorado y profesionales especializados.</p>
         </div>
-        <div style="font-size:10.5px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 5px">🗣️ Modelo de mediación oral (inglés)</div>
+        <div class="no-tts" style="font-size:10.5px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 5px">🗣️ Modelo de mediación oral (inglés)</div>
         <p>Hi! I found a guide on preventing school bullying that might work for your conversation class. <b>It outlines four key actions</b> parents and teachers can take.</p>
         <p><b>First, understand</b> the children — see things from their perspective without demonising anyone. Communication and respect are essential. <b>Second, connect</b> with them naturally. Take part in their world as observers, treat them with the same dignity you would an adult, and respect their boundaries.</p>
         <p><b>Third, prevent</b> by being aware of warning signs and learning to spot them early. The guide gives some useful clues for that. <b>And fourth, act</b> — not by panicking, but by looking for effective solutions and trusting professionals like teachers and school counsellors.</p>
@@ -1177,11 +1176,11 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 <!-- Comodines speaking -->
 <div class="card"><div class="lbl">Comodines — funcionan en cualquier topic</div>
 <div class="ph">In my opinion, this is a topic that affects all of us in different ways.<span class="tr">Arranque universal — siempre funciona</span></div>
-<div class="ph">From my own experience, I have found that...<span class="tr">Conecta cualquier argumento con tu vida</span></div>
-<div class="ph">I think it depends on the person and their circumstances.<span class="tr">Cuando no tienes posición clara — gana tiempo</span></div>
+<div class="ph">From my own experience, I have found that...<span class="tr">Conexión con experiencia personal</span></div>
+<div class="ph">I think it depends on the person and their circumstances.<span class="tr">Para ganar tiempo cuando no hay posición clara</span></div>
 <div class="ph">Another important aspect that is often overlooked is...<span class="tr">Para introducir el 2º punto</span></div>
-<div class="ph">I am convinced that the choices we make every day shape who we are and the world we live in.<span class="tr">Cierre universal — funciona para cerrar cualquier topic</span></div>
-<div class="ph">That is a very interesting question. Let me think for a moment.<span class="tr">Para preguntas del examinador — nunca digas "mmm"</span></div>
+<div class="ph">I am convinced that the choices we make every day shape who we are and the world we live in.<span class="tr">Cierre universal — válido para cualquier topic</span></div>
+<div class="ph">That is a very interesting question. Let me think for a moment.<span class="tr">Para preguntas del examinador — alternativa al "mmm"</span></div>
 </div>
 
 </div><!-- end speaking -->
@@ -1231,7 +1230,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 <div class="ac" id="wa3">
 <div class="ac-h" onclick="ac('wa3')"><span class="title"><span class="pill pg">Blog/Post</span> Registro informal — autobiográfico</span><span class="ic">+</span></div>
 <div class="ac-b">
-<p style="font-size:12px;color:#888;margin-bottom:8px">Tarea 1 habitual: escribe sobre tu infancia, logros y planes futuros. ~130 palabras. Contracciones OK.</p>
+<p style="font-size:12px;color:#888;margin-bottom:8px">Tarea 1 habitual: infancia, logros y planes futuros. ~130 palabras. Contracciones OK.</p>
 <div class="essay-text">
 <p>Hi everyone! My name is Diego and I'm an architect from Murcia, Spain. I'm also a father of three and a musician — yes, all at once!</p>
 <p>When I was younger, I <b>used to</b> <span class="gt gut">UT</span> spend hours drawing and dreaming about buildings. I <b>would</b> <span class="gt gut">UT</span> cycle around my neighbourhood imagining what I'd redesign. I always dreamed of having a creative life, but I never thought I'd end up writing songs too.</p>
@@ -1245,7 +1244,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 <div class="ac-b">
 <p style="font-size:12px;color:#888;margin-bottom:8px">Recibes un artículo y lo resumes en un email informal. El error más frecuente: copiar frases del texto. <b>Siempre parafrasea.</b></p>
 <div class="tpl-line"><div class="tpl-lbl">Apertura</div><div class="tpl-txt">Hey [nombre]! How are you? I just read something really interesting and thought of you straight away.</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Introducir tema</div><div class="tpl-txt">The article is about [tema en tus propias palabras]. <b>Apparently,</b> [punto principal 1]. <b>According to what I read,</b> [punto 2].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Introducir tema</div><div class="tpl-txt">The article is about [tema en palabras propias]. <b>Apparently,</b> [punto principal 1]. <b>According to what I read,</b> [punto 2].</div></div>
 <div class="tpl-line"><div class="tpl-lbl">Punto más relevante</div><div class="tpl-txt"><b>What I found most interesting is that</b> [dato]. <b>It also mentions that</b> [dato secundario].</div></div>
 <div class="tpl-line"><div class="tpl-lbl">Opinión + cierre</div><div class="tpl-txt">I think this is [great/surprising/worrying] because [razón breve]. <b>Let me know what you think!</b> Speak soon, Diego</div></div>
 <div class="bw">NUNCA: "The text says that..." / "In the article it is written..."<br>SÍ: "Apparently..." / "It seems that..." / "According to what I read..."</div>
@@ -1392,7 +1391,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 <p><b>I learned that</b> multitasking is actually a myth and that our brain works by switching tasks rather than doing them at the same time. <b>The video helped me understand</b> that this habit can lead to more mistakes and physical stress.</p>
 <p><b>I can relate this to my daily life because</b> I often use my phone while doing other tasks. <b>After watching the video, I think it is better to</b> focus on one activity at a time, especially when something is important.</p>
 </div>
-<div class="bg" style="margin-top:10px">Resumen breve, perfecto cuando te dan poco material y te piden conexión personal.</div>
+<div class="bg" style="margin-top:10px">Resumen breve · ideal con poco material de partida y conexión personal solicitada.</div>
 </div></div>
 
 <div class="card"><div class="lbl">Checklist antes de entregar</div>
@@ -1413,7 +1412,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 <div class="ac" id="ra1">
 <div class="ac-h" onclick="ac('ra1')"><span class="title"><span class="pill pb">Tarea 1</span> True / False — 8 frases · 8 pts</span><span class="ic">+</span></div>
 <div class="ac-b">
-<p><b>Qué es:</b> 8 frases sobre un texto. Decides TRUE o FALSE según el texto. No uses tu conocimiento general.</p>
+<p><b>Qué es:</b> 8 frases sobre un texto. La respuesta TRUE o FALSE depende exclusivamente del texto, no del conocimiento general.</p>
 <div class="bg"><b>Regla de oro:</b> La respuesta SIEMPRE está en el texto. Si no encuentras la frase correspondiente, busca más.</div>
 <p><b>El proceso (3 pasos):</b></p>
 <ul>
@@ -1444,7 +1443,7 @@ Tarea: "Basil was recorded with his face covered under a black cap." → <b>FALS
 <p><b>El proceso:</b></p>
 <ul>
 <li>Lee SOLO la primera y última frase de cada párrafo</li>
-<li>Formula en tu cabeza la idea central en 2-3 palabras</li>
+<li>Formular mentalmente la idea central en 2-3 palabras</li>
 <li>Busca el título que expresa ESA IDEA (estará parafraseado)</li>
 <li>Los distractores mencionan algo del párrafo pero no el tema principal</li>
 </ul>
@@ -1594,15 +1593,15 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 
 <!-- ========== LISTENING ========== -->
 <div class="page" id="page-list">
-<div class="intro"><b>7 audios reales · práctica completa</b><br>Para cada audio: escúchalo dos veces (el contador te lo lleva), y luego elige modo: leer la transcripción con palabras difíciles traducidas, rellenar huecos al dictado, o contestar preguntas estilo examen.</div>
+<div class="intro"><b>7 audios reales · práctica completa</b><br>Cada audio se escucha dos veces (el contador lo registra). Tres modos disponibles: leer la transcripción con palabras difíciles traducidas, rellenar huecos al dictado, o contestar preguntas estilo examen.</div>
 
 <div class="card"><div class="lbl">Reglas de oro del listening</div>
 <ul style="font-size:13px;line-height:1.85">
-<li><b>LEE</b> las preguntas <b>antes</b> de escuchar — siempre.</li>
-<li>El audio <b>parafrasea</b>: no esperes las palabras exactas.</li>
-<li>1ª escucha → marca tu mejor opción. 2ª → confirma o cambia.</li>
+<li><b>Lectura previa</b> de las preguntas antes de escuchar — siempre.</li>
+<li>El audio <b>parafrasea</b>: las palabras exactas no se repiten.</li>
+<li>1ª escucha → marcar la mejor opción. 2ª → confirmar o cambiar.</li>
 <li>Las preguntas van en <b>orden cronológico</b> dentro del audio.</li>
-<li>Nunca dejes en blanco — siempre arriésgate.</li>
+<li>Nunca dejar en blanco — siempre intentar.</li>
 </ul></div>
 
 <div id="listening-container"></div>
@@ -2053,6 +2052,8 @@ let _ttsRate = parseFloat(localStorage.getItem('tts-rate')||'0.95');
 function ttsCleanText(srcEl){
  // Clone the element so we can mutate without affecting the page
  const clone=srcEl.cloneNode(true);
+ // 0. Remove anything explicitly marked as no-tts (Spanish context, source boxes, language-mixed labels)
+ clone.querySelectorAll('.no-tts').forEach(el=>el.remove());
  // 1. Remove grammar tag chips (2C, 3CI, PASS, NOBA, REL, UNL, CONC, WISH, PP, UT)
  clone.querySelectorAll('.gt').forEach(el=>el.remove());
  // 2. Replace .hw spans with plain text (avoids the CSS ::after "(traducción)" being included)
@@ -2072,7 +2073,7 @@ function ttsCleanText(srcEl){
 
 function ttsToggle(btn){
  const synth=window.speechSynthesis;
- if(!synth){alert('Tu navegador no soporta lectura por voz.');return;}
+ if(!synth){alert('Este navegador no soporta lectura por voz.');return;}
  if(btn.classList.contains('playing')){synth.cancel();return;} // onend will reset
  // Stop any other currently playing
  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
