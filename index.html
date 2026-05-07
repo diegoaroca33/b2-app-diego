@@ -265,6 +265,9 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .tts-rate{font-size:11px;background:#f4f4f2;border:1px solid #e5e5e0;border-radius:6px;padding:5px 9px;cursor:pointer;color:#555;font-weight:600}
 .tts-rate:hover{background:#e5e5e0}
 .tts-rate.on{background:#1a56b0;color:#fff;border-color:#1a56b0}
+.tts-gender{font-size:13px;background:#f4f4f2;border:1px solid #e5e5e0;border-radius:6px;padding:4px 9px;cursor:pointer;color:#555;font-weight:600;line-height:1.3}
+.tts-gender:hover{background:#e5e5e0}
+.tts-gender.on{background:#7c3aed;color:#fff;border-color:#7c3aed}
 </style>
 </head>
 <body>
@@ -2047,6 +2050,14 @@ function checkCloze(id){
 
 // ===== TTS (Text-to-Speech) for writing/speaking texts =====
 let _ttsRate = parseFloat(localStorage.getItem('tts-rate')||'0.95');
+let _ttsGender = localStorage.getItem('tts-gender')||''; // '' = auto, 'm' = male, 'f' = female
+const _F_HINTS=/female|woman|girl|samantha|karen|moira|tessa|kate|serena|susan|allison|veena|fiona|victoria|monica|paulina|amelie|joana|zira|linda|hazel|catherine|emily/i;
+const _M_HINTS=/\bmale\b|\bman\b|\bboy\b|daniel|alex|tom|fred|bruce|aaron|rishi|reed|albert|ralph|martin|david|george|james|mark|oliver|harry|stephen|paul|john|guy|brian/i;
+function _loadVoices(){const s=window.speechSynthesis;if(!s)return [];return s.getVoices().filter(v=>v.lang&&v.lang.toLowerCase().startsWith('en')).sort((a,b)=>{const aw=a.lang==='en-GB'?0:a.lang==='en-US'?1:2;const bw=b.lang==='en-GB'?0:b.lang==='en-US'?1:2;return aw-bw;});}
+function _pickVoice(){if(!_ttsGender)return null;const vs=_loadVoices();if(!vs.length)return null;const re=_ttsGender==='m'?_M_HINTS:_F_HINTS;return vs.find(v=>re.test(v.name))||null;}
+function ttsSetGender(btn,g){_ttsGender=(g===_ttsGender?'':g);try{localStorage.setItem('tts-gender',_ttsGender);}catch(e){}document.querySelectorAll('.tts-gender').forEach(b=>{b.classList.toggle('on',b.dataset.g===_ttsGender);});const playing=document.querySelector('.tts-btn.playing');if(playing){window.speechSynthesis.cancel();setTimeout(()=>ttsToggle(playing),100);}}
+// Trigger voice loading (some browsers populate asynchronously)
+if(window.speechSynthesis){window.speechSynthesis.getVoices();window.speechSynthesis.addEventListener('voiceschanged',()=>{});}
 function ttsCleanText(srcEl){
  // Clone the element so we can mutate without affecting the page
  const clone=srcEl.cloneNode(true);
@@ -2094,6 +2105,7 @@ function ttsToggle(btn){
  u.lang='en-GB';
  u.rate=_ttsRate;
  u.pitch=1;
+ const v=_pickVoice();if(v)u.voice=v;
  const reset=()=>{btn.classList.remove('playing');btn.textContent='🔊';};
  u.onend=reset; u.onerror=reset;
  synth.speak(u);
@@ -2122,13 +2134,19 @@ function initTTS(){
    <span class="tts-lbl">Escuchar texto</span>
    <button class="tts-rate" data-r="0.75" onclick="ttsSetRate(this,0.75)">Lento</button>
    <button class="tts-rate" data-r="0.95" onclick="ttsSetRate(this,0.95)">Normal</button>
-   <button class="tts-rate" data-r="1.15" onclick="ttsSetRate(this,1.15)">Rápido</button>`;
+   <button class="tts-rate" data-r="1.15" onclick="ttsSetRate(this,1.15)">Rápido</button>
+   <button class="tts-gender" data-g="f" onclick="ttsSetGender(this,'f')" title="Voz femenina">♀</button>
+   <button class="tts-gender" data-g="m" onclick="ttsSetGender(this,'m')" title="Voz masculina">♂</button>`;
   el.parentElement.insertBefore(bar,el);
  });
  // Mark current rate as on
  document.querySelectorAll('.tts-rate').forEach(b=>{
   const r=parseFloat(b.dataset.r);
   b.classList.toggle('on',Math.abs(r-_ttsRate)<0.02);
+ });
+ // Mark current gender as on
+ document.querySelectorAll('.tts-gender').forEach(b=>{
+  b.classList.toggle('on',b.dataset.g===_ttsGender);
  });
 }
 
@@ -2255,7 +2273,6 @@ const TURBO_PLAYLIST=[
  {kind:'topic',tab:'speak',find:'Science and Technology',label:'❤️ Topic 14 — Science and Technology'},
  {kind:'topic',tab:'speak',find:'Welcome to Holland',label:'❤️ Welcome to Holland'},
  {kind:'topic',tab:'speak',find:'Badminton — My Favourite Sport',label:'Badminton — Topic 4'},
- {kind:'ag',tab:'read',id:'rex1',label:'❤️ Reading T/F — Hatton Garden Heist'},
  {kind:'ac',tab:'writ',id:'wa1',label:'❤️ Essay Cooking at home (plantilla)'},
  {kind:'ac',tab:'writ',id:'wm5',label:'Letter Application volunteer'},
  {kind:'ac',tab:'writ',id:'wm7',label:'Mediación Multitask'},
@@ -2400,6 +2417,7 @@ function turboLocateAndPlay(item){
   u.lang='en-GB';
   u.rate=_ttsRate;
   u.pitch=1;
+  const v2=_pickVoice();if(v2)u.voice=v2;
   const btn=ttsBar.querySelector('.tts-btn');
   if(btn){btn.classList.add('playing');btn.textContent='⏹';}
   turboState.currentBtn=btn;
