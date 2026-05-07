@@ -2301,39 +2301,51 @@ const TURBO_PLAYLIST=[
  {kind:'ac',tab:'writ',id:'wm6',label:'Mediación Life in the city'},
 ];
 
-let turboState={idx:0,paused:false,active:false,currentBtn:null,currentUtter:null};
+let turboState={idx:0,paused:false,active:false,currentBtn:null,currentUtter:null,gen:0};
+
+// Increment generation counter — invalidates any pending async callbacks (setTimeout, onend)
+function _turboBump(){turboState.gen++;return turboState.gen;}
+function _turboReset(){
+ if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
+ turboState.currentBtn=null;
+ turboState.currentUtter=null;
+ // Detach onend so cancelled utterance doesn't trigger advance
+ try{
+  const all=window.speechSynthesis ? null : null; // no-op placeholder
+ }catch(e){}
+}
 
 function turboStart(){
- // Stop any current TTS
  if(window.speechSynthesis)window.speechSynthesis.cancel();
  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
- turboState={idx:0,paused:false,active:true,currentBtn:null,currentUtter:null};
+ turboState={idx:0,paused:false,active:true,currentBtn:null,currentUtter:null,gen:0};
  document.getElementById('turbo-bar').classList.add('show');
  document.getElementById('turbo-play-btn').textContent='⏸';
  turboPlay();
 }
 
 function turboStop(){
+ _turboBump();
  try{window.speechSynthesis.cancel();}catch(e){}
- if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
+ _turboReset();
  turboState.active=false;
- turboState.currentUtter=null;
- turboState.currentBtn=null;
  document.getElementById('turbo-bar').classList.remove('show');
 }
 
 function turboNext(){
  if(!turboState.active)return;
+ _turboBump();
  try{window.speechSynthesis.cancel();}catch(e){}
- if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
+ _turboReset();
  turboState.idx++;
  if(!turboState.paused)turboPlay();
 }
 
 function turboPrev(){
  if(!turboState.active)return;
+ _turboBump();
  try{window.speechSynthesis.cancel();}catch(e){}
- if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
+ _turboReset();
  turboState.idx=Math.max(0,turboState.idx-1);
  if(!turboState.paused)turboPlay();
 }
@@ -2342,14 +2354,12 @@ function turboPauseToggle(){
  if(!turboState.active)return;
  const btn=document.getElementById('turbo-play-btn');
  if(turboState.paused){
-  // Resume
   turboState.paused=false;
   btn.textContent='⏸';btn.title='Pausa';btn.classList.remove('play');
   try{window.speechSynthesis.resume();}catch(e){}
-  // If nothing is speaking (browser cancelled), restart current item
-  setTimeout(()=>{if(turboState.active && !turboState.paused && !window.speechSynthesis.speaking)turboPlay();},150);
+  // If browser actually cancelled instead of pausing, restart current item
+  setTimeout(()=>{if(turboState.active && !turboState.paused && !window.speechSynthesis.speaking)turboPlay();},200);
  } else {
-  // Pause
   turboState.paused=true;
   btn.textContent='▶️';btn.title='Reanudar';btn.classList.add('play');
   try{window.speechSynthesis.pause();}catch(e){}
@@ -2358,22 +2368,23 @@ function turboPauseToggle(){
 
 function turboPlay(){
  if(!turboState.active)return;
+ const myGen=_turboBump(); // capture gen for this play call
  if(turboState.idx>=TURBO_PLAYLIST.length){
   document.getElementById('turbo-title').textContent='✓ Repaso completado';
   document.getElementById('turbo-progress').textContent=TURBO_PLAYLIST.length+' / '+TURBO_PLAYLIST.length;
-  setTimeout(()=>turboStop(),3000);
+  setTimeout(()=>{if(myGen===turboState.gen)turboStop();},3000);
   return;
  }
+ if(turboState.idx<0)turboState.idx=0;
  const item=TURBO_PLAYLIST[turboState.idx];
  document.getElementById('turbo-title').textContent=item.label;
  document.getElementById('turbo-progress').textContent=(turboState.idx+1)+' / '+TURBO_PLAYLIST.length;
- // Switch tab
  goTab(item.tab);
- // Wait for tab content + initTTS, then locate
- setTimeout(()=>turboLocateAndPlay(item),400);
+ setTimeout(()=>{if(myGen===turboState.gen)turboLocateAndPlay(item,myGen);},400);
 }
 
-function turboLocateAndPlay(item){
+function turboLocateAndPlay(item,myGen){
+ if(myGen!==turboState.gen)return; // stale
  if(!turboState.active)return;
  let container=null;
  if(item.kind==='ac'){
@@ -2394,22 +2405,24 @@ function turboLocateAndPlay(item){
    }
   }
  }
- if(!container){console.warn('Turbo: not found',item);setTimeout(()=>{turboState.idx++;turboPlay();},300);return;}
- // Smooth scroll into view
+ if(!container){
+  console.warn('Turbo: not found',item);
+  setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);
+  return;
+ }
  container.scrollIntoView({behavior:'smooth',block:'start'});
- // Wait for scroll + open animation, then start TTS
  setTimeout(()=>{
+  if(myGen!==turboState.gen)return; // stale
   if(!turboState.active||turboState.paused)return;
-  // Find the TTS bar inside this container
   const ttsBar=container.querySelector('.tts-bar');
-  if(!ttsBar){console.warn('Turbo: no tts-bar',item);setTimeout(()=>{turboState.idx++;turboPlay();},300);return;}
+  if(!ttsBar){console.warn('Turbo: no tts-bar',item);setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;}
   const txtEl=ttsBar.nextElementSibling;
   if(!txtEl||(!txtEl.classList.contains('essay-text')&&!txtEl.classList.contains('topic-text'))){
    console.warn('Turbo: text element missing',item);
-   setTimeout(()=>{turboState.idx++;turboPlay();},300);return;
+   setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;
   }
   const text=ttsCleanText(txtEl);
-  if(!text){console.warn('Turbo: empty text',item);setTimeout(()=>{turboState.idx++;turboPlay();},300);return;}
+  if(!text){console.warn('Turbo: empty text',item);setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;}
   const synth=window.speechSynthesis;
   synth.cancel();
   document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
@@ -2422,10 +2435,12 @@ function turboLocateAndPlay(item){
   if(btn){btn.classList.add('playing');btn.textContent='⏹';}
   turboState.currentBtn=btn;
   u.onend=()=>{
+   // Check stale BEFORE doing anything
+   if(myGen!==turboState.gen)return;
    if(btn){btn.classList.remove('playing');btn.textContent='🔊';}
    turboState.currentUtter=null;turboState.currentBtn=null;
    if(turboState.active && !turboState.paused){
-    setTimeout(()=>{turboState.idx++;turboPlay();},800);
+    setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},800);
    }
   };
   u.onerror=u.onend;
