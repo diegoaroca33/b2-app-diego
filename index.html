@@ -316,6 +316,8 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .frase-play.playing{background:#dc2626}
 .frase-row{display:flex;gap:10px;align-items:flex-start;padding:9px 15px;border-top:1px solid #f0f0ee;font-size:13px;line-height:1.55}
 .frase-row.current{background:#fef9c3;border-left:3px solid #f59e0b}
+/* Parrafo actual durante TTS — highlight + auto-scroll */
+.tts-current{background:rgba(245,158,11,.10);border-left:3px solid #f59e0b;padding-left:9px;margin-left:-12px;border-radius:0 4px 4px 0;transition:background .3s ease}
 .frase-topic{font-size:11px;color:#999;font-weight:600;flex-shrink:0;width:90px}
 .frase-text{flex:1;color:#1a1a1a;font-weight:600}
 .frase-text b.frase-key{color:#16a34a;font-weight:800;background:#dcfce7;padding:1px 5px;border-radius:4px}
@@ -3038,7 +3040,9 @@ function go(id,btn){
   if(id==='writ'||id==='speak'||id==='c1'||id==='frases')initTTS();
   // Stop any audio TTS when switching tabs
   if(window.speechSynthesis)window.speechSynthesis.cancel();
+  if(typeof _ttsCurrentSession!=='undefined' && _ttsCurrentSession){_ttsCurrentSession.cancel();_ttsCurrentSession=null;}
   document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
+  document.querySelectorAll('.tts-current').forEach(el=>el.classList.remove('tts-current'));
 }
 
 // Helper: open a tab from an inline button (Plan CTAs)
@@ -3505,6 +3509,53 @@ function _speakChunked(text, opts, onAllEnd){
  return { cancel: () => { cancelled = true; try{synth.cancel();}catch(e){} } };
 }
 
+// Speak an element with paragraph-level highlight + auto-scroll.
+// Walks each <p> inside srcEl, scrolls it into view, highlights with .tts-current,
+// then chunked-speaks its text. Returns { cancel } controller.
+function _speakElement(srcEl, opts, onAllEnd){
+ opts = opts || {};
+ // Collect paragraphs with their cleaned text
+ const paras = [];
+ srcEl.querySelectorAll('p').forEach(p => {
+  if (p.closest('.no-tts')) return;
+  const clone = p.cloneNode(true);
+  clone.querySelectorAll('.gt, .no-tts').forEach(el => el.remove());
+  clone.querySelectorAll('.hw').forEach(el => el.replaceWith(document.createTextNode(el.textContent)));
+  let text = clone.innerText
+   .replace(/(^|\n)\s*(Intro|Body\s*\d+|Concession|Conclusion|Apertura|Motivo|Experiencia|Idoneidad|Cierre|Current Situation|Issues Identified|Recommendations|Punto más relevante|Opinión \+ cierre|Introducir tema)\s*:\s*/gi, '$1')
+   .replace(/\b(2C|3CI?|PASS|NOBA|REL|UNL|CONC|WISH|PP|UT)\b/g, '')
+   .replace(/\s+/g, ' ').trim();
+  if (text) paras.push({ text, el: p });
+ });
+ // Fallback: no paragraphs found → use entire element as single chunk
+ if (paras.length === 0){
+  return _speakChunked(ttsCleanText(srcEl), opts, onAllEnd);
+ }
+ const clearHl = () => document.querySelectorAll('.tts-current').forEach(el => el.classList.remove('tts-current'));
+ let i = 0;
+ let sub = null;
+ let cancelled = false;
+ const speakNextPara = () => {
+  if (cancelled) return;
+  if (i >= paras.length){ clearHl(); if (onAllEnd) onAllEnd(); return; }
+  const item = paras[i];
+  clearHl();
+  item.el.classList.add('tts-current');
+  try { item.el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){}
+  // Speak this paragraph (may be chunked internally if long)
+  sub = _speakChunked(item.text, opts, () => { i++; speakNextPara(); });
+ };
+ speakNextPara();
+ return {
+  cancel: () => {
+   cancelled = true;
+   if (sub) sub.cancel();
+   try { window.speechSynthesis.cancel(); } catch(e){}
+   clearHl();
+  }
+ };
+}
+
 let _ttsCurrentSession = null;
 
 function ttsToggle(btn){
@@ -3532,12 +3583,13 @@ function ttsToggle(btn){
   }
  }
  if(!txtEl){alert('No encuentro texto que leer aquí.');return;}
- const text=ttsCleanText(txtEl);
- if(!text){alert('El texto está vacío.');return;}
+ // Quick empty check (full text extraction also handled inside _speakElement)
+ const previewText=ttsCleanText(txtEl);
+ if(!previewText){alert('El texto está vacío.');return;}
  const v=_pickVoice();
  btn.classList.add('playing');
  btn.textContent='⏹';
- _ttsCurrentSession = _speakChunked(text, {lang:'en-GB', rate:_ttsRate, voice:v}, () => {
+ _ttsCurrentSession = _speakElement(txtEl, {lang:'en-GB', rate:_ttsRate, voice:v}, () => {
   btn.classList.remove('playing');btn.textContent='🔊';
   _ttsCurrentSession = null;
  });
@@ -3835,8 +3887,8 @@ function turboLocateAndPlay(item,myGen){
    console.warn('Turbo: text element missing',item);
    setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;
   }
-  const text=ttsCleanText(txtEl);
-  if(!text){console.warn('Turbo: empty text',item);setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;}
+  const previewText=ttsCleanText(txtEl);
+  if(!previewText){console.warn('Turbo: empty text',item);setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;}
   const synth=window.speechSynthesis;
   synth.cancel();
   document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
@@ -3844,9 +3896,8 @@ function turboLocateAndPlay(item,myGen){
   const btn=ttsBar.querySelector('.tts-btn');
   if(btn){btn.classList.add('playing');btn.textContent='⏹';}
   turboState.currentBtn=btn;
-  // Chunked playback (avoids Chrome long-text silent failure for items like Monólogo Global)
-  turboState.currentSession = _speakChunked(text, {lang:'en-GB', rate:_ttsRate, voice:v2}, () => {
-   // All chunks finished
+  // Paragraph-level scroll + chunked playback (highlights + auto-scrolls each <p> as it's read)
+  turboState.currentSession = _speakElement(txtEl, {lang:'en-GB', rate:_ttsRate, voice:v2}, () => {
    if(myGen!==turboState.gen)return;
    if(btn){btn.classList.remove('playing');btn.textContent='🔊';}
    turboState.currentSession=null;turboState.currentBtn=null;
