@@ -3456,33 +3456,50 @@ function ttsCleanText(srcEl){
 function _splitForTTS(text, maxLen){
  maxLen = maxLen || 220;
  const out = [];
- // Split on sentence enders, keeping punctuation
  const sentences = text.split(/(?<=[.!?])\s+/);
- let cur = '';
  for (const s of sentences){
-  if (cur && (cur.length + 1 + s.length) > maxLen){
-   out.push(cur);
-   cur = s;
+  if (!s) continue;
+  if (s.length <= maxLen){
+   // Try to append to previous chunk if it fits
+   if (out.length > 0 && (out[out.length-1].length + 1 + s.length) <= maxLen){
+    out[out.length-1] += ' ' + s;
+   } else {
+    out.push(s);
+   }
   } else {
-   cur = cur ? cur + ' ' + s : s;
-  }
-  // If a single sentence is itself too long, break it on commas
-  if (cur.length > maxLen * 1.5){
-   const subs = cur.split(/,\s+/);
-   let sub = '';
-   for (const ss of subs){
-    if (sub && (sub.length + 2 + ss.length) > maxLen){
-     out.push(sub);
-     sub = ss;
+   // Sentence too long: split on commas
+   const parts = s.split(/,\s+/);
+   let cur = '';
+   for (const p of parts){
+    if (cur && (cur.length + 2 + p.length) > maxLen){
+     out.push(cur);
+     cur = p;
     } else {
-     sub = sub ? sub + ', ' + ss : ss;
+     cur = cur ? cur + ', ' + p : p;
     }
    }
-   cur = sub;
+   if (cur) out.push(cur);
   }
  }
- if (cur) out.push(cur);
  return out;
+}
+
+// Chrome keep-alive: speechSynthesis silently dies after ~15s without pause/resume cycle.
+// We pulse pause+resume every 10s while any TTS is active to keep the engine alive.
+let _ttsKeepAliveTimer = null;
+function _ttsKeepAliveStart(){
+ if (_ttsKeepAliveTimer) return;
+ _ttsKeepAliveTimer = setInterval(() => {
+  try {
+   if (window.speechSynthesis.speaking && !window.speechSynthesis.paused){
+    window.speechSynthesis.pause();
+    window.speechSynthesis.resume();
+   }
+  } catch(e){}
+ }, 10000);
+}
+function _ttsKeepAliveStop(){
+ if (_ttsKeepAliveTimer){ clearInterval(_ttsKeepAliveTimer); _ttsKeepAliveTimer = null; }
 }
 
 // Speak long text by chunking. Returns { cancel } controller.
@@ -3493,20 +3510,42 @@ function _speakChunked(text, opts, onAllEnd){
  const chunks = _splitForTTS(text);
  let i = 0;
  let cancelled = false;
+ let endedFlag = false;  // guard so onAllEnd fires at most once
+ const finishAll = () => {
+  if (endedFlag) return;
+  endedFlag = true;
+  _ttsKeepAliveStop();
+  if (onAllEnd) onAllEnd();
+ };
  const speakNext = () => {
-  if (cancelled) return;
-  if (i >= chunks.length){ if (onAllEnd) onAllEnd(); return; }
+  if (cancelled || endedFlag) return;
+  if (i >= chunks.length){ finishAll(); return; }
   const u = new SpeechSynthesisUtterance(chunks[i]);
   u.lang = opts.lang || 'en-GB';
   u.rate = opts.rate || _ttsRate;
   u.pitch = 1;
   if (opts.voice) u.voice = opts.voice;
-  u.onend = () => { i++; speakNext(); };
-  u.onerror = u.onend;
+  let fired = false;  // per-utterance double-fire guard
+  const advance = () => {
+   if (fired) return;
+   fired = true;
+   if (cancelled || endedFlag) return;
+   i++;
+   speakNext();
+  };
+  u.onend = advance;
+  u.onerror = advance;
   synth.speak(u);
  };
+ _ttsKeepAliveStart();
  speakNext();
- return { cancel: () => { cancelled = true; try{synth.cancel();}catch(e){} } };
+ return { cancel: () => {
+  if (cancelled) return;
+  cancelled = true;
+  endedFlag = true;
+  _ttsKeepAliveStop();
+  try{synth.cancel();}catch(e){}
+ } };
 }
 
 // Speak an element with paragraph-level highlight + auto-scroll.
@@ -3535,20 +3574,36 @@ function _speakElement(srcEl, opts, onAllEnd){
  let i = 0;
  let sub = null;
  let cancelled = false;
+ let endedFlag = false;
+ const finishAll = () => {
+  if (endedFlag) return;
+  endedFlag = true;
+  clearHl();
+  if (onAllEnd) onAllEnd();
+ };
  const speakNextPara = () => {
-  if (cancelled) return;
-  if (i >= paras.length){ clearHl(); if (onAllEnd) onAllEnd(); return; }
+  if (cancelled || endedFlag) return;
+  if (i >= paras.length){ finishAll(); return; }
   const item = paras[i];
   clearHl();
   item.el.classList.add('tts-current');
   try { item.el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){}
-  // Speak this paragraph (may be chunked internally if long)
-  sub = _speakChunked(item.text, opts, () => { i++; speakNextPara(); });
+  // Per-paragraph double-fire guard
+  let paraFired = false;
+  sub = _speakChunked(item.text, opts, () => {
+   if (paraFired) return;
+   paraFired = true;
+   if (cancelled || endedFlag) return;
+   i++;
+   speakNextPara();
+  });
  };
  speakNextPara();
  return {
   cancel: () => {
+   if (cancelled) return;
    cancelled = true;
+   endedFlag = true;
    if (sub) sub.cancel();
    try { window.speechSynthesis.cancel(); } catch(e){}
    clearHl();
