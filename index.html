@@ -3467,53 +3467,73 @@ function _ttsKeepAliveStop(){
 }
 
 // Speak long text by chunking. Returns { cancel } controller.
-// STRATEGY: queue ALL chunks at once via synth.speak() and let the engine handle the sequence.
-// Then only listen to the LAST utterance's onend. This avoids JS-level chunk transitions which
-// fail unreliably on mobile browsers (the engine handles inter-chunk flow internally).
-// A single watchdog covers the entire paragraph as safety net.
+// STRATEGY: ONE chunk at a time. Use both onend AND polling monitor to detect chunk completion
+// because mobile browsers (Android Chrome, Samsung Internet) sometimes drop onend events AND
+// silently drop queued utterances. Polling synth.speaking detects engine idle reliably.
 function _speakChunked(text, opts, onAllEnd){
  opts = opts || {};
  const synth = window.speechSynthesis;
  const chunks = _splitForTTS(text);
+ let i = 0;
  let cancelled = false;
  let endedFlag = false;
+ let monitor = null;
  let watchdog = null;
+
+ const stopMonitor = () => { if (monitor){ clearInterval(monitor); monitor = null; } };
+ const stopWatchdog = () => { if (watchdog){ clearTimeout(watchdog); watchdog = null; } };
 
  const finishAll = () => {
   if (endedFlag) return;
   endedFlag = true;
-  if (watchdog){ clearTimeout(watchdog); watchdog = null; }
+  stopMonitor();
+  stopWatchdog();
   _ttsKeepAliveStop();
   if (onAllEnd) onAllEnd();
  };
 
  if (chunks.length === 0){ finishAll(); return { cancel: () => {} }; }
 
- // Queue all chunks at once. Engine handles sequential playback internally.
- chunks.forEach((chunk, idx) => {
-  const u = new SpeechSynthesisUtterance(chunk);
+ const speakChunk = (idx) => {
+  if (cancelled || endedFlag) return;
+  if (idx >= chunks.length){ finishAll(); return; }
+  const u = new SpeechSynthesisUtterance(chunks[idx]);
   u.lang = opts.lang || 'en-GB';
   u.rate = opts.rate || _ttsRate;
   u.pitch = 1;
   if (opts.voice) u.voice = opts.voice;
-  if (idx === chunks.length - 1){
-   // Last chunk fires the paragraph-finished callback
-   let fired = false;
-   const finalEnd = () => {
-    if (fired) return;
-    fired = true;
-    finishAll();
-   };
-   u.onend = finalEnd;
-   u.onerror = finalEnd;
-  }
+  let advanced = false;
+  const advance = () => {
+   if (advanced) return;
+   advanced = true;
+   stopMonitor();
+   if (cancelled || endedFlag) return;
+   speakChunk(idx + 1);
+  };
+  u.onend = advance;
+  u.onerror = advance;
   synth.speak(u);
- });
+  // Polling monitor: detect when engine goes idle. Catches missed onend events
+  // (common on mobile). 300ms polling = max 300ms gap between chunks if onend missed.
+  let everStarted = false;
+  const startMs = Date.now();
+  monitor = setInterval(() => {
+   if (advanced || cancelled || endedFlag){ stopMonitor(); return; }
+   const active = synth.speaking || synth.pending;
+   if (active){ everStarted = true; return; }
+   // Engine idle. Advance only if we've seen it speaking (avoid premature advance
+   // before engine has had time to start). Also advance after 5s if it never started
+   // (engine refused the utterance — happens on mobile).
+   if (everStarted || Date.now() - startMs > 5000){
+    advance();
+   }
+  }, 300);
+ };
 
- // Single watchdog for the whole paragraph (safety net if engine silently dies).
+ // Watchdog for the whole paragraph (last-resort safety net).
  const totalChars = chunks.reduce((s, c) => s + c.length, 0);
  const expectedSec = totalChars / (12 * (opts.rate || _ttsRate));
- const watchdogMs = Math.max(expectedSec * 2000 + 15000, 30000);
+ const watchdogMs = Math.max(expectedSec * 2500 + 30000, 60000);
  watchdog = setTimeout(() => {
   if (endedFlag) return;
   try { synth.cancel(); } catch(e){}
@@ -3521,12 +3541,14 @@ function _speakChunked(text, opts, onAllEnd){
  }, watchdogMs);
 
  _ttsKeepAliveStart();
+ speakChunk(0);
 
  return { cancel: () => {
   if (cancelled) return;
   cancelled = true;
   endedFlag = true;
-  if (watchdog){ clearTimeout(watchdog); watchdog = null; }
+  stopMonitor();
+  stopWatchdog();
   _ttsKeepAliveStop();
   try{synth.cancel();}catch(e){}
  } };
