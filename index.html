@@ -171,6 +171,20 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .turbo-controls .stop:hover{background:#b91c1c}
 .turbo-controls .play{background:#16a34a}
 .turbo-controls .play:hover{background:#15803d}
+/* frases barra flotante (control playback de las 140 frases) */
+.frases-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#1a1a1a 0%,#102d10 100%);color:#fff;padding:12px 16px;display:none;justify-content:space-between;align-items:center;gap:10px;z-index:9998;box-shadow:0 -6px 24px rgba(0,0,0,.3);border-top:2px solid #16a34a}
+.frases-bar.show{display:flex}
+.frases-bar .fb-info{flex:1;min-width:0}
+.frases-bar .fb-title{font-size:13px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#fff}
+.frases-bar .fb-progress{font-size:11px;color:#86efac;margin-top:3px;font-weight:600;letter-spacing:.04em}
+.frases-bar .fb-controls{display:flex;gap:6px;flex-shrink:0}
+.frases-bar .fb-controls button{background:#333;color:#fff;border:none;width:42px;height:42px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.frases-bar .fb-controls button:hover{background:#555}
+.frases-bar .fb-controls button:active{transform:scale(.92)}
+.frases-bar .fb-controls .stop{background:#dc2626}
+.frases-bar .fb-controls .stop:hover{background:#b91c1c}
+.frases-bar .fb-controls .play{background:#16a34a}
+.frases-bar .fb-controls .play:hover{background:#15803d}
 /* favoritos / prioridades */
 .fav-card{background:linear-gradient(135deg,#fff1f2 0%,#fff7ed 100%);border:1px solid #fecdd3;border-left:4px solid #dc2626;border-radius:0 14px 14px 0;padding:13px 15px;margin-bottom:12px;position:relative}
 .fav-card .lbl{color:#b91c1c;font-size:11.5px;font-weight:800}
@@ -1550,7 +1564,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
   </div>
 <div class="frase-row" data-frase="If more people cared about personal identity, society would improve.">
   <span class="frase-topic">01 · Identity</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">personal identity, society would improve.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">personal identity, society</b> would <b class="frase-key">improve.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about affordable housing, life would be easier for many people.">
   <span class="frase-topic">02 · Housing</span>
@@ -1558,7 +1572,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="If more people cared about work-life balance, people would live better.">
   <span class="frase-topic">03 · Daily Life</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">work-life balance, people would live better.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">work-life balance, people</b> would <b class="frase-key">live better.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about free time, many people would feel less stressed.">
   <span class="frase-topic">04 · Free Time</span>
@@ -1566,43 +1580,43 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="If more people cared about travelling, they would understand other cultures better.">
   <span class="frase-topic">05 · Travel</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">travelling, they would understand other cultures better.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">travelling, they</b> would <b class="frase-key">understand other cultures better.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about communication, many conflicts would disappear.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">communication, many conflicts would disappear.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">communication, many conflicts</b> would <b class="frase-key">disappear.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about mental health, society would improve.">
   <span class="frase-topic">07 · Health</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">mental health,</b> society would improve.</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">mental health, society would improve.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about education, future generations would benefit.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">education, future generations would benefit.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">education, future generations</b> would <b class="frase-key">benefit.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about consumer habits, we would waste less money.">
   <span class="frase-topic">09 · Shopping</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">consumer habits, we would waste less money.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">consumer habits, we</b> would <b class="frase-key">waste less money.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about healthy food, people would have fewer health problems.">
   <span class="frase-topic">10 · Food</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">healthy food, people would have fewer health problems.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">healthy food, people</b> would <b class="frase-key">have fewer health problems.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about public transport, cities would be less polluted.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">public transport, cities would be less polluted.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">public transport, cities</b> would <b class="frase-key">be less polluted.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about language learning, communication would become easier.">
   <span class="frase-topic">12 · Language</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">language learning, communication would become easier.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">language learning, communication</b> would <b class="frase-key">become easier.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about the environment, future generations would live better.">
   <span class="frase-topic">13 · Environment</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">the environment, future generations would live better.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">the environment, future generations</b> would <b class="frase-key">live better.</b></span>
 </div>
 <div class="frase-row" data-frase="If more people cared about technology, they would use it more responsibly.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text">If more people cared about <b class="frase-key">technology, they would use it more responsibly.</b></span>
+  <span class="frase-text">If more people cared about <b class="frase-key">technology, they</b> would <b class="frase-key">use it more responsibly.</b></span>
 </div>
 </div>
 
@@ -1617,59 +1631,59 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
   </div>
 <div class="frase-row" data-frase="If I had not grown up between two cultures, I would never have understood what it means to belong.">
   <span class="frase-topic">01 · Identity</span>
-  <span class="frase-text">If I had not <b class="frase-key">grown up between two cultures, I would never have understood what it means to belong.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">grown up between two cultures</b>, I would never have <b class="frase-key">understood what it means to belong.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not experienced renting with three children, I would never have understood how stressful it can be.">
   <span class="frase-topic">02 · Housing</span>
-  <span class="frase-text">If I had not <b class="frase-key">experienced renting with three children, I would never have understood how stressful it can be.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">experienced renting with three children</b>, I would never have <b class="frase-key">understood how stressful it can be.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not experienced burnout, I would never have learned to protect my time.">
   <span class="frase-topic">03 · Daily Life</span>
-  <span class="frase-text">If I had not <b class="frase-key">experienced burnout, I would never have learned to protect my time.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">experienced burnout</b>, I would never have <b class="frase-key">learned to protect my time.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not picked up a guitar, I would never have discovered the part of me that needs to create.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text">If I had not <b class="frase-key">picked up a guitar, I would never have discovered the part of me that needs to create.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">picked up a guitar</b>, I would never have <b class="frase-key">discovered the part of me that needs to create.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not travelled to Italy, I would never have understood how much travel changes you.">
   <span class="frase-topic">05 · Travel</span>
-  <span class="frase-text">If I had not <b class="frase-key">travelled to Italy, I would never have understood how much travel changes you.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">travelled to Italy</b>, I would never have <b class="frase-key">understood how much travel changes you.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not become Guillermo's father, I would never have understood what unconditional love really means.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text">If I had not <b class="frase-key">become Guillermo's father, I would never have understood what unconditional love really means.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">become Guillermo&#x27;s father</b>, I would never have <b class="frase-key">understood what unconditional love really means.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not started playing badminton, I would never have understood how much sport changes your mood.">
   <span class="frase-topic">07 · Health</span>
-  <span class="frase-text">If I had not <b class="frase-key">started playing badminton, I would never have understood how much sport changes your mood.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">started playing badminton</b>, I would never have <b class="frase-key">understood how much sport changes your mood.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not enrolled in the EOI at forty, I would never have discovered how much I still enjoy learning.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text">If I had not <b class="frase-key">enrolled in the EOI at forty, I would never have discovered how much I still enjoy learning.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">enrolled in the EOI at forty</b>, I would never have <b class="frase-key">discovered how much I still enjoy learning.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not bought that furniture online, I would never have understood why local shops are so important.">
   <span class="frase-topic">09 · Shopping</span>
-  <span class="frase-text">If I had not <b class="frase-key">bought that furniture online, I would never have understood why local shops are so important.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">bought that furniture online</b>, I would never have <b class="frase-key">understood why local shops are so important.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not learned to make a proper paella, I would never have understood that patience is the most important ingredient.">
   <span class="frase-topic">10 · Food</span>
-  <span class="frase-text">If I had not <b class="frase-key">learned to make a proper paella, I would never have understood that patience is the most important ingredient.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">learned to make a proper paella</b>, I would never have <b class="frase-key">understood that patience is the most important ingredient.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not started cycling to work, I would never have realised how much time and stress it saves.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text">If I had not <b class="frase-key">started cycling to work, I would never have realised how much time and stress it saves.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">started cycling to work</b>, I would never have <b class="frase-key">realised how much time and stress it saves.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not started learning English, I would never have understood how much a language changes the way you think.">
   <span class="frase-topic">12 · Language</span>
-  <span class="frase-text">If I had not <b class="frase-key">started learning English, I would never have understood how much a language changes the way you think.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">started learning English</b>, I would never have <b class="frase-key">understood how much a language changes the way you think.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not lived through Murcia's droughts, I would never have taken climate change seriously.">
   <span class="frase-topic">13 · Environment</span>
-  <span class="frase-text">If I had not <b class="frase-key">lived through Murcia's droughts, I would never have taken climate change seriously.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">lived through Murcia&#x27;s droughts</b>, I would never have <b class="frase-key">taken climate change seriously.</b></span>
 </div>
 <div class="frase-row" data-frase="If I had not used AI in my work, I would never have understood its real potential.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text">If I had not <b class="frase-key">used AI in my work, I would never have understood its real potential.</b></span>
+  <span class="frase-text">If I had not <b class="frase-key">used AI in my work</b>, I would never have <b class="frase-key">understood its real potential.</b></span>
 </div>
 </div>
 
@@ -1684,59 +1698,59 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
   </div>
 <div class="frase-row" data-frase="Personal identity is still not taken seriously enough.">
   <span class="frase-topic">01 · Identity</span>
-  <span class="frase-text"><b class="frase-key">Personal identity is still not taken seriously enough.</b></span>
+  <span class="frase-text"><b class="frase-key">Personal identity is</b> still not <b class="frase-key">taken seriously enough.</b></span>
 </div>
 <div class="frase-row" data-frase="Affordable housing is still not given enough attention.">
   <span class="frase-topic">02 · Housing</span>
-  <span class="frase-text"><b class="frase-key">Affordable housing is still not given enough attention.</b></span>
+  <span class="frase-text"><b class="frase-key">Affordable housing is</b> still not <b class="frase-key">given enough attention.</b></span>
 </div>
 <div class="frase-row" data-frase="Work-life balance is still not taken seriously enough.">
   <span class="frase-topic">03 · Daily Life</span>
-  <span class="frase-text"><b class="frase-key">Work-life balance</b> is still not taken seriously enough.</span>
+  <span class="frase-text"><b class="frase-key">Work-life balance is</b> still not <b class="frase-key">taken seriously enough.</b></span>
 </div>
 <div class="frase-row" data-frase="Free time is still not valued as it should be.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text"><b class="frase-key">Free time is still not valued as it should be.</b></span>
+  <span class="frase-text"><b class="frase-key">Free time is</b> still not <b class="frase-key">valued as it should be.</b></span>
 </div>
 <div class="frase-row" data-frase="Cultural exchange is still not given enough attention.">
   <span class="frase-topic">05 · Travel</span>
-  <span class="frase-text"><b class="frase-key">Cultural exchange is still not given enough attention.</b></span>
+  <span class="frase-text"><b class="frase-key">Cultural exchange is</b> still not <b class="frase-key">given enough attention.</b></span>
 </div>
 <div class="frase-row" data-frase="Communication is still not taken seriously enough.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text"><b class="frase-key">Communication</b> is still not taken seriously enough.</span>
+  <span class="frase-text"><b class="frase-key">Communication is</b> still not <b class="frase-key">taken seriously enough.</b></span>
 </div>
 <div class="frase-row" data-frase="Mental health is still not taken seriously enough.">
   <span class="frase-topic">07 · Health</span>
-  <span class="frase-text"><b class="frase-key">Mental health</b> is still not taken seriously enough.</span>
+  <span class="frase-text"><b class="frase-key">Mental health is</b> still not <b class="frase-key">taken seriously enough.</b></span>
 </div>
 <div class="frase-row" data-frase="Education is still not treated as a priority.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text"><b class="frase-key">Education is still not treated as a priority.</b></span>
+  <span class="frase-text"><b class="frase-key">Education is</b> still not <b class="frase-key">treated as a priority.</b></span>
 </div>
 <div class="frase-row" data-frase="Consumer habits are still not taken seriously enough.">
   <span class="frase-topic">09 · Shopping</span>
-  <span class="frase-text"><b class="frase-key">Consumer habits are</b> still not taken seriously enough.</span>
+  <span class="frase-text"><b class="frase-key">Consumer habits are</b> still not <b class="frase-key">taken seriously enough.</b></span>
 </div>
 <div class="frase-row" data-frase="Healthy food is still not valued as it should be.">
   <span class="frase-topic">10 · Food</span>
-  <span class="frase-text"><b class="frase-key">Healthy food is still not valued as it should be.</b></span>
+  <span class="frase-text"><b class="frase-key">Healthy food is</b> still not <b class="frase-key">valued as it should be.</b></span>
 </div>
 <div class="frase-row" data-frase="Public transport is still not given enough attention.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text"><b class="frase-key">Public transport is still not given enough attention.</b></span>
+  <span class="frase-text"><b class="frase-key">Public transport is</b> still not <b class="frase-key">given enough attention.</b></span>
 </div>
 <div class="frase-row" data-frase="Language learning is still not taken seriously enough.">
   <span class="frase-topic">12 · Language</span>
-  <span class="frase-text"><b class="frase-key">Language learning</b> is still not taken seriously enough.</span>
+  <span class="frase-text"><b class="frase-key">Language learning is</b> still not <b class="frase-key">taken seriously enough.</b></span>
 </div>
 <div class="frase-row" data-frase="The environment is still not treated as a priority.">
   <span class="frase-topic">13 · Environment</span>
-  <span class="frase-text"><b class="frase-key">The environment is still not treated as a priority.</b></span>
+  <span class="frase-text"><b class="frase-key">The environment is</b> still not <b class="frase-key">treated as a priority.</b></span>
 </div>
 <div class="frase-row" data-frase="Technology is still not taken seriously enough as a responsibility.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text"><b class="frase-key">Technology is still not taken seriously enough as a responsibility.</b></span>
+  <span class="frase-text"><b class="frase-key">Technology is</b> still not <b class="frase-key">taken seriously enough as a responsibility.</b></span>
 </div>
 </div>
 
@@ -1751,59 +1765,59 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
   </div>
 <div class="frase-row" data-frase="Personal identity not only affects individuals, but also entire communities.">
   <span class="frase-topic">01 · Identity</span>
-  <span class="frase-text"><b class="frase-key">Personal identity</b> not only affects individuals, but also entire communities.</span>
+  <span class="frase-text"><b class="frase-key">Personal identity</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">entire communities.</b></span>
 </div>
 <div class="frase-row" data-frase="Affordable housing not only affects individuals, but also entire communities.">
   <span class="frase-topic">02 · Housing</span>
-  <span class="frase-text"><b class="frase-key">Affordable housing</b> not only affects individuals, but also entire communities.</span>
+  <span class="frase-text"><b class="frase-key">Affordable housing</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">entire communities.</b></span>
 </div>
 <div class="frase-row" data-frase="Work-life balance not only affects individuals, but also family life.">
   <span class="frase-topic">03 · Daily Life</span>
-  <span class="frase-text"><b class="frase-key">Work-life balance not only affects individuals, but also family life.</b></span>
+  <span class="frase-text"><b class="frase-key">Work-life balance</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">family life.</b></span>
 </div>
 <div class="frase-row" data-frase="Free time not only affects individuals, but also their mental health.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text"><b class="frase-key">Free time not only affects individuals, but also their mental health.</b></span>
+  <span class="frase-text"><b class="frase-key">Free time</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">their mental health.</b></span>
 </div>
 <div class="frase-row" data-frase="Travelling not only affects individuals, but also entire societies.">
   <span class="frase-topic">05 · Travel</span>
-  <span class="frase-text"><b class="frase-key">Travelling not only affects individuals, but also entire societies.</b></span>
+  <span class="frase-text"><b class="frase-key">Travelling</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">entire societies.</b></span>
 </div>
 <div class="frase-row" data-frase="Communication not only affects individuals, but also entire communities.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text"><b class="frase-key">Communication</b> not only affects individuals, but also entire communities.</span>
+  <span class="frase-text"><b class="frase-key">Communication</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">entire communities.</b></span>
 </div>
 <div class="frase-row" data-frase="Mental health not only affects individuals, but also society in general.">
   <span class="frase-topic">07 · Health</span>
-  <span class="frase-text"><b class="frase-key">Mental health not only affects individuals, but also society in general.</b></span>
+  <span class="frase-text"><b class="frase-key">Mental health</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">society in general.</b></span>
 </div>
 <div class="frase-row" data-frase="Education not only affects individuals, but also future generations.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text"><b class="frase-key">Education not only affects individuals, but also future generations.</b></span>
+  <span class="frase-text"><b class="frase-key">Education</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">future generations.</b></span>
 </div>
 <div class="frase-row" data-frase="Consumer habits not only affect individuals, but also the environment.">
   <span class="frase-topic">09 · Shopping</span>
-  <span class="frase-text"><b class="frase-key">Consumer habits not only affect individuals, but also the environment.</b></span>
+  <span class="frase-text"><b class="frase-key">Consumer habits</b> not only affect individuals, but also <b class="frase-key">the environment.</b></span>
 </div>
 <div class="frase-row" data-frase="Healthy food not only affects individuals, but also public health in general.">
   <span class="frase-topic">10 · Food</span>
-  <span class="frase-text"><b class="frase-key">Healthy food not only affects individuals, but also public health in general.</b></span>
+  <span class="frase-text"><b class="frase-key">Healthy food</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">public health in general.</b></span>
 </div>
 <div class="frase-row" data-frase="Public transport not only affects individuals, but also the environment.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text"><b class="frase-key">Public transport not only affects individuals, but also the environment.</b></span>
+  <span class="frase-text"><b class="frase-key">Public transport</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">the environment.</b></span>
 </div>
 <div class="frase-row" data-frase="Language learning not only affects individuals, but also entire communities.">
   <span class="frase-topic">12 · Language</span>
-  <span class="frase-text"><b class="frase-key">Language learning</b> not only affects individuals, but also entire communities.</span>
+  <span class="frase-text"><b class="frase-key">Language learning</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">entire communities.</b></span>
 </div>
 <div class="frase-row" data-frase="The environment not only affects individuals, but also future generations.">
   <span class="frase-topic">13 · Environment</span>
-  <span class="frase-text"><b class="frase-key">The environment not only affects individuals, but also future generations.</b></span>
+  <span class="frase-text"><b class="frase-key">The environment</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">future generations.</b></span>
 </div>
 <div class="frase-row" data-frase="Technology not only affects individuals, but also entire societies.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text"><b class="frase-key">Technology not only affects individuals, but also entire societies.</b></span>
+  <span class="frase-text"><b class="frase-key">Technology</b> not only affect<b class="frase-key">s</b> individuals, but also <b class="frase-key">entire societies.</b></span>
 </div>
 </div>
 
@@ -1818,59 +1832,59 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
   </div>
 <div class="frase-row" data-frase="People who value personal identity usually make better decisions.">
   <span class="frase-topic">01 · Identity</span>
-  <span class="frase-text">People who value <b class="frase-key">personal identity usually make better decisions.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value personal identity usually make better decisions.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value affordable housing tend to have better lives.">
   <span class="frase-topic">02 · Housing</span>
-  <span class="frase-text">People who value <b class="frase-key">affordable housing tend to have better lives.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value affordable housing tend to have better lives.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value work-life balance usually make better decisions.">
   <span class="frase-topic">03 · Daily Life</span>
-  <span class="frase-text">People who value <b class="frase-key">work-life balance</b> usually make better decisions.</span>
+  <span class="frase-text">People who <b class="frase-key">value work-life balance usually make better decisions.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value free time tend to have better lives.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text">People who value <b class="frase-key">free time tend to have better lives.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value free time tend to have better lives.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value travelling are usually more aware of the world.">
   <span class="frase-topic">05 · Travel</span>
-  <span class="frase-text">People who value <b class="frase-key">travelling are usually more aware of the world.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value travelling are usually more aware of the world.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value communication usually make better decisions.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text">People who value <b class="frase-key">communication</b> usually make better decisions.</span>
+  <span class="frase-text">People who <b class="frase-key">value communication usually make better decisions.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value mental health tend to have better lives.">
   <span class="frase-topic">07 · Health</span>
-  <span class="frase-text">People who value <b class="frase-key">mental health tend to have better lives.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value mental health tend to have better lives.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value education usually make better decisions.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text">People who value <b class="frase-key">education</b> usually make better decisions.</span>
+  <span class="frase-text">People who <b class="frase-key">value education usually make better decisions.</b></span>
 </div>
 <div class="frase-row" data-frase="People who think carefully about consumer habits usually make better decisions.">
   <span class="frase-topic">09 · Shopping</span>
-  <span class="frase-text">People who <b class="frase-key">think carefully about consumer habits</b> usually make better decisions.</span>
+  <span class="frase-text">People who <b class="frase-key">think carefully about consumer habits usually make better decisions.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value healthy food tend to have better lives.">
   <span class="frase-topic">10 · Food</span>
-  <span class="frase-text">People who value <b class="frase-key">healthy food tend to have better lives.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value healthy food tend to have better lives.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value public transport are usually more aware of the environment.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text">People who value <b class="frase-key">public transport are usually more aware of the environment.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value public transport are usually more aware of the environment.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value language learning are usually more aware of the world.">
   <span class="frase-topic">12 · Language</span>
-  <span class="frase-text">People who value <b class="frase-key">language learning are usually more aware of the world.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value language learning are usually more aware of the world.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value the environment often inspire others around them.">
   <span class="frase-topic">13 · Environment</span>
-  <span class="frase-text">People who value <b class="frase-key">the environment often inspire others around them.</b></span>
+  <span class="frase-text">People who <b class="frase-key">value the environment often inspire others around them.</b></span>
 </div>
 <div class="frase-row" data-frase="People who value technology usually make better decisions.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text">People who value <b class="frase-key">technology</b> usually make better decisions.</span>
+  <span class="frase-text">People who <b class="frase-key">value technology usually make better decisions.</b></span>
 </div>
 </div>
 
@@ -1885,59 +1899,59 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
   </div>
 <div class="frase-row" data-frase="Unless we take personal identity more seriously, problems will continue growing.">
   <span class="frase-topic">01 · Identity</span>
-  <span class="frase-text">Unless we take <b class="frase-key">personal identity more seriously, problems will continue growing.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">personal identity</b> more seriously, <b class="frase-key">problems</b> will <b class="frase-key">continue growing.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take affordable housing more seriously, things will not improve.">
   <span class="frase-topic">02 · Housing</span>
-  <span class="frase-text">Unless we take <b class="frase-key">affordable housing more seriously, things will not improve.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">affordable housing</b> more seriously, <b class="frase-key">things</b> will <b class="frase-key">not improve.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take work-life balance more seriously, burnout will continue growing.">
   <span class="frase-topic">03 · Daily Life</span>
-  <span class="frase-text">Unless we take <b class="frase-key">work-life balance more seriously, burnout</b> will continue growing.</span>
+  <span class="frase-text">Unless we take <b class="frase-key">work-life balance</b> more seriously, <b class="frase-key">burnout</b> will <b class="frase-key">continue growing.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take free time more seriously, people will continue to burn out.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text">Unless we take <b class="frase-key">free time more seriously, people will continue to burn out.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">free time</b> more seriously, <b class="frase-key">people</b> will <b class="frase-key">continue to burn out.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take cultural exchange more seriously, we will miss many opportunities.">
   <span class="frase-topic">05 · Travel</span>
-  <span class="frase-text">Unless we take <b class="frase-key">cultural exchange more seriously, we will miss many opportunities.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">cultural exchange</b> more seriously, <b class="frase-key">we</b> will <b class="frase-key">miss many opportunities.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take communication more seriously, problems will continue growing.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text">Unless we take <b class="frase-key">communication</b> more seriously, problems will continue growing.</span>
+  <span class="frase-text">Unless we take <b class="frase-key">communication</b> more seriously, <b class="frase-key">problems</b> will <b class="frase-key">continue growing.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take mental health more seriously, the situation will get worse.">
   <span class="frase-topic">07 · Health</span>
-  <span class="frase-text">Unless we take <b class="frase-key">mental health more seriously, the situation will get worse.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">mental health</b> more seriously, <b class="frase-key">the situation</b> will <b class="frase-key">get worse.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take education more seriously, future generations will suffer.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text">Unless we take <b class="frase-key">education more seriously, future generations will suffer.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">education</b> more seriously, <b class="frase-key">future generations</b> will <b class="frase-key">suffer.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take consumer habits more seriously, the environment will get worse.">
   <span class="frase-topic">09 · Shopping</span>
-  <span class="frase-text">Unless we take <b class="frase-key">consumer habits more seriously, the environment will get worse.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">consumer habits</b> more seriously, <b class="frase-key">the environment</b> will <b class="frase-key">get worse.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take healthy food more seriously, health problems will increase.">
   <span class="frase-topic">10 · Food</span>
-  <span class="frase-text">Unless we take <b class="frase-key">healthy food more seriously, health problems will increase.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">healthy food</b> more seriously, <b class="frase-key">health problems</b> will <b class="frase-key">increase.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take public transport more seriously, cities will become more polluted.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text">Unless we take <b class="frase-key">public transport more seriously, cities will become more polluted.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">public transport</b> more seriously, <b class="frase-key">cities</b> will <b class="frase-key">become more polluted.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take language learning more seriously, we will miss many opportunities.">
   <span class="frase-topic">12 · Language</span>
-  <span class="frase-text">Unless we take <b class="frase-key">language learning more seriously, we will miss many opportunities.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">language learning</b> more seriously, <b class="frase-key">we</b> will <b class="frase-key">miss many opportunities.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take the environment more seriously, problems will become impossible to reverse.">
   <span class="frase-topic">13 · Environment</span>
-  <span class="frase-text">Unless we take <b class="frase-key">the environment more seriously, problems will become impossible to reverse.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">the environment</b> <b class="frase-key">more seriously, problems</b> will <b class="frase-key">become impossible to reverse.</b></span>
 </div>
 <div class="frase-row" data-frase="Unless we take technology more seriously, we will not be able to control its effects.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text">Unless we take <b class="frase-key">technology more seriously, we will not be able to control its effects.</b></span>
+  <span class="frase-text">Unless we take <b class="frase-key">technology</b> more seriously, <b class="frase-key">we</b> will <b class="frase-key">not be able to control its effects.</b></span>
 </div>
 </div>
 
@@ -1952,59 +1966,59 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
   </div>
 <div class="frase-row" data-frase="Although personal identity may seem simple, it is actually very important.">
   <span class="frase-topic">01 · Identity</span>
-  <span class="frase-text">Although <b class="frase-key">personal identity may seem simple, it is actually very important.</b></span>
+  <span class="frase-text">Although <b class="frase-key">personal identity</b> may seem <b class="frase-key">simple, it is actually very important.</b></span>
 </div>
 <div class="frase-row" data-frase="Although affordable housing may seem obvious, many people ignore the problem.">
   <span class="frase-topic">02 · Housing</span>
-  <span class="frase-text">Although <b class="frase-key">affordable housing may seem obvious, many people ignore the problem.</b></span>
+  <span class="frase-text">Although <b class="frase-key">affordable housing</b> may seem <b class="frase-key">obvious, many people ignore the problem.</b></span>
 </div>
 <div class="frase-row" data-frase="Although work-life balance may seem simple, it is actually very difficult to achieve.">
   <span class="frase-topic">03 · Daily Life</span>
-  <span class="frase-text">Although <b class="frase-key">work-life balance may seem simple, it is actually very difficult to achieve.</b></span>
+  <span class="frase-text">Although <b class="frase-key">work-life balance</b> may seem <b class="frase-key">simple, it is actually very difficult to achieve.</b></span>
 </div>
 <div class="frase-row" data-frase="Although free time may seem minor, it can have a big impact on your well-being.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text">Although <b class="frase-key">free time may seem minor, it can have a big impact on your well-being.</b></span>
+  <span class="frase-text">Although <b class="frase-key">free time</b> may seem <b class="frase-key">minor, it can have a big impact on your well-being.</b></span>
 </div>
 <div class="frase-row" data-frase="Although travelling may seem like a luxury, it is actually very important.">
   <span class="frase-topic">05 · Travel</span>
-  <span class="frase-text">Although <b class="frase-key">travelling may seem like a luxury,</b> it is actually very important.</span>
+  <span class="frase-text">Although <b class="frase-key">travelling</b> may seem <b class="frase-key">like a luxury, it is actually very important.</b></span>
 </div>
 <div class="frase-row" data-frase="Although communication may seem simple, it is actually very difficult.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text">Although <b class="frase-key">communication may seem simple, it is actually very difficult.</b></span>
+  <span class="frase-text">Although <b class="frase-key">communication</b> may seem <b class="frase-key">simple, it is actually very difficult.</b></span>
 </div>
 <div class="frase-row" data-frase="Although mental health may seem minor, it can have a big impact on your life.">
   <span class="frase-topic">07 · Health</span>
-  <span class="frase-text">Although <b class="frase-key">mental health may seem minor, it can have a big impact on your life.</b></span>
+  <span class="frase-text">Although <b class="frase-key">mental health</b> may seem <b class="frase-key">minor, it can have a big impact on your life.</b></span>
 </div>
 <div class="frase-row" data-frase="Although education may seem obvious, many people take it for granted.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text">Although <b class="frase-key">education may seem obvious, many people take it for granted.</b></span>
+  <span class="frase-text">Although <b class="frase-key">education</b> may seem <b class="frase-key">obvious, many people take it for granted.</b></span>
 </div>
 <div class="frase-row" data-frase="Although consumer habits may seem minor, they can have a big impact on the planet.">
   <span class="frase-topic">09 · Shopping</span>
-  <span class="frase-text">Although <b class="frase-key">consumer habits may seem minor, they can have a big impact on the planet.</b></span>
+  <span class="frase-text">Although <b class="frase-key">consumer habits</b> may seem <b class="frase-key">minor, they can have a big impact on the planet.</b></span>
 </div>
 <div class="frase-row" data-frase="Although healthy food may seem complicated, the basics are easy to learn.">
   <span class="frase-topic">10 · Food</span>
-  <span class="frase-text">Although <b class="frase-key">healthy food may seem complicated, the basics are easy to learn.</b></span>
+  <span class="frase-text">Although <b class="frase-key">healthy food</b> may seem <b class="frase-key">complicated, the basics are easy to learn.</b></span>
 </div>
 <div class="frase-row" data-frase="Although public transport may seem simple, it requires significant investment.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text">Although <b class="frase-key">public transport may seem simple, it requires significant investment.</b></span>
+  <span class="frase-text">Although <b class="frase-key">public transport</b> may seem <b class="frase-key">simple, it requires significant investment.</b></span>
 </div>
 <div class="frase-row" data-frase="Although language learning may seem difficult, it is worth the effort.">
   <span class="frase-topic">12 · Language</span>
-  <span class="frase-text">Although <b class="frase-key">language learning may seem difficult, it is worth the effort.</b></span>
+  <span class="frase-text">Although <b class="frase-key">language learning</b> may seem <b class="frase-key">difficult, it is worth the effort.</b></span>
 </div>
 <div class="frase-row" data-frase="Although the environment may seem stable, it is actually very fragile.">
   <span class="frase-topic">13 · Environment</span>
-  <span class="frase-text">Although <b class="frase-key">the environment may seem stable, it is actually very fragile.</b></span>
+  <span class="frase-text">Although <b class="frase-key">the environment</b> may seem <b class="frase-key">stable, it is actually very fragile.</b></span>
 </div>
 <div class="frase-row" data-frase="Although technology may seem complicated, the basics are easy to learn.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text">Although <b class="frase-key">technology may seem complicated, the basics are easy to learn.</b></span>
+  <span class="frase-text">Although <b class="frase-key">technology</b> may seem <b class="frase-key">complicated, the basics are easy to learn.</b></span>
 </div>
 </div>
 
@@ -2031,7 +2045,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I wish more people understood the importance of free time.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">free time.</b></span>
+  <span class="frase-text">I wish more people understood <b class="frase-key">the importance of free time.</b></span>
 </div>
 <div class="frase-row" data-frase="I wish more people understood how important travelling is.">
   <span class="frase-topic">05 · Travel</span>
@@ -2039,7 +2053,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I wish more people understood the importance of communication.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">communication.</b></span>
+  <span class="frase-text">I wish more people understood <b class="frase-key">the importance of communication.</b></span>
 </div>
 <div class="frase-row" data-frase="I wish more people understood that mental health matters a lot.">
   <span class="frase-topic">07 · Health</span>
@@ -2047,7 +2061,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I wish more people understood the importance of education.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">education.</b></span>
+  <span class="frase-text">I wish more people understood <b class="frase-key">the importance of education.</b></span>
 </div>
 <div class="frase-row" data-frase="I wish more people understood why consumer habits make such a difference.">
   <span class="frase-topic">09 · Shopping</span>
@@ -2059,7 +2073,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I wish more people understood the importance of public transport.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">public transport.</b></span>
+  <span class="frase-text">I wish more people understood <b class="frase-key">the importance of public transport.</b></span>
 </div>
 <div class="frase-row" data-frase="I wish more people understood that language learning matters a lot.">
   <span class="frase-topic">12 · Language</span>
@@ -2071,7 +2085,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I wish more people understood the importance of responsible technology use.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">responsible technology use.</b></span>
+  <span class="frase-text">I wish more people understood <b class="frase-key">the importance of responsible technology use.</b></span>
 </div>
 </div>
 
@@ -2098,7 +2112,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I have learned that free time plays an important role in our lives.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text">I have learned that <b class="frase-key">free time</b> plays an important role in our lives.</span>
+  <span class="frase-text">I have learned that <b class="frase-key">free time plays an important role in our lives.</b></span>
 </div>
 <div class="frase-row" data-frase="I have learned that travelling can make a real difference.">
   <span class="frase-topic">05 · Travel</span>
@@ -2106,7 +2120,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I have learned that communication plays an important role in our lives.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text">I have learned that <b class="frase-key">communication</b> plays an important role in our lives.</span>
+  <span class="frase-text">I have learned that <b class="frase-key">communication plays an important role in our lives.</b></span>
 </div>
 <div class="frase-row" data-frase="I have learned that mental health is more important than people realise.">
   <span class="frase-topic">07 · Health</span>
@@ -2114,7 +2128,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I have learned that education plays an important role in our lives.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text">I have learned that <b class="frase-key">education</b> plays an important role in our lives.</span>
+  <span class="frase-text">I have learned that <b class="frase-key">education plays an important role in our lives.</b></span>
 </div>
 <div class="frase-row" data-frase="I have learned that consumer habits matter more than I thought.">
   <span class="frase-topic">09 · Shopping</span>
@@ -2126,7 +2140,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I have learned that public transport plays an important role in our daily lives.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text">I have learned that <b class="frase-key">public transport plays an important role in our daily</b> lives.</span>
+  <span class="frase-text">I have learned that <b class="frase-key">public transport plays an important role in our daily lives.</b></span>
 </div>
 <div class="frase-row" data-frase="I have learned that language learning is more important than people realise.">
   <span class="frase-topic">12 · Language</span>
@@ -2138,7 +2152,7 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
 </div>
 <div class="frase-row" data-frase="I have learned that technology can make a real difference in people's lives.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text">I have learned that <b class="frase-key">technology can make a real difference in people's</b> lives.</span>
+  <span class="frase-text">I have learned that <b class="frase-key">technology can make a real difference in people&#x27;s lives.</b></span>
 </div>
 </div>
 
@@ -2153,59 +2167,59 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
   </div>
 <div class="frase-row" data-frase="I used to think personal identity was not very important, but now I see it differently.">
   <span class="frase-topic">01 · Identity</span>
-  <span class="frase-text">I used to think <b class="frase-key">personal identity was not very important, but now I see it differently.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">personal identity was</b> not very important, but <b class="frase-key">now I see it differently.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think affordable housing was not very important, but I have changed my mind.">
   <span class="frase-topic">02 · Housing</span>
-  <span class="frase-text">I used to think <b class="frase-key">affordable housing was not very important, but I have changed my mind.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">affordable housing was</b> not very important, but <b class="frase-key">I have changed my mind.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think work-life balance was not very important, but experience has taught me otherwise.">
   <span class="frase-topic">03 · Daily Life</span>
-  <span class="frase-text">I used to think <b class="frase-key">work-life balance was not very important, but experience has taught me otherwise.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">work-life balance was</b> not very important, but <b class="frase-key">experience has taught me otherwise.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think free time was not very important, but now I see it differently.">
   <span class="frase-topic">04 · Free Time</span>
-  <span class="frase-text">I used to think <b class="frase-key">free time</b> was not very important, but now I see it differently.</span>
+  <span class="frase-text">I used to think <b class="frase-key">free time was</b> not very important, but <b class="frase-key">now I see it differently.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think travelling was not very important, but now I know better.">
   <span class="frase-topic">05 · Travel</span>
-  <span class="frase-text">I used to think <b class="frase-key">travelling was not very important, but now I know better.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">travelling was</b> not very important, but <b class="frase-key">now I know better.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think communication was not very important, but I have changed my mind.">
   <span class="frase-topic">06 · Relationships</span>
-  <span class="frase-text">I used to think <b class="frase-key">communication was not very important, but I have changed my mind.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">communication was</b> not very important, but <b class="frase-key">I have changed my mind.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think mental health was not very important, but now I see it differently.">
   <span class="frase-topic">07 · Health</span>
-  <span class="frase-text">I used to think <b class="frase-key">mental health</b> was not very important, but now I see it differently.</span>
+  <span class="frase-text">I used to think <b class="frase-key">mental health was</b> not very important, but <b class="frase-key">now I see it differently.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think education was not very important, but experience has taught me otherwise.">
   <span class="frase-topic">08 · Education</span>
-  <span class="frase-text">I used to think <b class="frase-key">education was not very important, but experience has taught me otherwise.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">education was</b> not very important, but <b class="frase-key">experience has taught me otherwise.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think consumer habits were not very important, but now I see it differently.">
   <span class="frase-topic">09 · Shopping</span>
-  <span class="frase-text">I used to think <b class="frase-key">consumer habits were</b> not very important, but now I see it differently.</span>
+  <span class="frase-text">I used to think <b class="frase-key">consumer habits were</b> not very important, but <b class="frase-key">now I see it differently.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think healthy food was not very important, but now I know better.">
   <span class="frase-topic">10 · Food</span>
-  <span class="frase-text">I used to think <b class="frase-key">healthy food was not very important, but now I know better.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">healthy food was</b> not very important, but <b class="frase-key">now I know better.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think public transport was not very important, but I have changed my mind.">
   <span class="frase-topic">11 · Transport</span>
-  <span class="frase-text">I used to think <b class="frase-key">public transport was not very important, but I have changed my mind.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">public transport was</b> not very important, but <b class="frase-key">I have changed my mind.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think language learning was not very important, but now I see it differently.">
   <span class="frase-topic">12 · Language</span>
-  <span class="frase-text">I used to think <b class="frase-key">language learning</b> was not very important, but now I see it differently.</span>
+  <span class="frase-text">I used to think <b class="frase-key">language learning was</b> not very important, but <b class="frase-key">now I see it differently.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think the environment was not very important, but experience has taught me otherwise.">
   <span class="frase-topic">13 · Environment</span>
-  <span class="frase-text">I used to think <b class="frase-key">the environment was not very important, but experience has taught me otherwise.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">the environment was</b> not very important, but <b class="frase-key">experience has taught me otherwise.</b></span>
 </div>
 <div class="frase-row" data-frase="I used to think technology was not very important, but now I know better.">
   <span class="frase-topic">14 · Technology</span>
-  <span class="frase-text">I used to think <b class="frase-key">technology was not very important, but now I know better.</b></span>
+  <span class="frase-text">I used to think <b class="frase-key">technology was</b> not very important, but <b class="frase-key">now I know better.</b></span>
 </div>
 </div>
 </div>
@@ -2966,6 +2980,20 @@ a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocaci�
     <button onclick="turboPauseToggle()" id="turbo-play-btn" title="Pausa">⏸</button>
     <button onclick="turboNext()" title="Siguiente">⏭</button>
     <button onclick="turboStop()" class="stop" title="Detener">✕</button>
+  </div>
+</div>
+
+<!-- Frases barra flotante (control de las 140 frases) -->
+<div id="frases-bar" class="frases-bar">
+  <div class="fb-info">
+    <div class="fb-title" id="frases-bar-title">—</div>
+    <div class="fb-progress" id="frases-bar-progress">0 / 0</div>
+  </div>
+  <div class="fb-controls">
+    <button onclick="frasesPrev()" title="Anterior">⏮</button>
+    <button onclick="frasesPauseToggle()" id="frases-play-btn" title="Pausa">⏸</button>
+    <button onclick="frasesNext()" title="Siguiente">⏭</button>
+    <button onclick="frasesStop()" class="stop" title="Detener">✕</button>
   </div>
 </div>
 
@@ -3768,7 +3796,7 @@ function turboLocateAndPlay(item,myGen){
 
 
 // === FRASES AUTO PLAYBACK ===
-let _frasesState={playing:false,currentBtn:null,queue:[],idx:0,gen:0};
+let _frasesState={playing:false,paused:false,currentBtn:null,queue:[],idx:0,gen:0,scopeLabel:''};
 
 function _frasesBumpGen(){return ++_frasesState.gen;}
 
@@ -3782,23 +3810,85 @@ function frasesStop(){
  try{window.speechSynthesis.cancel();}catch(e){}
  _frasesBumpGen();
  _frasesState.playing=false;
+ _frasesState.paused=false;
  _frasesState.queue=[];
  _frasesState.idx=0;
  if(_frasesState.currentBtn){_frasesState.currentBtn.classList.remove('playing');_frasesState.currentBtn.textContent=_frasesState.currentBtn.dataset.label || '▶️ Reproducir';}
  _frasesState.currentBtn=null;
  document.querySelectorAll('.frase-row.current').forEach(r=>r.classList.remove('current'));
+ const bar=document.getElementById('frases-bar');if(bar)bar.classList.remove('show');
+}
+
+function frasesNext(){
+ if(!_frasesState.playing)return;
+ _frasesBumpGen();
+ try{window.speechSynthesis.cancel();}catch(e){}
+ _frasesState.idx++;
+ if(!_frasesState.paused){
+  const myGen=_frasesState.gen;
+  setTimeout(()=>_frasesPlayQueue(myGen),100);
+ }
+}
+
+function frasesPrev(){
+ if(!_frasesState.playing)return;
+ _frasesBumpGen();
+ try{window.speechSynthesis.cancel();}catch(e){}
+ _frasesState.idx=Math.max(0,_frasesState.idx-1);
+ if(!_frasesState.paused){
+  const myGen=_frasesState.gen;
+  setTimeout(()=>_frasesPlayQueue(myGen),100);
+ }
+}
+
+function frasesPauseToggle(){
+ if(!_frasesState.playing)return;
+ const btn=document.getElementById('frases-play-btn');
+ if(_frasesState.paused){
+  _frasesState.paused=false;
+  btn.textContent='⏸';btn.title='Pausa';btn.classList.remove('play');
+  try{window.speechSynthesis.resume();}catch(e){}
+  setTimeout(()=>{
+   if(_frasesState.playing && !_frasesState.paused && !window.speechSynthesis.speaking){
+    const myGen=_frasesState.gen;_frasesPlayQueue(myGen);
+   }
+  },200);
+ } else {
+  _frasesState.paused=true;
+  btn.textContent='▶️';btn.title='Reanudar';btn.classList.add('play');
+  try{window.speechSynthesis.pause();}catch(e){}
+ }
+}
+
+function _frasesShowBar(label){
+ const bar=document.getElementById('frases-bar');if(!bar)return;
+ _frasesState.scopeLabel=label;
+ bar.classList.add('show');
+ const pb=document.getElementById('frases-play-btn');
+ if(pb){pb.textContent='⏸';pb.title='Pausa';pb.classList.remove('play');}
 }
 
 function _frasesPlayQueue(myGen){
  if(myGen!==_frasesState.gen)return;
+ if(_frasesState.paused)return;
+ if(_frasesState.idx<0)_frasesState.idx=0;
  if(_frasesState.idx>=_frasesState.queue.length){
   // Done
-  _frasesState.playing=false;
-  if(_frasesState.currentBtn){_frasesState.currentBtn.classList.remove('playing');_frasesState.currentBtn.textContent=_frasesState.currentBtn.dataset.label || '▶️ Reproducir';}
-  document.querySelectorAll('.frase-row.current').forEach(r=>r.classList.remove('current'));
+  const titleEl=document.getElementById('frases-bar-title');if(titleEl)titleEl.textContent='✓ Frases completadas';
+  const progEl=document.getElementById('frases-bar-progress');if(progEl)progEl.textContent=_frasesState.queue.length+' / '+_frasesState.queue.length;
+  setTimeout(()=>{if(myGen===_frasesState.gen)frasesStop();},2000);
   return;
  }
  const item=_frasesState.queue[_frasesState.idx];
+ // Update floating bar
+ const titleEl=document.getElementById('frases-bar-title');
+ const progEl=document.getElementById('frases-bar-progress');
+ if(titleEl){
+  const topicEl=item.el.querySelector('.frase-topic');
+  const topicTxt=topicEl?topicEl.textContent.trim():'';
+  titleEl.textContent=(_frasesState.scopeLabel?_frasesState.scopeLabel+' · ':'')+topicTxt;
+ }
+ if(progEl)progEl.textContent=(_frasesState.idx+1)+' / '+_frasesState.queue.length;
  // Highlight + scroll
  document.querySelectorAll('.frase-row.current').forEach(r=>r.classList.remove('current'));
  item.el.classList.add('current');
@@ -3811,6 +3901,7 @@ function _frasesPlayQueue(myGen){
  const v=_pickVoice();if(v)u.voice=v;
  u.onend=()=>{
   if(myGen!==_frasesState.gen)return;
+  if(_frasesState.paused)return;
   _frasesState.idx++;
   setTimeout(()=>_frasesPlayQueue(myGen),300);
  };
@@ -3827,10 +3918,16 @@ function frasesPlayStruct(code){
  _frasesState.queue=_frasesGetSentences(code);
  _frasesState.idx=0;
  _frasesState.playing=true;
+ _frasesState.paused=false;
  btn.dataset.label=btn.textContent;
  btn.classList.add('playing');
  btn.textContent='⏹ Detener';
  _frasesState.currentBtn=btn;
+ // Get human-readable struct name from header
+ const sec=document.querySelector(`.frase-section[data-code="${code}"]`);
+ const h3=sec?sec.querySelector('h3'):null;
+ const label=h3?h3.textContent.trim():code;
+ _frasesShowBar(label);
  _frasesPlayQueue(myGen);
 }
 
@@ -3843,10 +3940,12 @@ function frasesPlayAll(){
  _frasesState.queue=_frasesGetSentences('all');
  _frasesState.idx=0;
  _frasesState.playing=true;
+ _frasesState.paused=false;
  btn.dataset.label=btn.textContent;
  btn.classList.add('playing');
  btn.textContent='⏹ Detener reproducción';
  _frasesState.currentBtn=btn;
+ _frasesShowBar('140 Frases');
  _frasesPlayQueue(myGen);
 }
 
