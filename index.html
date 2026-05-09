@@ -3406,10 +3406,11 @@ function ttsCleanText(srcEl){
  return text;
 }
 
-// Split text into TTS-friendly chunks (~150 chars desktop, ~110 iOS).
-// Chrome and Safari/iOS silently drop or cut off long utterances — small chunks + watchdog avoid this.
+// Split text into TTS-friendly chunks (~150 chars desktop, ~100 mobile).
+// Mobile speechSynthesis engines (iOS Safari, Android Chrome, Samsung) drop chunks even more
+// aggressively than desktop. Smaller chunks = each finishes well under any browser timeout.
 function _splitForTTS(text, maxLen){
- maxLen = maxLen || (_isIOS ? 110 : 150);
+ maxLen = maxLen || (_isMobile ? 100 : 150);
  const out = [];
  const sentences = text.split(/(?<=[.!?])\s+/);
  for (const s of sentences){
@@ -3439,17 +3440,19 @@ function _splitForTTS(text, maxLen){
  return out;
 }
 
-// Detect iOS/iPadOS — Safari's speechSynthesis breaks if you call pause()/resume() programmatically.
-// On iOS, instead of keep-alive we rely solely on small chunks (<10s each) + watchdog.
+// Detect mobile (iOS, Android, Samsung Internet, etc.) — mobile speechSynthesis engines break
+// when pause()/resume() is called programmatically. On mobile we rely solely on small chunks + watchdog.
+const _isMobile = /Mobi|Android|iPhone|iPad|iPod|SamsungBrowser/i.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const _isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
 // Chrome desktop keep-alive: speechSynthesis silently dies after ~15s without pause/resume cycle.
 // We pulse pause+resume every 10s while any TTS is active to keep the engine alive.
-// SKIPPED on iOS/iPadOS where this same trick BREAKS playback.
+// SKIPPED on mobile (iOS Safari, Android Chrome, Samsung Internet) — pause/resume breaks playback there.
 let _ttsKeepAliveTimer = null;
 function _ttsKeepAliveStart(){
- if (_isIOS) return;  // iOS hates this — let chunks + watchdog handle it
+ if (_isMobile) return;  // mobile engines hate pause/resume — let chunks + watchdog handle it
  if (_ttsKeepAliveTimer) return;
  _ttsKeepAliveTimer = setInterval(() => {
   try {
@@ -3499,15 +3502,22 @@ function _speakChunked(text, opts, onAllEnd){
   };
   u.onend = advance;
   u.onerror = advance;
-  // Watchdog: if Chrome silently drops onend (known bug on long playbacks),
-  // force-advance after expected duration × 2.5 + 10s safety. Avoids hangs.
+  // Watchdog: if browser silently drops onend (known bug on mobile + Chrome long playbacks),
+  // force-advance after expected duration × multiplier + safety. Avoids hangs.
   // Approx: 12 chars/sec at rate 1.0 → adjust for actual rate.
+  // Mobile uses tighter watchdog because chunks are smaller and failures recover faster.
   const expectedSec = chunks[i].length / (12 * u.rate);
-  const watchdogMs = Math.max(expectedSec * 2500 + 10000, 30000);
+  const wdMult = _isMobile ? 1500 : 2500;
+  const wdSafety = _isMobile ? 5000 : 10000;
+  const wdMin = _isMobile ? 12000 : 30000;
+  const watchdogMs = Math.max(expectedSec * wdMult + wdSafety, wdMin);
   watchdog = setTimeout(() => {
    try { synth.cancel(); } catch(e){}
    advance();
   }, watchdogMs);
+  // Extra safety: cancel any leftover queue before speaking. Mobile engines sometimes
+  // get confused by residual pending utterances.
+  if (_isMobile){ try { synth.cancel(); } catch(e){} }
   synth.speak(u);
  };
  _ttsKeepAliveStart();
