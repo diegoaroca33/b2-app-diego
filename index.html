@@ -3447,15 +3447,81 @@ function ttsCleanText(srcEl){
  return text;
 }
 
+// Split text into TTS-friendly chunks (~220 chars, broken on sentence boundaries)
+// Chrome silently drops or cuts off long utterances — chunking avoids the issue.
+function _splitForTTS(text, maxLen){
+ maxLen = maxLen || 220;
+ const out = [];
+ // Split on sentence enders, keeping punctuation
+ const sentences = text.split(/(?<=[.!?])\s+/);
+ let cur = '';
+ for (const s of sentences){
+  if (cur && (cur.length + 1 + s.length) > maxLen){
+   out.push(cur);
+   cur = s;
+  } else {
+   cur = cur ? cur + ' ' + s : s;
+  }
+  // If a single sentence is itself too long, break it on commas
+  if (cur.length > maxLen * 1.5){
+   const subs = cur.split(/,\s+/);
+   let sub = '';
+   for (const ss of subs){
+    if (sub && (sub.length + 2 + ss.length) > maxLen){
+     out.push(sub);
+     sub = ss;
+    } else {
+     sub = sub ? sub + ', ' + ss : ss;
+    }
+   }
+   cur = sub;
+  }
+ }
+ if (cur) out.push(cur);
+ return out;
+}
+
+// Speak long text by chunking. Returns { cancel } controller.
+// onAllEnd fires once after the LAST chunk completes (or never if cancelled).
+function _speakChunked(text, opts, onAllEnd){
+ opts = opts || {};
+ const synth = window.speechSynthesis;
+ const chunks = _splitForTTS(text);
+ let i = 0;
+ let cancelled = false;
+ const speakNext = () => {
+  if (cancelled) return;
+  if (i >= chunks.length){ if (onAllEnd) onAllEnd(); return; }
+  const u = new SpeechSynthesisUtterance(chunks[i]);
+  u.lang = opts.lang || 'en-GB';
+  u.rate = opts.rate || _ttsRate;
+  u.pitch = 1;
+  if (opts.voice) u.voice = opts.voice;
+  u.onend = () => { i++; speakNext(); };
+  u.onerror = u.onend;
+  synth.speak(u);
+ };
+ speakNext();
+ return { cancel: () => { cancelled = true; try{synth.cancel();}catch(e){} } };
+}
+
+let _ttsCurrentSession = null;
+
 function ttsToggle(btn){
  const synth=window.speechSynthesis;
  if(!synth){alert('Este navegador no soporta lectura por voz.');return;}
- if(btn.classList.contains('playing')){synth.cancel();return;} // onend will reset
+ if(btn.classList.contains('playing')){
+  // Stop current session
+  if(_ttsCurrentSession){_ttsCurrentSession.cancel();_ttsCurrentSession=null;}
+  synth.cancel();
+  btn.classList.remove('playing');btn.textContent='🔊';
+  return;
+ }
  // Stop any other currently playing
+ if(_ttsCurrentSession){_ttsCurrentSession.cancel();_ttsCurrentSession=null;}
  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
  synth.cancel();
- // The TTS bar is inserted right BEFORE the text element — use nextElementSibling.
- // Fallback: search the parent for any .essay-text/.topic-text.
+ // Find target text element
  const bar=btn.closest('.tts-bar');
  let txtEl=null;
  if(bar){
@@ -3468,16 +3534,13 @@ function ttsToggle(btn){
  if(!txtEl){alert('No encuentro texto que leer aquí.');return;}
  const text=ttsCleanText(txtEl);
  if(!text){alert('El texto está vacío.');return;}
- const u=new SpeechSynthesisUtterance(text);
- u.lang='en-GB';
- u.rate=_ttsRate;
- u.pitch=1;
- const v=_pickVoice();if(v)u.voice=v;
- const reset=()=>{btn.classList.remove('playing');btn.textContent='🔊';};
- u.onend=reset; u.onerror=reset;
- synth.speak(u);
+ const v=_pickVoice();
  btn.classList.add('playing');
  btn.textContent='⏹';
+ _ttsCurrentSession = _speakChunked(text, {lang:'en-GB', rate:_ttsRate, voice:v}, () => {
+  btn.classList.remove('playing');btn.textContent='🔊';
+  _ttsCurrentSession = null;
+ });
 }
 function ttsSetRate(btn,rate){
  _ttsRate=rate;
@@ -3656,24 +3719,20 @@ const TURBO_PLAYLIST=[
  {kind:'topic',tab:'speak',find:'Welcome to Holland',label:'❤️ Welcome to Holland'},
 ];
 
-let turboState={idx:0,paused:false,active:false,currentBtn:null,currentUtter:null,gen:0};
+let turboState={idx:0,paused:false,active:false,currentBtn:null,currentSession:null,gen:0};
 
 // Increment generation counter — invalidates any pending async callbacks (setTimeout, onend)
 function _turboBump(){turboState.gen++;return turboState.gen;}
 function _turboReset(){
  if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
  turboState.currentBtn=null;
- turboState.currentUtter=null;
- // Detach onend so cancelled utterance doesn't trigger advance
- try{
-  const all=window.speechSynthesis ? null : null; // no-op placeholder
- }catch(e){}
+ if(turboState.currentSession){turboState.currentSession.cancel();turboState.currentSession=null;}
 }
 
 function turboStart(){
  if(window.speechSynthesis)window.speechSynthesis.cancel();
  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
- turboState={idx:0,paused:false,active:true,currentBtn:null,currentUtter:null,gen:0};
+ turboState={idx:0,paused:false,active:true,currentBtn:null,currentSession:null,gen:0};
  document.getElementById('turbo-bar').classList.add('show');
  document.getElementById('turbo-play-btn').textContent='⏸';
  turboPlay();
@@ -3781,26 +3840,20 @@ function turboLocateAndPlay(item,myGen){
   const synth=window.speechSynthesis;
   synth.cancel();
   document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-GB';
-  u.rate=_ttsRate;
-  u.pitch=1;
-  const v2=_pickVoice();if(v2)u.voice=v2;
+  const v2=_pickVoice();
   const btn=ttsBar.querySelector('.tts-btn');
   if(btn){btn.classList.add('playing');btn.textContent='⏹';}
   turboState.currentBtn=btn;
-  u.onend=()=>{
-   // Check stale BEFORE doing anything
+  // Chunked playback (avoids Chrome long-text silent failure for items like Monólogo Global)
+  turboState.currentSession = _speakChunked(text, {lang:'en-GB', rate:_ttsRate, voice:v2}, () => {
+   // All chunks finished
    if(myGen!==turboState.gen)return;
    if(btn){btn.classList.remove('playing');btn.textContent='🔊';}
-   turboState.currentUtter=null;turboState.currentBtn=null;
+   turboState.currentSession=null;turboState.currentBtn=null;
    if(turboState.active && !turboState.paused){
     setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},800);
    }
-  };
-  u.onerror=u.onend;
-  turboState.currentUtter=u;
-  synth.speak(u);
+  });
  },800);
 }
 
