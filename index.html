@@ -268,6 +268,40 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .tts-gender{font-size:13px;background:#f4f4f2;border:1px solid #e5e5e0;border-radius:6px;padding:4px 9px;cursor:pointer;color:#555;font-weight:600;line-height:1.3}
 .tts-gender:hover{background:#e5e5e0}
 .tts-gender.on{background:#7c3aed;color:#fff;border-color:#7c3aed}
+
+/* tabs (8 botones — fuente más pequeña para que entren todos) */
+.tab{font-size:11px;padding:10px 3px}
+.tab .tab-icon{font-size:14px}
+/* C1 archive — collapsible details */
+.c1-section summary{list-style:none;outline:none}
+.c1-section summary::-webkit-details-marker{display:none}
+.c1-section summary::after{content:'⌄';float:right;color:#aaa;transition:transform .2s}
+.c1-section[open] summary::after{transform:rotate(180deg)}
+.c1-section[open] summary{background:#1a1a1a !important;color:#fff !important}
+.c1-section[open] summary::after{color:#fff}
+/* Frases auto */
+#page-frases .intro{margin-bottom:8px}
+.frases-play-all{display:block;width:100%;padding:14px 18px;background:linear-gradient(135deg,#16a34a 0%,#15803d 100%);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:18px;box-shadow:0 6px 16px rgba(22,163,74,.35);letter-spacing:.02em}
+.frases-play-all:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(22,163,74,.45)}
+.frases-play-all:active{transform:translateY(0)}
+.frases-play-all.playing{background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);box-shadow:0 6px 16px rgba(220,38,38,.35)}
+.frase-section{background:#fff;border:1px solid #e5e5e0;border-radius:14px;margin-bottom:14px;overflow:hidden}
+.frase-section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;padding:13px 15px;background:#1a1a1a;color:#fff}
+.frase-section-info{flex:1;min-width:0}
+.frase-section-info h3{font-size:14px;font-weight:700;margin-bottom:3px}
+.frase-code{display:inline-block;background:#fff;color:#1a1a1a;font-size:11px;font-weight:800;padding:2px 8px;border-radius:5px;margin-right:6px;letter-spacing:.04em}
+.frase-formula{font-size:11.5px;color:#bbb;font-family:Menlo,Consolas,monospace}
+.frase-formula b{color:#fff;font-family:Menlo,Consolas,monospace;font-weight:600}
+.frase-play{background:#16a34a;color:#fff;border:none;border-radius:8px;padding:9px 13px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;white-space:nowrap}
+.frase-play:hover{background:#15803d}
+.frase-play:active{transform:scale(.96)}
+.frase-play.playing{background:#dc2626}
+.frase-row{display:flex;gap:10px;align-items:flex-start;padding:9px 15px;border-top:1px solid #f0f0ee;font-size:13px;line-height:1.55}
+.frase-row.current{background:#fef9c3;border-left:3px solid #f59e0b}
+.frase-topic{font-size:11px;color:#999;font-weight:600;flex-shrink:0;width:90px}
+.frase-text{flex:1;color:#1a1a1a;font-weight:600}
+.frase-text b.frase-key{color:#16a34a;font-weight:800;background:#dcfce7;padding:1px 5px;border-radius:4px}
+
 </style>
 </head>
 <body>
@@ -282,7 +316,9 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   <button class="tab" onclick="go('writ',this)">✍️ Writing</button>
   <button class="tab" onclick="go('read',this)">📖 Reading</button>
   <button class="tab" onclick="go('list',this)">🎧 Listening</button>
+  <button class="tab" onclick="go('frases',this)">🤖 Frases</button>
   <button class="tab" onclick="go('flash',this)">🃏 Flash</button>
+  <button class="tab" onclick="go('c1',this)">📚 C1</button>
 </div>
 
 <!-- ========== PLAN ========== -->
@@ -436,6 +472,1690 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 <span class="gt gut">UT</span> Used to
 </div>
 
+<!-- GROUP 1: Topics 01-02-03 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 1 · 2 · 3</h3>
+    <p>Personal Identity · Housing · Daily Life &amp; Work</p>
+  </div>
+  <!-- Topic 01 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">01</span><span class="tt">Personal Identity</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about personal identity — a topic that is more important than people often realise.</p>
+        <p>I was born in France but grew up in Murcia, and I feel completely Murcian. I am an architect by profession and a musician by necessity — I write songs, more than thirty, and I sing in a group called The Pelikans. I am outgoing at work but need silence to create. <b>People who value self-awareness usually make better decisions</b> <span class="gt gre">REL</span>. In my opinion, who we are is built through experience, not through where we come from.</p>
+        <p>The most important person in my life is my youngest son, Guillermo. He has Down syndrome and has had seven heart operations. And yet he skis, reads and rides a bike. He says 'papapi' and hugs with a strength that says everything words cannot. He has taught me a lot about resilience and what really matters. <b>Emotional intelligence is still not taken seriously enough</b> <span class="gt gp">PASS</span> in our society.</p>
+        <p>I used to think our values were not very important, but now I see it differently. <b>I have learned that </b> <span class="gt gpp">PP</span>personal identity plays an important role in our lives. <b>Although it may seem</b> <span class="gt gco">CONC</span> simple, it is actually very important. To sum up, the choices we make every day shape who we are. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt gre">REL</span> · <span class="gt gpp">PP</span> · <span class="gt gp">PASS</span> · <span class="gt gut">UT</span> · <span class="gt gco">CONC</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">personal identity · resilience · self-awareness · our values · emotional intelligence</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 02 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">02</span><span class="tt">Housing, Home and Surroundings</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about affordable housing — a topic that is more important than people often realise.</p>
+        <p>I live in a flat in Murcia with three children. As an architect in public administration, I manage school building projects and I see every day how important space and design are for people. The most important room in a home is not the biggest — it is the one where people come together. In our case, that is the kitchen. <b>People who value their neighbourhood usually make better decisions</b> <span class="gt gre">REL</span> about where to live.</p>
+        <p>Nowadays, many young people cannot buy a home. Prices have gone up a lot and salaries have not kept pace. <b>The housing crisis is still not taken seriously enough</b> <span class="gt gp">PASS</span> by governments. <b>Not only does</b> <span class="gt gno">NOBA</span> affordable housing affect individuals, but it also affects entire communities. <b>If more people cared about this problem, life would be better for everyone</b> <span class="gt g2c">2C</span>.</p>
+        <p><b>I used to think renting was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>I have learned that </b> <span class="gt gpp">PP</span>the housing market plays an important role in society. <b>Unless we take affordable housing more seriously</b> <span class="gt gun">UNL</span>, problems will continue growing. To sum up, housing is not a luxury — it is a right. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt g2c">2C</span> · <span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">affordable housing · renting · housing crisis · neighbourhood · mortgages</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 03 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">03</span><span class="tt">Daily Life, Work and Entrepreneurship</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about work-life balance — a topic that is more important than people often realise.</p>
+        <p>I work as an architect in public administration, managing school building projects. I wake up early, plan my day and try to protect time for what matters most. But I am also a musician — I write and produce songs, more than thirty — and I sing in a vocal group called The Pelikans. These activities are as important to me as my professional work. <b>People who value time management usually make better decisions</b> <span class="gt gre">REL</span>.</p>
+        <p><b>Burnout is still not taken seriously enough</b> <span class="gt gp">PASS</span> in modern workplaces. Nowadays, many people reply to messages at any hour and lose the boundary between work and rest. <b>Not only does</b> <span class="gt gno">NOBA</span> this damage productivity, but it also affects family life and health.</p>
+        <p><b>I used to think work-life balance was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>I have learned that </b> <span class="gt gpp">PP</span>daily routine plays an important role in our well-being. <b>Unless we take burnout more seriously</b> <span class="gt gun">UNL</span>, problems will continue growing. To sum up, protecting your time is not selfish — it is necessary. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gre">REL</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">work-life balance · burnout · remote working · daily routine · time management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP 2: Topics 04-05-06 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 4 · 5 · 6</h3>
+    <p>Free Time · Travel · Relationships</p>
+  </div>
+  <!-- Topic 04 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">04</span><span class="tt">Free Time and Leisure</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about free time — a topic that is more important than people often realise.</p>
+        <p>I play badminton regularly, which keeps me active and clears my head. But the activity that matters most to me is music. I write and produce songs — more than thirty so far — and I sing in a vocal group called The Pelikans. In my opinion, everyone should have at least one activity they do just for themselves. <b>People who value creative hobbies usually make better decisions</b> <span class="gt gre">REL</span>. <b>If more people cared about free time, life would be better for everyone</b> <span class="gt g2c">2C</span>.</p>
+        <p><b>Creativity is still not taken seriously enough</b> <span class="gt gp">PASS</span> as a life skill. Nowadays, many people spend too much time on social media without noticing how the hours pass. <b>Not only does</b> <span class="gt gno">NOBA</span> music help me express my feelings, but it also connects me to people I would not otherwise meet. <b>I wish more people understood the importance of</b> <span class="gt gw">WISH</span> creative leisure.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>free time plays an important role in our well-being. I used to think hobbies were not very important, but now I see it differently. <b>Although they may seem</b> <span class="gt gco">CONC</span> simple, they are actually very important. To sum up, the activities we choose in our free time show a lot about who we are. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt g2c">2C</span> · <span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gw">WISH</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">free time · creativity · hobbies · leisure · music</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 05 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">05</span><span class="tt">Travel and Holidays</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about travelling — a topic that is more important than people often realise.</p>
+        <p>My favourite trip was to Italy. The architecture, the food, the light in the streets — everything was very special. I once got completely lost in a foreign city and had to ask for help using only gestures. It was frightening for five minutes and then became one of my best memories. I prefer small apartments and local restaurants — I like to feel like a resident, not a tourist. <b>If I had not experienced travelling, I would never have understood</b> <span class="gt g3c">3C</span> how much it changes you.</p>
+        <p><b>Cultural exchange is still not taken seriously enough</b> <span class="gt gp">PASS</span> in education. <b>Not only does</b> <span class="gt gno">NOBA</span> travel give you a wider view of the world, but it also teaches you things about yourself that you cannot learn at home. <b>People who value different cultures usually make better decisions</b> <span class="gt gre">REL</span>.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>new experiences play an important role in our lives. <b>Unless we take cultural exchange more seriously</b> <span class="gt gun">UNL</span>, we miss many chances to grow. <b>Although travelling may seem</b> <span class="gt gco">CONC</span> like a luxury, it is one of the best investments you can make in yourself. To sum up, every trip teaches you something important. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt g3c">3C</span> · <span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gre">REL</span> · <span class="gt gun">UNL</span> · <span class="gt gpp">PP</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">travelling · cultural exchange · new experiences · different cultures · local customs</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 06 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">06</span><span class="tt">Personal and Social Relationships</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about communication — a topic that is more important than people often realise.</p>
+        <p>I am a parent of three children of different ages. My youngest, Guillermo, is twelve and has Down syndrome. He has had seven heart operations and lives with a pacemaker. He says 'papapi' and hugs with a strength that says everything words cannot. He has taught me more about love and what really matters than anything else in my life. <b>People who value trust usually make better decisions</b> <span class="gt gre">REL</span> in all their relationships.</p>
+        <p><b>Conflict resolution is still not taken seriously enough</b> <span class="gt gp">PASS</span> in our society. In my opinion, real friendship is built on honesty, not on how often you see each other. <b>Not only does</b> <span class="gt gno">NOBA</span> honest communication affect individuals, but it also affects entire communities. <b>I wish more people understood the importance of</b> <span class="gt gw">WISH</span> emotional support.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>honest relationships play an important role in our lives. <b>I used to think emotional support was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>Although relationships may seem</b> <span class="gt gco">CONC</span> simple, they are actually the most important thing in life. To sum up, the quality of our relationships is the quality of our life. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gw">WISH</span> · <span class="gt gre">REL</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">communication · trust · honest relationships · conflict resolution · emotional support</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP 3: Topics 07-08-09 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 7 · 8 · 9</h3>
+    <p>Health · Education · Shopping</p>
+  </div>
+  <!-- Topic 07 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">07</span><span class="tt">Health and Physical Care</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about mental health — a topic that is more important than people often realise.</p>
+        <p>I try to walk or cycle every day, eat fresh food and sleep enough. I also play badminton regularly, which keeps me active and clears my head. Consistency matters more than doing a lot once in a while. <b>People who value well-being usually make better decisions</b> <span class="gt gre">REL</span>. My son Guillermo has had seven heart operations and lives with a pacemaker. The doctors and nurses of the Spanish public health system who treated him were extraordinary.</p>
+        <p><b>Mental health is still not taken seriously enough</b> <span class="gt gp">PASS</span> in our society. <b>Not only does</b> <span class="gt gno">NOBA</span> exercise improve physical health, but it also reduces stress significantly. <b>If more people cared about preventive care, life would be better for everyone</b> <span class="gt g2c">2C</span>.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>healthy habits play an important role in our lives. <b>I used to think exercise was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>Unless we take mental health more seriously</b> <span class="gt gun">UNL</span>, problems will continue growing. To sum up, looking after ourselves is also looking after the people who need us. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt g2c">2C</span> · <span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gre">REL</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">mental health · preventive care · healthy habits · well-being · exercise</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 08 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">08</span><span class="tt">Education and Study</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about education — a topic that is more important than people often realise.</p>
+        <p>I am currently studying English at the EOI in Murcia at forty-something. I study in the evenings after work, which requires real discipline. My youngest son, Guillermo, goes to a mainstream school. Inclusion is not always perfect, but mixed classrooms are good for all children. The teachers who changed my life were those who treated me as a person, not just a student. <b>People who value lifelong learning usually make better decisions</b> <span class="gt gre">REL</span>.</p>
+        <p><b>Financial literacy is still not taken seriously enough</b> <span class="gt gp">PASS</span> in schools. <b>Not only does</b> <span class="gt gno">NOBA</span> education affect individuals, but it also changes society as a whole. <b>If more people cared about education, life would be better for everyone</b> <span class="gt g2c">2C</span>.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>critical thinking plays an important role in our lives. I used to think practical skills were not very important, but now I see it differently. <b>Unless we take education more seriously</b> <span class="gt gun">UNL</span>, problems will continue growing. To sum up, the best education teaches you how to keep learning for the rest of your life. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt g2c">2C</span> · <span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gre">REL</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">education · lifelong learning · critical thinking · financial literacy · practical skills</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 09 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">09</span><span class="tt">Shopping and Commercial Activities</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about consumer habits — a topic that is more important than people often realise.</p>
+        <p>I prefer small local shops where someone knows the products and can give you real advice. Large shopping centres are too stressful — too much choice, too little help. I once ordered a piece of furniture online that arrived completely different from what was described. <b>Not only was</b> <span class="gt gno">NOBA</span> the colour wrong, but the instructions were in a language I do not speak. If I had bought it in a local shop, I would have avoided the whole problem.</p>
+        <p><b>Fast fashion is still not taken seriously enough</b> <span class="gt gp">PASS</span> as an environmental problem. <b>People who value local businesses usually make better decisions</b> <span class="gt gre">REL</span>. <b>I wish more people understood the importance of</b> <span class="gt gw">WISH</span> sustainable shopping.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>consumer habits play an important role in our society. <b>I used to think fast fashion was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>Unless we take this more seriously</b> <span class="gt gun">UNL</span>, problems will continue growing. To sum up, every purchase is a small vote for the kind of world we want to live in. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt g3c">3C</span> · <span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">consumer habits · sustainable shopping · fast fashion · local businesses · online shopping</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP 4: Topics 10-11-12 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 10 · 11 · 12</h3>
+    <p>Food · Transport · Language</p>
+  </div>
+  <!-- Topic 10 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">10</span><span class="tt">Food and Restaurants</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about healthy food — a topic that is more important than people often realise.</p>
+        <p>I cook at home most evenings — fresh vegetables, fish, olive oil, simple preparation. But sometimes I make a paella: sofrito first, then rice, then stock, never stirred once it goes in. <b>People who value local produce usually make better decisions</b> <span class="gt gre">REL</span> about what they eat. From my own experience, cooking at home is one of the best things you can do for your family and your health.</p>
+        <p><b>Food waste is still not taken seriously enough</b> <span class="gt gp">PASS</span> in our society. <b>Not only does</b> <span class="gt gno">NOBA</span> the Mediterranean diet improve physical health, but it also helps prevent many serious illnesses. <b>I wish more people understood the importance of</b> <span class="gt gw">WISH</span> healthy food.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>home cooking plays an important role in our lives. <b>I used to think healthy food was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>Although cooking at home may seem</b> <span class="gt gco">CONC</span> difficult, it is actually very satisfying. To sum up, the best meals are not about the food — they are about who you share them with. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gw">WISH</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span> · <span class="gt gco">CONC</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">healthy food · home cooking · food waste · local produce · Mediterranean diet</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 11 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">11</span><span class="tt">Transport, Goods and Services</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about public transport — a topic that is more important than people often realise.</p>
+        <p>I use buses and trains whenever I can, and I also cycle for short distances. I play badminton regularly, so staying active is part of my routine — cycling fits perfectly. <b>People who value cycling usually make better decisions</b> <span class="gt gre">REL</span> for their health and for the environment. Car emissions are still not taken seriously enough by many governments.</p>
+        <p>Another important aspect is financial services. I use cash machines less than I used to, but dealing with loans and mortgages has taught me that financial literacy should be taught in schools as a practical subject, not just a theoretical one. Finally, emergency services. My son Guillermo has needed urgent medical care several times, and the professionals who treated him were extraordinary. These services are the foundation of a good society.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>good public services play an important role in our daily lives. <b>Unless we take road congestion and car emissions more seriously</b> <span class="gt gun">UNL</span>, problems will continue growing. To sum up, how we move through the world matters as much as where we are going. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gre">REL</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">public transport · cycling · financial literacy · road congestion · emergency services</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 12 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">12</span><span class="tt">Language and Communication</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about language learning — a topic that is more important than people often realise.</p>
+        <p>I was born in France, grew up speaking Spanish, and am now studying English at forty-something at the EOI. In my opinion, learning a new language does not only add a tool — it changes the way you think. When I write songs in English, I use different ideas than in Spanish. The language really does shape the thought. <b>If I had not started</b> <span class="gt g3c">3C</span> learning English, many professional and personal conversations would simply never have happened.</p>
+        <p><b>Linguistic diversity is still not taken seriously enough</b> <span class="gt gp">PASS</span> in education. <b>Not only does</b> <span class="gt gno">NOBA</span> language learning improve your professional life, but it also opens doors to new cultures and people. <b>People who value communication skills usually make better decisions</b> <span class="gt gre">REL</span>.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>bilingualism plays an important role in how we see the world. <b>I used to think language learning was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>Unless we take linguistic diversity more seriously</b> <span class="gt gun">UNL</span>, many languages will disappear. To sum up, every language you learn adds a new way of seeing the world. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt g3c">3C</span> · <span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">language learning · linguistic diversity · communication skills · bilingualism · cultural understanding</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GROUP 5: Topics 13-14 -->
+<div class="ag">
+  <div class="ag-head">
+    <h3>🎵 Topics 13 · 14</h3>
+    <p>Weather &amp; Environment · Science &amp; Technology</p>
+  </div>
+  <!-- Topic 13 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">13</span><span class="tt">Weather and the Natural Environment</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about the environment — a topic that is more important than people often realise.</p>
+        <p>I live in Murcia, where summers are getting hotter and longer every year. Wildfires happen regularly now and droughts last longer. I try to cycle when I can, reduce my carbon footprint and eat less meat. <b>If more people cared about the environment, life would be better for everyone</b> <span class="gt g2c">2C</span>. <b>Climate change is still not taken seriously enough</b> <span class="gt gp">PASS</span> by many world leaders.</p>
+        <p><b>Not only does</b> <span class="gt gno">NOBA</span> climate change affect individuals, but it also threatens future generations. <b>People who value recycling usually make better decisions</b> <span class="gt gre">REL</span> for the planet. <b>I wish more people understood the importance of</b> <span class="gt gw">WISH</span> reducing our carbon footprint.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>renewable energy plays an important role in our future. <b>I used to think recycling was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>Unless we take the environment more seriously</b> <span class="gt gun">UNL</span>, problems will become impossible to reverse. To sum up, we did not inherit the earth from our parents — we borrowed it from our children. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt g2c">2C</span> · <span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gw">WISH</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">the environment · climate change · carbon footprint · recycling · renewable energy</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Topic 14 -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">14</span><span class="tt">Science and Technology</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about technology — a topic that is more important than people often realise.</p>
+        <p>I use digital tools every day as an architect, and I also use artificial intelligence to organise ideas and save time. In my opinion, AI is a useful tool, not a danger. I write music, and a machine can copy the sound of my songs — but it cannot copy the reason I write them. My son Guillermo has had a pacemaker since he was five months old. Without modern medical technology, he would not be here. <b>People who value digital literacy usually make better decisions</b> <span class="gt gre">REL</span> online.</p>
+        <p><b>Data privacy is still not taken seriously enough</b> <span class="gt gp">PASS</span> by most users. <b>Not only does</b> <span class="gt gno">NOBA</span> technology change the way we work, but it also raises important questions about privacy and what it means to be human. <b>I wish more people understood the importance of</b> <span class="gt gw">WISH</span> using technology responsibly.</p>
+        <p><b>I have learned that </b> <span class="gt gpp">PP</span>artificial intelligence plays an important role in our working lives. <b>I used to think technology was not very important</b> <span class="gt gut">UT</span>, but now I see it differently. <b>Although social media may seem</b> <span class="gt gco">CONC</span> harmless, it has a big effect on our behaviour. To sum up, technology gives us possibilities — but people decide how to use them. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras presentes</span>
+          <span class="ge"><span class="gt gp">PASS</span> · <span class="gt gno">NOBA</span> · <span class="gt gw">WISH</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span> · <span class="gt gre">REL</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Keywords</span>
+          <span class="ge" style="font-style:italic">technology · artificial intelligence · data privacy · digital literacy · social media</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WELCOME TO HOLLAND (extra topic) -->
+<div class="ag is-fav">
+  <div class="ag-head">
+    <h3><span class="fav-mark">❤️</span>Welcome to Holland</h3>
+    <p>Texto extra · Emily Perl Kingsley · ~290 palabras · versión B2</p>
+  </div>
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">★</span><span class="tt"><span class="fav-mark">❤️</span>Welcome to Holland</span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about something very personal — but I believe it is also universal.</p>
+        <p>The text I want to share is called Welcome to Holland. It was written by Emily Perl Kingsley in 1987. She describes raising a child with a disability using a simple metaphor: planning a trip to Italy and landing in Holland instead. Imagine you are going to Italy — you buy the guidebooks, you learn some Italian, you dream of the Colosseum. But when the plane lands, you are in Holland. It is not horrible. It is just different. Slower. Quieter. You need new guidebooks.</p>
+        <p>I found this text after my youngest son, Guillermo, was born with Down syndrome. He also had a serious heart condition and went through seven operations. He has lived with a pacemaker since he was five months old. I was planning Italy. But the plane landed in Holland. I used to find this very hard to accept. But then, slowly, you start to see the tulips. Guillermo is twelve now. He rides a bike — it took years of trying, falling and trying again, but he did it. He skis. He reads. He says 'papapi' and hugs with a strength that says everything words cannot. These are my tulips.</p>
+        <p><b>Not only is</b> <span class="gt gno">NOBA</span> this text about disability — it is about life. It could be a career that did not go as planned, a relationship that ended, a city you never chose. Unless we accept what life gives us, we will never see what is right in front of us. My son was already enough. He did not need to be fixed. He needed to be loved exactly as he was. And I believe that applies to all of us. Thank you for listening.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras</span>
+          <span class="ge"><span class="gt gun">UNL</span> · <span class="gt gno">NOBA</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRABAJOS DE CLASE (B2 simplified) -->
+<div class="ag is-fav">
+  <div class="ag-head">
+    <h3><span class="fav-mark">❤️</span>Trabajos de clase — prioritarios</h3>
+    <p>Dos textos del temario · uno de writing · uno de mediación · versión B2 simplificada</p>
+  </div>
+  <!-- Report Environmental -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">📊</span><span class="tt"><span class="fav-mark">❤️</span>Report — Environmental Proposals <small style="font-size:11px;color:#888;font-weight:500">(writing)</small></span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>The aim of this report is to describe three proposals for the local council and to recommend which should be prioritised to reduce the town's environmental impact.</p>
+        <p>The first proposal is a new cycling network. This would reduce carbon emissions and encourage healthier habits. However, the cost is high, and in hot areas like Murcia, public use may be limited in summer. The second proposal is solar panels on public buildings. Given the high number of sunny days in the region, this is a very suitable option. Although the initial investment is high, long-term savings on energy costs make it a sensible choice.</p>
+        <p>The third proposal is a recycling reward scheme. This is low-cost and easy to implement. Not only would it reduce waste, but it would also raise environmental awareness in the community.</p>
+        <p>Overall, it is recommended that solar panels be prioritised, as they offer the greatest benefit at a reasonable long-term cost. The recycling scheme should be introduced at the same time. Unless the council acts soon, these problems will continue growing.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: Pasivas modales en Report</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras</span>
+          <span class="ge"><span class="gt gp">PASS</span> · <span class="gt gco">CONC</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- TV News DANA -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">📺</span><span class="tt"><span class="fav-mark">❤️</span>TV News — DANA Valencia <small style="font-size:11px;color:#888;font-weight:500">(mediación)</small></span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Good evening. We begin tonight with a story that continues to shake Spain — the criminal investigation into the Valencia DANA floods of October 2024.</p>
+        <p>Last autumn, flash floods hit the Valencia region, killing more than two hundred people. What is now under investigation is not the weather itself, but the human response to it. The main question is: were the official alerts sent too late? Had the alerts been issued earlier, many lives could have been saved.</p>
+        <p>In early 2026, several politicians and officials were called to give evidence in court. The investigation is focusing on possible charges of negligence, which can carry long prison sentences in Spain. The case has caused intense public debate. On one hand, victims' families are demanding full responsibility. On the other hand, some officials say the scale of the disaster was impossible to predict.</p>
+        <p>Unless governments learn from this tragedy, similar situations will continue to occur. We will keep you updated. That is the latest on the Valencia DANA case.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura B2.2 clave: 3ª Cond. + Pasivas + Unless</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras</span>
+          <span class="ge"><span class="gt g3c">3C</span> · <span class="gt gp">PASS</span> · <span class="gt gun">UNL</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MIS TEXTOS COMODOS (B2 simplified) -->
+<div class="ag is-fav">
+  <div class="ag-head">
+    <h3><span class="fav-mark">❤️</span>Mis textos cómodos</h3>
+    <p>Textos personales más sencillos · alternativas de apoyo · versión B2</p>
+  </div>
+  <!-- Badminton -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">🏸</span><span class="tt">Badminton — My Favourite Sport <small style="font-size:11px;color:#888;font-weight:500">(speaking · Topic 4 / 7)</small></span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>My favourite sport is badminton. I play regularly with friends, and it has become one of the most important habits in my daily life.</p>
+        <p><b>Not only does</b> <span class="gt gno">NOBA</span> it keep me physically active, but it also helps me disconnect from work and clear my head. People who play sport regularly usually make better decisions in other areas of life too. From my own experience, consistency matters more than intensity — it is better to play twice a week every week than to train hard and then stop.</p>
+        <p>If more people tried a sport like badminton, they would feel significantly better, both physically and mentally. It can be adapted to different levels and ages — you do not need to be very fit to start. <b>I have found that </b> <span class="gt gpp">PP</span>regular physical activity plays an important role in managing stress. <b>I used to think sport was not very important</b> <span class="gt gut">UT</span>, but now I see it differently.</p>
+        <p>Unless we make time for physical activity, the demands of modern life will always take over. To sum up, badminton is more than a sport — it promotes health, social connection and well-being. I would strongly encourage anyone to give it a try.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras</span>
+          <span class="ge"><span class="gt gno">NOBA</span> · <span class="gt g2c">2C</span> · <span class="gt gre">REL</span> · <span class="gt gp">PASS</span> · <span class="gt gpp">PP</span> · <span class="gt gut">UT</span> · <span class="gt gun">UNL</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Family 6B -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">👨‍👧‍👦</span><span class="tt">Family Relationships <small style="font-size:11px;color:#888;font-weight:500">(speaking · Topic 6 variante)</small></span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p>Today I would like to talk about family relationships, because they play a central role in my life and shape who we are as people.</p>
+        <p>I am a parent of three children of different ages, which means our family life is constantly changing. Some are already teenagers and becoming more independent. This has taught me that family relationships need communication, patience and flexibility, especially as children grow up.</p>
+        <p>My youngest son, Guillermo, is twelve and has Down syndrome. He has had seven heart operations and lives with a pacemaker. Despite these challenges, he rides a bike, goes skiing and reads. As a parent, I often feel I have to open the way for him — almost like walking through a jungle, removing obstacles so he can move forward more easily. Although inclusion is improving, it is still not taken seriously enough in today's society.</p>
+        <p>To conclude, family relationships are not always easy, but they are extremely important. Through my children, I have learned about resilience, unconditional love and the importance of building a more inclusive society. Family is not just about living together — it is about supporting each other and growing together.</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructuras B2.2 en este texto</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras</span>
+          <span class="ge"><span class="gt gpp">PP</span> · <span class="gt gco">CONC</span> · <span class="gt gp">PASS</span> · <span class="gt gut">UT</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MEDIACION ORAL — ejemplos del examen (B2 simplified) -->
+<div class="ag is-fav">
+  <div class="ag-head">
+    <h3><span class="fav-mark">❤️</span>Mediación oral — ejemplos del examen</h3>
+    <p>Formato real · texto fuente en español + modelo de resumen en inglés (versión B2)</p>
+  </div>
+  <!-- Food Waste -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">🍎</span><span class="tt"><span class="fav-mark">❤️</span>Food Waste — Decálogo Unilever <small style="font-size:11px;color:#888;font-weight:500">(mediación)</small></span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p class="no-tts" style="font-size:11.5px;color:#888;font-style:italic">Contexto: un amigo auxiliar de conversación necesita un resumen oral en inglés de un folleto sobre desperdicio de alimentos.</p>
+        <div class="no-tts" style="background:#fef3e2;padding:10px 12px;border-radius:8px;border-left:3px solid #d97706;margin:10px 0">
+          <div style="font-size:10.5px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px">📄 Texto fuente (español)</div>
+          <p style="font-size:12.5px;color:#444;line-height:1.55">Cada familia española desecha más de 76 kilos de alimentos al año, es decir, más del 18% de la comida que se compra acaba en la basura. Unilever ha creado un decálogo:</p>
+          <p style="font-size:12px;color:#555;line-height:1.55">PLANIFICAR (lista de la compra + menú semanal) · REAPROVECHAR (sobras en nuevas recetas) · ESCOGER (comprobar caducidades) · ORGANIZAR (poner delante lo que caduca antes) · CONGELAR (lo que no vas a usar) · RACIONAR (porciones moderadas) · RECICLAR (compost con cáscaras y restos de frutas y verduras) · TECNOLOGÍA (apps de seguimiento) · PROMOVER (charlas y talleres) · EN RESTAURANTE (pide las sobras para llevar)</p>
+        </div>
+        <div class="no-tts" style="font-size:10.5px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 5px">🗣️ Modelo de mediación oral (inglés · B2)</div>
+        <p>Hi! I came across an interesting article on food waste that might be useful for your class.</p>
+        <p>Apparently, every Spanish family throws away more than 76 kilos of food per year — that is about 18% of what they buy ending up in the bin. Unilever has put together a list of ten tips: plan ahead with a shopping list and a weekly menu; reuse leftovers in new recipes; check expiry dates; organise your fridge so food that expires first is at the front; freeze what you cannot use; serve moderate portions; recycle food scraps as compost; use apps to track your shopping; spread the message at school or work; and at restaurants, ask to take leftovers home.</p>
+        <p><b>Not only does</b> <span class="gt gno">NOBA</span> food waste cost money, but it also damages the environment. Unless we change our habits, problems will continue growing.</p>
+        <p>It is a really practical list — every small habit adds up. Hope it helps for your class!</p>
+      </div>
+      <div class="gram-box">
+        <h4>Frases fijas de mediación informal</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras</span>
+          <span class="ge"><span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · <span class="gt gre">REL</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Frases hechas</span>
+          <span class="ge">"Hi! I came across an interesting article on..." · "Apparently,..." · "Hope it helps for your class!"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- School Bullying -->
+  <div class="topic-block">
+    <div class="topic-h" onclick="tp(this)">
+      <span class="tn">🛡️</span><span class="tt"><span class="fav-mark">❤️</span>School Bullying — Acciones para prevenir <small style="font-size:11px;color:#888;font-weight:500">(mediación)</small></span><span class="tic">›</span>
+    </div>
+    <div class="topic-body">
+      <div class="topic-text">
+        <p class="no-tts" style="font-size:11.5px;color:#888;font-style:italic">Contexto: un vecino auxiliar de conversación necesita un resumen oral en inglés de una guía sobre acoso escolar.</p>
+        <div class="no-tts" style="background:#fef3e2;padding:10px 12px;border-radius:8px;border-left:3px solid #d97706;margin:10px 0">
+          <div style="font-size:10.5px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px">📄 Texto fuente (español)</div>
+          <p style="font-size:12.5px;color:#444;line-height:1.55">ACCIONES PARA PREVENIR EL ACOSO ESCOLAR — 4 pasos:</p>
+          <p style="font-size:12px;color:#555;line-height:1.55"><b>01. ENTENDER:</b> ver las cosas desde su perspectiva, sin demonizar a nadie. Comunicación y respeto. · <b>02. CONECTAR:</b> participar de su realidad como espectadores, tratarles con la misma dignidad que un adulto. · <b>03. PREVENIR:</b> estar pendiente de las señales y saber detectarlas. · <b>04. ACTUAR:</b> no entrar en pánico, buscar soluciones eficaces, confiar en el profesorado.</p>
+        </div>
+        <div class="no-tts" style="font-size:10.5px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 5px">🗣️ Modelo de mediación oral (inglés · B2)</div>
+        <p>Hi! I found a guide on preventing school bullying that might work for your conversation class.</p>
+        <p>It outlines four key steps parents and teachers can take. First, understand — see things from the children's perspective without judging anyone. Communication and respect are essential. Second, connect — take part in their world naturally and treat them with the same dignity you would give an adult. Third, prevent — be aware of warning signs and learn to spot them early. And fourth, act — not by panicking, but by looking for practical solutions and trusting qualified teachers and school counsellors.</p>
+        <p>People who understand these warning signs usually make better decisions. Unless parents and teachers work together, it is very difficult to solve this problem effectively.</p>
+        <p>In short, prevention is mostly about empathy, attention, and acting quickly through the right channels. Hope it is useful for your class!</p>
+      </div>
+      <div class="gram-box">
+        <h4>Estructura tipo lista numerada</h4>
+        <div class="gram-item">
+          <span class="gs">Estructuras</span>
+          <span class="ge"><span class="gt gre">REL</span> · <span class="gt gun">UNL</span></span>
+        </div>
+        <div class="gram-item">
+          <span class="gs">Conectores ordinales</span>
+          <span class="ge">"First, ..." / "Second, ..." / "Third, ..." / "And fourth, ..."</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Comodines speaking -->
+<div class="card"><div class="lbl">Comodines — funcionan en cualquier topic</div>
+<div class="ph">In my opinion, this is a topic that affects all of us in different ways.<span class="tr">Arranque universal — siempre funciona</span></div>
+<div class="ph">From my own experience, I have found that...<span class="tr">Conexión con experiencia personal</span></div>
+<div class="ph">I think it depends on the person and their circumstances.<span class="tr">Para ganar tiempo cuando no hay posición clara</span></div>
+<div class="ph">Another important aspect that is often overlooked is...<span class="tr">Para introducir el 2º punto</span></div>
+<div class="ph">I am convinced that the choices we make every day shape who we are and the world we live in.<span class="tr">Cierre universal — válido para cualquier topic</span></div>
+<div class="ph">That is a very interesting question. Let me think for a moment.<span class="tr">Para preguntas del examinador — alternativa al "mmm"</span></div>
+</div>
+
+</div><!-- end speaking -->
+
+<!-- ========== WRITING ========== -->
+<div class="page" id="page-writ">
+<div class="intro"><b>2 tareas · 75 min · 20 pts</b><br>Lee primero el ejemplo completo con las estructuras marcadas. Después estudia la plantilla. Así ves cómo funciona en contexto real.</div>
+
+<div class="ac" id="wa0">
+<div class="ac-h" onclick="ac('wa0')"><span class="title">Conectores — usa 8-10 distintos por texto</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Opinión:</b> In my opinion / From my point of view / I believe that / I am convinced that / It seems to me that</p>
+<p><b>Añadir:</b> In addition / Furthermore / Moreover / What is more / Not only...but also</p>
+<p><b>Contraste:</b> However / Although / Whereas / In contrast / Despite / Nevertheless / Even though / While</p>
+<p><b>Resultado:</b> As a result / For this reason / This means that / Therefore / Consequently</p>
+<p><b>Ejemplo:</b> For example / For instance / From my own experience / Such as / In particular</p>
+<p><b>Concesión:</b> Although / Despite the fact that / Admittedly / I also recognise that</p>
+<p><b>Conclusión:</b> In conclusion / To sum up / On balance / Overall / To conclude</p>
+<div class="bw">Nunca uses "Also" tres veces seguidas ni empieces dos párrafos con "Furthermore". Varía.</div>
+</div></div>
+
+<div class="ac is-fav" id="wa1">
+<div class="ac-h" onclick="ac('wa1')"><span class="title"><span class="fav-mark">❤️</span><span class="pill pb">Essay</span> Cocinar en casa vs restaurantes — plantilla universal (B2)</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p style="font-size:12px;color:#aaa;margin-bottom:10px">Versión B2 · ~190 palabras · plantilla adaptable a cualquier essay.</p>
+<div class="essay-text">
+<p>From my point of view, cooking at home has more advantages, particularly in terms of health, cost and cultural identity.</p>
+<p>To begin with, home cooking allows you to control exactly what you eat — the ingredients, the quantities, the method. For example, when I make a paella, I choose the rice, the sofrito, the stock — nothing is hidden. This means that you eat more consciously and, usually, more healthily. In contrast, restaurant food often contains more salt, sugar and fat than we realise.</p>
+<p>Secondly, cooking at home is significantly cheaper. In addition, it can be a social activity in itself — cooking together with family or friends is, from my own experience, one of the most genuine forms of connection. If we all cooked at home more often, we would be healthier and more connected as families. However, I also recognise that eating out offers experiences that home cooking cannot replicate. Had I never eaten in a Lebanese restaurant, I would never have discovered one of my favourite foods.</p>
+<p>In conclusion, although restaurants offer discovery and pleasure, I firmly believe that home cooking provides a healthier, more affordable and more meaningful experience. For this reason, I would recommend that anyone who wants to improve their relationship with food starts in their own kitchen — with a good sofrito.</p>
+</div>
+<div class="bg" style="margin-top:10px"><b>Estructuras presentes:</b> <span class="gt g2c">2C</span> · <span class="gt g3c">3C</span> · <span class="gt gp">PASS</span> · <span class="gt gco">CONC</span> · <span class="gt gno">NOBA</span></div>
+<div class="bw" style="margin-top:8px">3 estructuras B2.2 en un essay de 190 palabras — el rasgo que busca el examinador.</div>
+</div></div>
+
+<div class="ac" id="wa2">
+<div class="ac-h" onclick="ac('wa2')"><span class="title"><span class="pill pb">Essay</span> Plantilla universal</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="tpl-line"><div class="tpl-lbl">Intro</div><div class="tpl-txt"><b>From my point of view,</b> [tema] has more advantages, particularly in terms of [A], [B] and [C].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Body 1</div><div class="tpl-txt"><b>To begin with,</b> [argumento]. <b>For example,</b> [ejemplo personal]. <b>This means that</b> [consecuencia]. <b>In contrast,</b> [lado opuesto] tends to [desventaja].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Body 2</div><div class="tpl-txt"><b>Secondly,</b> [argumento]. <b>In addition,</b> [detalle]. <b>As a result,</b> [consecuencia]. <b>From my own experience,</b> [conexión personal]. <b>If [condición], [resultado].</b> <span class="gt g2c">2C</span></div></div>
+<div class="tpl-line"><div class="tpl-lbl">Concesión</div><div class="tpl-txt"><b>However, I also recognise that</b> [punto opuesto]. <b>Had [condición pasada], [resultado].</b> <span class="gt g3ci">3CI</span></div></div>
+<div class="tpl-line"><div class="tpl-lbl">Conclusión</div><div class="tpl-txt"><b>In conclusion, although</b> [vista opuesta], <b>I firmly believe that</b> [posición]. <b>For this reason, I would recommend</b> [consejo] for anyone who [condición].</div></div>
+<div class="bg">150-190 palabras · Sin contracciones · Mínimo 2 estructuras B2.2</div>
+</div></div>
+
+<div class="ac" id="wa3">
+<div class="ac-h" onclick="ac('wa3')"><span class="title"><span class="pill pg">Blog/Post</span> Registro informal — autobiográfico</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p style="font-size:12px;color:#888;margin-bottom:8px">Tarea 1 habitual: infancia, logros y planes futuros. ~130 palabras. Contracciones OK.</p>
+<div class="essay-text">
+<p>Hi everyone! My name is Diego and I'm an architect from Murcia, Spain. I'm also a father of three and a musician — yes, all at once!</p>
+<p>When I was younger, I <b>used to</b> <span class="gt gut">UT</span> spend hours drawing and dreaming about buildings. I <b>would</b> <span class="gt gut">UT</span> cycle around my neighbourhood imagining what I'd redesign. I always dreamed of having a creative life, but I never thought I'd end up writing songs too.</p>
+<p>Looking back, I'm proud to say that I've built <span class="gt gpp">PP</span> a career I believe in, raised three incredible children, and found music as a second voice. <b>Not only have I</b> <span class="gt gno">NOBA</span> <b>achieved my professional goals, but I've also discovered</b> that the most meaningful things in life are often the ones you didn't plan for.</p>
+<p>As for the future, <b>I'd love to</b> publish my novel and keep making music with my son Guillermo by my side. I believe it's never too late to reinvent yourself.</p>
+</div>
+</div></div>
+
+<div class="ac" id="wa4">
+<div class="ac-h" onclick="ac('wa4')"><span class="title"><span class="pill po">Mediación</span> Email informal a amigo — parafrasea, no copies</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p style="font-size:12px;color:#888;margin-bottom:8px">Recibes un artículo y lo resumes en un email informal. El error más frecuente: copiar frases del texto. <b>Siempre parafrasea.</b></p>
+<div class="tpl-line"><div class="tpl-lbl">Apertura</div><div class="tpl-txt">Hey [nombre]! How are you? I just read something really interesting and thought of you straight away.</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Introducir tema</div><div class="tpl-txt">The article is about [tema en palabras propias]. <b>Apparently,</b> [punto principal 1]. <b>According to what I read,</b> [punto 2].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Punto más relevante</div><div class="tpl-txt"><b>What I found most interesting is that</b> [dato]. <b>It also mentions that</b> [dato secundario].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Opinión + cierre</div><div class="tpl-txt">I think this is [great/surprising/worrying] because [razón breve]. <b>Let me know what you think!</b> Speak soon, Diego</div></div>
+<div class="bw">NUNCA: "The text says that..." / "In the article it is written..."<br>SÍ: "Apparently..." / "It seems that..." / "According to what I read..."</div>
+</div></div>
+
+<div class="ac" id="wa5">
+<div class="ac-h" onclick="ac('wa5')"><span class="title"><span class="pill pp">Report</span> Informe con secciones</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="tpl-line"><div class="tpl-lbl">Intro</div><div class="tpl-txt"><b>The aim of this report is to</b> describe/analyse [tema] and to make recommendations for [propósito].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Current Situation</div><div class="tpl-txt"><b>The area/facility offers</b> [descripción]. <b>One of the main strengths is</b> [fortaleza]. <b>In addition,</b> [fortaleza 2].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Issues Identified</div><div class="tpl-txt"><b>However, some issues can be identified, particularly</b> [problema]. <b>This may affect</b> [grupo] during [circunstancias].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Recommendations</div><div class="tpl-txt"><b>It is recommended that</b> [acción 1]. <b>In addition,</b> [acción 2] should be considered <span class="gt gp">PASS</span> in order to [beneficio].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Conclusion</div><div class="tpl-txt"><b>Overall,</b> [resumen positivo] and, with appropriate improvements, could provide a better experience for [usuarios].</div></div>
+</div></div>
+
+<div class="ac" id="wa6">
+<div class="ac-h" onclick="ac('wa6')"><span class="title"><span class="pill pr">Letter</span> Carta de solicitud formal</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="tpl-line"><div class="tpl-lbl">Apertura</div><div class="tpl-txt">Dear Sir or Madam,</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Motivo</div><div class="tpl-txt"><b>I am writing to apply for the position of</b> [puesto] as advertised [dónde]. <b>I am particularly interested because</b> [razón]. <b>I believe this role would allow me to</b> [beneficio].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Experiencia</div><div class="tpl-txt"><b>I have previous experience in</b> [campo]. <b>In addition, I have developed strong</b> [habilidades], which would be useful in [contexto].</div></div>
+<div class="tpl-line"><div class="tpl-lbl">Idoneidad</div><div class="tpl-txt"><b>I believe I am well suited to this position as I am</b> [cualidades]. <b>Furthermore, I am confident that I could make a positive contribution to your organisation.</b></div></div>
+<div class="tpl-line"><div class="tpl-lbl">Cierre</div><div class="tpl-txt"><b>I hope you will consider my application. I look forward to hearing from you.</b><br>Yours faithfully, Diego Aroca Villalba</div></div>
+</div></div>
+
+<!-- COMPLAINT LETTER — prioritario -->
+<div class="ac is-fav" id="wa7">
+<div class="ac-h" onclick="ac('wa7')"><span class="title"><span class="fav-mark">❤️</span><span class="pill pr">Letter</span> Complaint — carta de reclamación</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p style="font-size:12px;color:#888;margin-bottom:8px">Modelo de carta de reclamación (formato del temario · prioritario para memorizar). Estructura fija: motivo + queja detallada + lo que pides + cierre formal.</p>
+<div class="essay-text">
+<p><b>Subject: Complaint Regarding Recent Order</b></p>
+<p>Dear Sir or Madam,</p>
+<p><b>I am writing to complain about</b> a meal I ordered from your restaurant on 3 May at your City Centre branch. <b>Unfortunately,</b> I was very disappointed with the service.</p>
+<p>The food arrived <span class="gt gp">PASS</span> over 30 minutes late, the fries were cold, and a soft drink was missing from my order. <b>In addition,</b> the burger was overcooked <span class="gt gp">PASS</span> and difficult to eat.</p>
+<p><b>As a regular customer, I expected a better standard of service.</b> I would appreciate a refund or a replacement meal as compensation.</p>
+<p>I look forward to your response.</p>
+<p>Yours faithfully,<br>Ainoa Aguilera</p>
+</div>
+<div class="bg" style="margin-top:10px"><b>Frases fijas para memorizar:</b><br>
+· <b>I am writing to complain about</b> [producto/servicio] · <b>Unfortunately,</b> I was very disappointed with [aspecto] · <b>As a regular customer, I expected a better standard of service</b> · <b>I would appreciate</b> a refund / replacement / compensation · <b>I look forward to your response</b> · <b>Yours faithfully,</b></div>
+<div class="bw" style="margin-top:8px"><b>Plantilla universal · adaptable a cualquier producto:</b><br>
+1. <b>Subject:</b> Complaint Regarding [tipo de problema]<br>
+2. <b>Apertura:</b> Dear Sir or Madam,<br>
+3. <b>Motivo:</b> I am writing to complain about [qué + cuándo + dónde]<br>
+4. <b>Quejas detalladas:</b> [problema 1]. In addition, [problema 2]. Furthermore, [problema 3].<br>
+5. <b>Lo que pides:</b> As a [regular customer/loyal client/...], I expected... I would appreciate [refund / replacement / compensation / formal apology]<br>
+6. <b>Cierre:</b> I look forward to your response. Yours faithfully, [nombre]</div>
+</div></div>
+
+<div class="card" style="margin-top:14px"><div class="lbl">⭐ Modelos personales · referencia</div>
+<p style="font-size:12.5px;line-height:1.6;color:#444">Textos personales para repaso. Los conectores y estructuras B2.2 aparecen <b>en negrita</b>.</p></div>
+
+<!-- MODEL 4: Report — Parks and Gardens -->
+<div class="ac is-fav" id="wm4">
+<div class="ac-h" onclick="ac('wm4')"><span class="title"><span class="fav-mark">❤️</span><span class="pill pp">Report</span> Parks and Gardens — alternativa cómoda al Environmental (B2)</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="essay-text">
+<p>The aim of this report is to describe the parks and gardens in the local area and to make recommendations for possible improvements for visitors.</p>
+<p>The area offers a number of parks and green spaces, which are generally well maintained. The main park is located near the city centre and includes walking paths, seating areas and playgrounds. <b>Not only do</b> <span class="gt gno">NOBA</span> parks provide space for relaxation, but they also offer important social spaces for the community. In addition, they are easily accessible by public transport, which makes them suitable for a wide range of visitors.</p>
+<p>However, some issues can be identified, particularly the lack of shaded areas and benches in certain zones. This may affect elderly visitors during warmer months. It is recommended that additional shaded areas and seating be installed. In addition, improved lighting should be considered to increase safety.</p>
+<p>Overall, the parks offer good potential and, with appropriate improvements, could provide a better experience for all visitors. Unless these changes are made soon, some groups will continue to have a poor experience.</p>
+</div>
+<div class="bg" style="margin-top:10px"><b>Estructuras:</b> <span class="gt gp">PASS</span> · <span class="gt gco">CONC</span> · <span class="gt gno">NOBA</span> · <span class="gt gun">UNL</span> · pasivas formales típicas de report.</div>
+</div></div>
+
+<!-- MODEL 5: Letter of Application -->
+<div class="ac" id="wm5">
+<div class="ac-h" onclick="ac('wm5')"><span class="title"><span class="pill pr">Letter</span> Application — volunteer position (B2)</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="essay-text">
+<p>Dear Sir or Madam,</p>
+<p>I am writing to apply for the position of volunteer as advertised on your local noticeboard. I am particularly interested in this opportunity because I enjoy working with people and contributing to community activities. I believe this role would allow me to gain valuable experience while helping your organisation.</p>
+<p>I have previous experience in working with the public, including assisting at local events and collaborating with teams. In addition, I have developed strong communication and organisational skills, which would be useful in a busy working environment. I believe I am well suited to this position as I am reliable, motivated and able to work well under pressure. Furthermore, I am confident that I could make a positive contribution to your organisation.</p>
+<p>I hope you will consider my application. I look forward to hearing from you. I would be available to start immediately if required.</p>
+<p>Yours faithfully,</p>
+<p>Diego Aroca Villalba</p>
+</div>
+<div class="bg" style="margin-top:10px"><b>Estructuras:</b> <span class="gt gp">PASS</span> · <span class="gt gre">REL</span></div>
+</div></div>
+
+<!-- MODEL 6: Mediación informal -->
+<div class="ac" id="wm6">
+<div class="ac-h" onclick="ac('wm6')"><span class="title"><span class="pill po">Mediación</span> Life in the city — your real one</span><span class="ic">+</span></div>
+<div class="ac-b">
+<div class="essay-text">
+<p><b>I am writing to help you understand what life in the city is like</b> and to prepare you for the changes you may experience.</p>
+<p><b>According to the information I received,</b> life in the city is fast-paced and highly organised. People are usually busy with work, social activities and personal commitments, and time management is very important.</p>
+<p><b>One of the main differences is</b> the use of technology and digital communication. Many daily activities are done through apps, and face-to-face interactions are less common during the week.</p>
+<p>This lifestyle may feel overwhelming at first, especially for someone used to a slower and more traditional way of living. The intense work routine and multitasking can be demanding.</p>
+<p><b>However,</b> once you find your own rhythm, the city can offer many opportunities. <b>I would recommend</b> staying open-minded, taking time to adapt gradually and making use of the cultural and social activities available.</p>
+<p><b>Overall, although</b> the change may be challenging, city life can be rewarding and enriching <b>if approached with</b> a positive attitude.</p>
+</div>
+<div class="bg" style="margin-top:10px"><b>Recuerda:</b> en mediación NUNCA digas "the text says". Usa "according to what I received / apparently / one of the main differences is".</div>
+</div></div>
+
+
+
+<div class="card"><div class="lbl">Checklist antes de entregar</div>
+<p style="font-size:13px;line-height:1.9">
+✓ ¿Palabras dentro del rango?<br>
+✓ ¿Contesté TODOS los puntos de la tarea?<br>
+✓ ¿Usé mínimo 2 estructuras B2.2?<br>
+✓ ¿8-10 conectores distintos?<br>
+✓ ¿Sin contracciones en essay/report/carta?<br>
+✓ <b>address</b> (no adress) · <b>destination</b> (no destiny) · <b>climate change</b> (no "the climate change")
+</p></div>
+</div>
+
+<!-- ========== READING ========== -->
+<div class="page" id="page-read">
+<div class="intro"><b>4 tipos de tarea · 60 min · 20 pts</b><br>La clave es la TÉCNICA. Puedes sacar 8/10 en Reading sin vocabulario extra si sigues el proceso exacto.</div>
+
+<div class="ac" id="ra1">
+<div class="ac-h" onclick="ac('ra1')"><span class="title"><span class="pill pb">Tarea 1</span> True / False — 8 frases · 8 pts</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> 8 frases sobre un texto. La respuesta TRUE o FALSE depende exclusivamente del texto, no del conocimiento general.</p>
+<div class="bg"><b>Regla de oro:</b> La respuesta SIEMPRE está en el texto. Si no encuentras la frase correspondiente, busca más.</div>
+<p><b>El proceso (3 pasos):</b></p>
+<ul>
+<li>Lee la frase de la tarea y subraya la idea clave</li>
+<li>Encuentra el párrafo equivalente en el texto</li>
+<li>Compara PALABRA POR PALABRA — cualquier diferencia de significado = FALSE</li>
+</ul>
+<div class="bw"><b>Las 5 trampas más frecuentes:</b><br>
+1. Cuantificador cambiado: "some studies" → dicen "all studies"<br>
+2. Negación añadida: "is easy" → dicen "is not difficult"<br>
+3. Causa/efecto invertidos: A causa B → dicen B causa A<br>
+4. Demasiado extremo: texto dice "can help" → tarea dice "always helps"<br>
+5. Persona equivocada: lo dijo A → dicen que lo dijo B</div>
+<div class="be">Texto: "Some studies suggest mindfulness can be as effective as painkillers."<br>
+Tarea: "Mindfulness has been proven more effective than painkillers." → <b>FALSE</b><br>
+(some ≠ proven; as effective ≠ more effective)</div>
+<div class="be">Texto: "Basil walked past with his face concealed by a black bag on his shoulder."<br>
+Tarea: "Basil was recorded with his face covered under a black cap." → <b>FALSE</b><br>
+(bag ≠ cap — trampa clásica)</div>
+<p><b>Tiempo:</b> 15 min. Nunca dejes en blanco — 50% de probabilidad al azar.</p>
+</div></div>
+
+<div class="ac" id="ra2">
+<div class="ac-h" onclick="ac('ra2')"><span class="title"><span class="pill pg">Tarea 2</span> Párrafos → Títulos · 7 pts</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> 7 párrafos numerados. Los emparejas con 9 títulos. 2 sobran.</p>
+<div class="bg">El título = IDEA PRINCIPAL del párrafo, no un detalle secundario.</div>
+<p><b>El proceso:</b></p>
+<ul>
+<li>Lee SOLO la primera y última frase de cada párrafo</li>
+<li>Formular mentalmente la idea central en 2-3 palabras</li>
+<li>Busca el título que expresa ESA IDEA (estará parafraseado)</li>
+<li>Los distractores mencionan algo del párrafo pero no el tema principal</li>
+</ul>
+<div class="bw">El texto puede decir "money" pero el título correcto dice "financial pressure". Busca el CONCEPTO, no la palabra exacta.</div>
+<div class="be">Párrafo: Una familia empieza a visitar a vecinos ancianos, van al parque, luego de compras...<br>
+Título correcto: "Gradually coming closer" ✓<br>
+Título distractor: "Meeting a neighbour" ✗ (solo describe el inicio)</div>
+<p><b>Tiempo:</b> 15 min.</p>
+</div></div>
+
+<div class="ac" id="ra3">
+<div class="ac-h" onclick="ac('ra3')"><span class="title"><span class="pill po">Tarea 3</span> Insertar frases en huecos · 7 pts</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> Texto con 7 huecos. Eliges qué frase (A-I) va en cada hueco. 2 sobran.</p>
+<div class="bg">Las frases se insertan por COHESIÓN — la frase conecta lo que viene antes y lo que viene después.</div>
+<p><b>El proceso:</b></p>
+<ul>
+<li>Lee la frase ANTES del hueco → anota la última idea</li>
+<li>Lee la frase DESPUÉS del hueco → anota de qué empieza</li>
+<li>La frase correcta conecta ambas ideas</li>
+</ul>
+<p><b>Señales de cohesión que buscar en las frases opcionales:</b></p>
+<ul>
+<li>Pronombres: "it", "they", "this" → ¿a qué se refieren en el párrafo anterior?</li>
+<li>Conectores: "however", "therefore", "instead", "as a result"</li>
+<li>Palabras clave repetidas del contexto cercano</li>
+</ul>
+<div class="be">Antes del hueco: "...American teachers focused on correct procedures—"<br>
+Frase D: "primarily ignoring errors and complimenting students on correct answers only"<br>
+Después del hueco: "Japanese teachers, on the other hand, rarely praised..."<br>
+→ "on the other hand" confirma que D es el CONTRASTE con lo que viene después. ✓</div>
+<p><b>Tiempo:</b> 15 min.</p>
+</div></div>
+
+<div class="ac" id="ra4">
+<div class="ac-h" onclick="ac('ra4')"><span class="title"><span class="pill pp">Tarea 4</span> Elegir palabra (a/b/c) · 5 pts</span><span class="ic">+</span></div>
+<div class="ac-b">
+<p><b>Qué es:</b> Texto con 7-10 huecos. 3 opciones de palabra para cada uno.</p>
+<div class="bg">Proceso: GRAMÁTICA → SIGNIFICADO → COLOCACIÓN</div>
+<ul>
+<li>¿Qué categoría gramatical necesita el hueco? (nombre/verbo/adj/prep)</li>
+<li>¿Cuál tiene el significado correcto en este contexto?</li>
+<li>¿Cuál coloca bien con las palabras de alrededor?</li>
+</ul>
+<div class="bw">Las 3 opciones suelen ser sinónimos cercanos. La diferencia está en la colocación o el registro.<br>
+Ej: feel/bear/sense + "like" → solo "feel like" existe como expresión fija.</div>
+<div class="be">"you don't _____ like you belong anywhere"<br>
+a) bear &nbsp; b) feel &nbsp; c) sense → <b>b) feel</b> ("feel like" = tener la sensación de)</div>
+<div class="be">"a _____ solution, such as staying with family"<br>
+a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocación fija: temporary solution)</div>
+<p><b>Tiempo:</b> 10 min. Gestión total: 60 min = T1:15 + T2:15 + T3:15 + T4:10 + revisión:5</p>
+</div></div>
+
+<div class="card" style="margin-top:18px"><div class="lbl">⭐ Ejercicios reales</div>
+<p style="font-size:13px;line-height:1.7;color:#444"><b>4 ejercicios reales</b>, uno de cada tipo de tarea, sacados de los textos del examen modelo. Un ejercicio por día con solución al final.</p></div>
+
+<!-- READING EXERCISE 1: T/F (Heist text) -->
+<div class="ag is-fav" id="rex1">
+  <div class="ag-head"><h3><span class="fav-mark">❤️</span>Ejercicio 1 · True / False — técnica clave</h3><p>Texto: <i>The Hatton Garden Heist</i> — 8 frases · 15 min · concentra las 5 trampas reales del examen</p></div>
+  <div style="padding:12px 14px">
+    <div class="lbl" style="margin-bottom:8px">Texto</div>
+    <div class="essay-text" style="font-size:13px;background:#fafaf8;padding:12px;border-radius:8px;border:1px solid #f0f0ee">
+      <p>It would have been the country's biggest ever <span class="hw" data-tr="atraco, robo">heist</span>, but for the need for more tools. They might have got away with it. Only a third of the jewelry, rings, gold, diamonds, other precious stones, and cash has been recovered, and an unnamed ginger-haired man known as Basil got away. Total years 441, average age 63.</p>
+      <p>It was 3 years in the making, a raid on this safety deposit <span class="hw" data-tr="cámara acorazada">vault</span> whose security system was well <span class="hw" data-tr="caducado, obsoleto">past its sell by date</span>. The way in was through the fire escape round the corner next to number 38. From the moment a white van pulled up in Hatton Garden late on the night of Thursday, the 2nd of April last year, there was no going back. Basil was first in through the main door to the building. He had keys. How is not known. From a parked van, the gang unload bags, tools, and <span class="hw" data-tr="contenedores con ruedas">wheelie bins</span> take them through the fire exit and down the stairs.</p>
+      <p>Inside the building, the lift is disabled on the second floor, and from the ground floor, some <span class="hw" data-tr="descender en rappel">abseil</span> down the lift shaft to the basement. The CCTV is disabled. The phone cable from the alarm box is cut. Through the night, the men cut and drilled their way into the vault. That night, the gang hit a <span class="hw" data-tr="contratiempo, problema">snag</span> when they peered through the hole. Their hydraulic pump wasn't powerful enough. They abandoned the vault, but not the plan. They got another on the Saturday that did the job.</p>
+      <p>Brian Reer was the governor. At 76, he's the veteran villain. £14 million worth of valuables were stolen from 44 boxes. 9 million has still not been recovered. Several cameras caught Basil over that weekend walking past with his face concealed by a black bag on his shoulder. A £20,000 reward is still on offer to help identify and capture the one outstanding suspect.</p>
+    </div>
+    <div class="lbl" style="margin-top:14px;margin-bottom:6px">Marca True o False (toca el botón)</div>
+    <div id="rex1-q"></div>
+    <button class="check-btn" onclick="checkReading('rex1')">Comprobar</button>
+    <div id="rex1-result" class="result-box"></div>
+  </div>
+</div>
+
+<!-- READING EXERCISE 2: Match paragraphs to titles (M1 extracts) -->
+<div class="ag" id="rex2">
+  <div class="ag-head"><h3>📖 Ejercicio 2 · Párrafos → Títulos</h3><p>Texto: <i>8 short extracts</i> (Modelo 1) · empareja con titulares · 15 min</p></div>
+  <div style="padding:12px 14px">
+    <div class="lbl" style="margin-bottom:8px">Texto (8 extractos numerados)</div>
+    <div class="essay-text" style="font-size:13px;background:#fafaf8;padding:12px;border-radius:8px;border:1px solid #f0f0ee">
+      <p><b>1.</b> The sheer beauty of northern Mexico's Sierra Madre Mountains is only one reason why visitors come to enjoy quiet time in this part of the country known as the Copper Canyon. The opportunity to interact with the region's Tarahumara Indians is another reason this isn't an average mountain destination.</p>
+      <p><b>2.</b> In spring we move our clocks forward an hour and in fall we move them back an hour. In the United States, 48 states observe daylight saving time with Hawaii, most of Arizona, and the US territories choosing to ignore it.</p>
+      <p><b>3.</b> Indigenous peoples and local communities are among those <span class="hw" data-tr="los más afectados">hardest hit</span> by climate change. Despite this vulnerability, they have generations of experience and their knowledge is central to forging effective climate change solutions.</p>
+      <p><b>4.</b> These <span class="hw" data-tr="caminantes con esmoquin (pingüinos)">tuxedoed waddlers</span> are emperor penguins. The remarkable thing is the one who incubates the egg in a <span class="hw" data-tr="bolsa incubadora">brood pouch</span> is dad. Meanwhile, mom goes off to sea looking for food.</p>
+      <p><b>5.</b> 65 million years ago, something brought an abrupt end to the dinosaur age. Most scientists think a giant comet or asteroid smashed into the Earth, throwing massive clouds of dust into the atmosphere. As the planet grew cold and dark, the dinosaurs died off.</p>
+      <p><b>6.</b> Here in the Florida Everglades, they're after some party crashers, invasive Burmese pythons. Over the past decade, escaped or abandoned pythons have made a home of the Everglades and are wreaking havoc on the local bird populations <span class="hw" data-tr="causando estragos">wreaking havoc</span>.</p>
+      <p><b>7.</b> Taylor Swift fans' wildest dreams would be tickets for her tour, but Ticketmaster's website couldn't deliver tickets in a swift manner as it kept freezing.</p>
+      <p><b>8.</b> 500 new words have been added to the game's official Merriam-Webster online dictionary, and they're all playable in Scrabble. Guac, short for guacamole, made the cut. And finally, an oldie. Yeehaw.</p>
+    </div>
+    <div class="lbl" style="margin-top:14px;margin-bottom:6px">Empareja cada extracto con un título (2 sobran)</div>
+    <div class="be" style="margin-bottom:10px">
+      <b>A.</b> A change of clocks with mixed effects<br>
+      <b>B.</b> An animal causing damage in protected areas<br>
+      <b>C.</b> Words from the streets enter the dictionary<br>
+      <b>D.</b> Concerts cancelled due to weather<br>
+      <b>E.</b> Mountainous beauty and indigenous heritage<br>
+      <b>F.</b> The end of an era of giant reptiles<br>
+      <b>G.</b> A father bird's extreme dedication<br>
+      <b>H.</b> Local wisdom helps fight global change<br>
+      <b>I.</b> A website overwhelmed by demand<br>
+      <b>J.</b> Discovery of new dinosaur species
+    </div>
+    <div id="rex2-q"></div>
+    <button class="check-btn" onclick="checkReading('rex2')">Comprobar</button>
+    <div id="rex2-result" class="result-box"></div>
+  </div>
+</div>
+
+<!-- READING EXERCISE 3: Insert sentences in gaps (Brain text) -->
+<div class="ag" id="rex3">
+  <div class="ag-head"><h3>📖 Ejercicio 3 · Insertar frases en huecos</h3><p>Texto: <i>Brain Health</i> · 4 huecos · 6 frases (2 sobran) · 15 min</p></div>
+  <div style="padding:12px 14px">
+    <div class="lbl" style="margin-bottom:8px">Texto con huecos [1]–[4]</div>
+    <div class="essay-text" style="font-size:13px;background:#fafaf8;padding:12px;border-radius:8px;border:1px solid #f0f0ee">
+      <p>Your brain is the <span class="hw" data-tr="sin rival, supremo">unrivaled</span> organ in chief. We're talking 100 billion plus cells that collectively control basically everything your body does. <b>[1] _____</b></p>
+      <p>Research shows that sleeping with the head beneath the covers can cause brain damage. In fact, some studies indicate that up to 23% of individuals develop dementia. These conditions are in most cases as a result of lack of enough oxygen to the brain. <b>[2] _____</b></p>
+      <p>Water makes up at least two-thirds of the human body. Dehydration can lead to issues from migraines to kidney stones. <b>[3] _____</b> Symptoms of dehydration include being more prone to irritability, anxiety, and fatigue.</p>
+      <p>Studies show that mental decline is not an inevitable part of aging. People who lead mentally stimulating lives are more likely to be free of dementia. <b>[4] _____</b> So, make sure to go out, networking, join groups online and stay socially active.</p>
+    </div>
+    <div class="lbl" style="margin-top:14px;margin-bottom:6px">Frases (2 sobran)</div>
+    <div class="be" style="margin-bottom:10px">
+      <b>A.</b> Get between 7 to 8 hours of quality undisrupted sleep every single night.<br>
+      <b>B.</b> But what I find very odd is most people have negative habits that they're seemingly unaware of, causing damage.<br>
+      <b>C.</b> The brain works best when fed with red meat at every meal.<br>
+      <b>D.</b> The greater the variety of the ways in which you use your mind, the easier you will find remembering.<br>
+      <b>E.</b> It can also take a toll on your brain health, affecting your mood and overall function.<br>
+      <b>F.</b> Most diseases of the brain are completely irreversible regardless of habits.
+    </div>
+    <div id="rex3-q"></div>
+    <button class="check-btn" onclick="checkReading('rex3')">Comprobar</button>
+    <div id="rex3-result" class="result-box"></div>
+  </div>
+</div>
+
+<!-- READING EXERCISE 4: Word choice (Fashion text M4) -->
+<div class="ag" id="rex4">
+  <div class="ag-head"><h3>📖 Ejercicio 4 · Elegir palabra (a/b/c)</h3><p>Texto: <i>Fashion Industry Pollution</i> · 7 huecos · 10 min</p></div>
+  <div style="padding:12px 14px">
+    <div class="lbl" style="margin-bottom:8px">Lee y elige la palabra correcta</div>
+    <div id="rex4-q" style="font-size:13.5px;line-height:1.95;background:#fafaf8;padding:14px;border-radius:8px;border:1px solid #f0f0ee"></div>
+    <button class="check-btn" onclick="checkReading('rex4')">Comprobar</button>
+    <div id="rex4-result" class="result-box"></div>
+  </div>
+</div>
+
+</div>
+
+<!-- ========== LISTENING ========== -->
+<div class="page" id="page-list">
+<div class="intro"><b>7 audios reales · práctica completa</b><br>Cada audio se escucha dos veces (el contador lo registra). Tres modos disponibles: leer la transcripción con palabras difíciles traducidas, rellenar huecos al dictado, o contestar preguntas estilo examen.</div>
+
+<div class="card"><div class="lbl">Reglas de oro del listening</div>
+<ul style="font-size:13px;line-height:1.85">
+<li><b>Lectura previa</b> de las preguntas antes de escuchar — siempre.</li>
+<li>El audio <b>parafrasea</b>: las palabras exactas no se repiten.</li>
+<li>1ª escucha → marcar la mejor opción. 2ª → confirmar o cambiar.</li>
+<li>Las preguntas van en <b>orden cronológico</b> dentro del audio.</li>
+<li>Nunca dejar en blanco — siempre intentar.</li>
+</ul></div>
+
+<div id="listening-container"></div>
+</div>
+
+<!-- ========== FLASHCARDS ========== -->
+<div class="page" id="page-flash">
+<div class="intro"><b>72 tarjetas · Anki-style</b><br>Toca para ver la respuesta. Verde si lo sabías, rojo si no. Las tarjetas rojas vuelven al mazo hasta que salgan todas verdes. Cada tarjeta de gramática lleva el <b>tag de color</b> que aparece en los textos del Speaking, su <b>fórmula</b>, y <b>ejemplos con traducción al español</b>.</div>
+<div class="fc-cats" id="fccats">
+  <button class="on" onclick="cat('all',this)">Todo</button>
+  <button onclick="cat('grammar',this)">Gramática</button>
+  <button onclick="cat('connectors',this)">Conectores</button>
+  <button onclick="cat('errors',this)">Errores</button>
+  <button onclick="cat('vocab',this)">Vocab</button>
+  <button onclick="cat('phrasal',this)">Phrasal</button>
+</div>
+<div class="fc-bar"><div class="fc-fill" id="fcfill" style="width:0%"></div></div>
+<div class="fc-info"><span id="fcpos">1 / <span id="fctot"></span></span><span id="fcscore">✓ 0 &nbsp;✗ 0</span></div>
+<div class="fccard" id="fccard" onclick="flip()">
+  <div class="fcf">
+    <div class="ftag" id="ftag">—</div>
+    <div class="fq" id="fq">—</div>
+  </div>
+  <div class="fcb">
+    <div class="ftag" id="ftag2">—</div>
+    <div class="fa" id="fa">—</div>
+    <div class="ff" id="ff"></div>
+    <div class="fex" id="fex"></div>
+  </div>
+  <div class="fchint" id="fchint">toca para ver</div>
+</div>
+<div class="fcbtns" id="fcbtns" style="display:none">
+  <button class="fcn" onclick="grade(false)">No lo sabía</button>
+  <button class="fcy" onclick="grade(true)">Lo tenía</button>
+</div>
+</div>
+
+
+<!-- ========== FRASES AUTO ========== -->
+<div class="page" id="page-frases">
+<div class="intro"><b>🤖 140 Frases automáticas</b><br>10 estructuras × 14 topics. Texto en <b>negro</b> = parte fija (igual en todas las frases). <b style="color:#16a34a">Verde</b> = palabra clave que cambia por topic. Pulsa ▶️ para escuchar las 14 frases de una estructura seguidas.</div>
+<button class="frases-play-all" onclick="frasesPlayAll()">▶️ Reproducir TODO · 140 frases (~15 min)</button>
+<div class="frase-section" data-code="2C">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">2C</span> 2nd Conditional</h3>
+      <div class="frase-formula">Fórmula: <b>If + past simple → would + infinitive</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('2C')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="If more people cared about personal identity, life would be better for everyone.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">If more people cared about personal identity, life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about affordable housing, life would be better for everyone.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">affordable housing,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about work-life balance, life would be better for everyone.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">work-life balance,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about free time, life would be better for everyone.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">free time,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about travelling, life would be better for everyone.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">travelling,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about communication, life would be better for everyone.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">communication,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about mental health, life would be better for everyone.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">mental health,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about education, life would be better for everyone.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">education,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about consumer habits, life would be better for everyone.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">consumer habits,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about healthy food, life would be better for everyone.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">healthy food,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about public transport, life would be better for everyone.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">public transport,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about language learning, life would be better for everyone.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">language learning,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about the environment, life would be better for everyone.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">the environment,</b> life would be better for everyone.</span>
+</div>
+<div class="frase-row" data-frase="If more people cared about technology, life would be better for everyone.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text">If more people cared about <b class="frase-key">technology,</b> life would be better for everyone.</span>
+</div>
+</div>
+
+<div class="frase-section" data-code="3C">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">3C</span> 3rd Conditional</h3>
+      <div class="frase-formula">Fórmula: <b>If I had not experienced X... (NO inversión)</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('3C')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="If I had not experienced personal identity, I would never have understood its importance.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">If I had not experienced personal identity, I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced affordable housing, I would never have understood its importance.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">affordable housing,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced work-life balance, I would never have understood its importance.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">work-life balance,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced free time, I would never have understood its importance.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">free time,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced travelling, I would never have understood its importance.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">travelling,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced communication, I would never have understood its importance.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">communication,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced mental health, I would never have understood its importance.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">mental health,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced education, I would never have understood its importance.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">education,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced consumer habits, I would never have understood its importance.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">consumer habits,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced healthy food, I would never have understood its importance.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">healthy food,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced public transport, I would never have understood its importance.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">public transport,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced language learning, I would never have understood its importance.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">language learning,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced the environment, I would never have understood its importance.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">the environment,</b> I would never have understood its importance.</span>
+</div>
+<div class="frase-row" data-frase="If I had not experienced technology, I would never have understood its importance.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text">If I had not experienced <b class="frase-key">technology,</b> I would never have understood its importance.</span>
+</div>
+</div>
+
+<div class="frase-section" data-code="PASS">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">PASS</span> Passive</h3>
+      <div class="frase-formula">Fórmula: <b>Subject + be + past participle</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('PASS')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="Personal identity is still not taken seriously enough.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">Personal identity is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Affordable housing is still not taken seriously enough.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text"><b class="frase-key">Affordable housing</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Work-life balance is still not taken seriously enough.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text"><b class="frase-key">Work-life balance</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Free time is still not taken seriously enough.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text"><b class="frase-key">Free time</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Travelling is still not taken seriously enough.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text"><b class="frase-key">Travelling</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Communication is still not taken seriously enough.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text"><b class="frase-key">Communication</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Mental health is still not taken seriously enough.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text"><b class="frase-key">Mental health</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Education is still not taken seriously enough.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text"><b class="frase-key">Education</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Consumer habits is still not taken seriously enough.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text"><b class="frase-key">Consumer habits</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Healthy food is still not taken seriously enough.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text"><b class="frase-key">Healthy food</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Public transport is still not taken seriously enough.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text"><b class="frase-key">Public transport</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Language learning is still not taken seriously enough.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text"><b class="frase-key">Language learning</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="The environment is still not taken seriously enough.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text"><b class="frase-key">The environment</b> is still not taken seriously enough.</span>
+</div>
+<div class="frase-row" data-frase="Technology is still not taken seriously enough.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text"><b class="frase-key">Technology</b> is still not taken seriously enough.</span>
+</div>
+</div>
+
+<div class="frase-section" data-code="NOBA">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">NOBA</span> Not only...but also</h3>
+      <div class="frase-formula">Fórmula: <b>X not only affects..., but also society in general.</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('NOBA')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="Personal identity not only affects individuals, but also society in general.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">Personal identity not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Affordable housing not only affects individuals, but also society in general.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text"><b class="frase-key">Affordable housing</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Work-life balance not only affects individuals, but also society in general.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text"><b class="frase-key">Work-life balance</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Free time not only affects individuals, but also society in general.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text"><b class="frase-key">Free time</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Travelling not only affects individuals, but also society in general.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text"><b class="frase-key">Travelling</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Communication not only affects individuals, but also society in general.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text"><b class="frase-key">Communication</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Mental health not only affects individuals, but also society in general.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text"><b class="frase-key">Mental health</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Education not only affects individuals, but also society in general.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text"><b class="frase-key">Education</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Consumer habits not only affects individuals, but also society in general.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text"><b class="frase-key">Consumer habits</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Healthy food not only affects individuals, but also society in general.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text"><b class="frase-key">Healthy food</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Public transport not only affects individuals, but also society in general.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text"><b class="frase-key">Public transport</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Language learning not only affects individuals, but also society in general.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text"><b class="frase-key">Language learning</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="The environment not only affects individuals, but also society in general.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text"><b class="frase-key">The environment</b> not only affects individuals, but also society in general.</span>
+</div>
+<div class="frase-row" data-frase="Technology not only affects individuals, but also society in general.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text"><b class="frase-key">Technology</b> not only affects individuals, but also society in general.</span>
+</div>
+</div>
+
+<div class="frase-section" data-code="REL">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">REL</span> Relative clause</h3>
+      <div class="frase-formula">Fórmula: <b>People who value X usually make better decisions.</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('REL')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="People who value personal identity usually make better decisions.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">People who value personal identity usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value affordable housing usually make better decisions.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text">People who value <b class="frase-key">affordable housing</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value work-life balance usually make better decisions.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text">People who value <b class="frase-key">work-life balance</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value free time usually make better decisions.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text">People who value <b class="frase-key">free time</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value travelling usually make better decisions.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text">People who value <b class="frase-key">travelling</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value communication usually make better decisions.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text">People who value <b class="frase-key">communication</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value mental health usually make better decisions.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text">People who value <b class="frase-key">mental health</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value education usually make better decisions.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text">People who value <b class="frase-key">education</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value consumer habits usually make better decisions.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text">People who value <b class="frase-key">consumer habits</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value healthy food usually make better decisions.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text">People who value <b class="frase-key">healthy food</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value public transport usually make better decisions.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text">People who value <b class="frase-key">public transport</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value language learning usually make better decisions.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text">People who value <b class="frase-key">language learning</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value the environment usually make better decisions.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text">People who value <b class="frase-key">the environment</b> usually make better decisions.</span>
+</div>
+<div class="frase-row" data-frase="People who value technology usually make better decisions.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text">People who value <b class="frase-key">technology</b> usually make better decisions.</span>
+</div>
+</div>
+
+<div class="frase-section" data-code="UNL">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">UNL</span> Unless</h3>
+      <div class="frase-formula">Fórmula: <b>Unless we take X more seriously, problems will continue growing.</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('UNL')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="Unless we take personal identity more seriously, problems will continue growing.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">Unless we take personal identity more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take affordable housing more seriously, problems will continue growing.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text">Unless we take <b class="frase-key">affordable housing</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take work-life balance more seriously, problems will continue growing.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text">Unless we take <b class="frase-key">work-life balance</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take free time more seriously, problems will continue growing.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text">Unless we take <b class="frase-key">free time</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take travelling more seriously, problems will continue growing.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text">Unless we take <b class="frase-key">travelling</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take communication more seriously, problems will continue growing.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text">Unless we take <b class="frase-key">communication</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take mental health more seriously, problems will continue growing.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text">Unless we take <b class="frase-key">mental health</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take education more seriously, problems will continue growing.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text">Unless we take <b class="frase-key">education</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take consumer habits more seriously, problems will continue growing.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text">Unless we take <b class="frase-key">consumer habits</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take healthy food more seriously, problems will continue growing.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text">Unless we take <b class="frase-key">healthy food</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take public transport more seriously, problems will continue growing.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text">Unless we take <b class="frase-key">public transport</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take language learning more seriously, problems will continue growing.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text">Unless we take <b class="frase-key">language learning</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take the environment more seriously, problems will continue growing.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text">Unless we take <b class="frase-key">the environment</b> more seriously, problems will continue growing.</span>
+</div>
+<div class="frase-row" data-frase="Unless we take technology more seriously, problems will continue growing.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text">Unless we take <b class="frase-key">technology</b> more seriously, problems will continue growing.</span>
+</div>
+</div>
+
+<div class="frase-section" data-code="CONC">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">CONC</span> Although / Concession</h3>
+      <div class="frase-formula">Fórmula: <b>Although X may seem simple, it is actually very important.</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('CONC')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="Although personal identity may seem simple, it is actually very important.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">Although personal identity may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although affordable housing may seem simple, it is actually very important.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text">Although <b class="frase-key">affordable housing</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although work-life balance may seem simple, it is actually very important.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text">Although <b class="frase-key">work-life balance</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although free time may seem simple, it is actually very important.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text">Although <b class="frase-key">free time</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although travelling may seem simple, it is actually very important.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text">Although <b class="frase-key">travelling</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although communication may seem simple, it is actually very important.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text">Although <b class="frase-key">communication</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although mental health may seem simple, it is actually very important.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text">Although <b class="frase-key">mental health</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although education may seem simple, it is actually very important.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text">Although <b class="frase-key">education</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although consumer habits may seem simple, it is actually very important.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text">Although <b class="frase-key">consumer habits</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although healthy food may seem simple, it is actually very important.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text">Although <b class="frase-key">healthy food</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although public transport may seem simple, it is actually very important.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text">Although <b class="frase-key">public transport</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although language learning may seem simple, it is actually very important.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text">Although <b class="frase-key">language learning</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although the environment may seem simple, it is actually very important.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text">Although <b class="frase-key">the environment</b> may seem simple, it is actually very important.</span>
+</div>
+<div class="frase-row" data-frase="Although technology may seem simple, it is actually very important.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text">Although <b class="frase-key">technology</b> may seem simple, it is actually very important.</span>
+</div>
+</div>
+
+<div class="frase-section" data-code="WISH">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">WISH</span> Wish</h3>
+      <div class="frase-formula">Fórmula: <b>I wish more people understood the importance of X.</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('WISH')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="I wish more people understood the importance of personal identity.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">I wish more people understood the importance of personal identity.</span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of affordable housing.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">affordable housing.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of work-life balance.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">work-life balance.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of free time.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">free time.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of travelling.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">travelling.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of communication.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">communication.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of mental health.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">mental health.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of education.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">education.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of consumer habits.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">consumer habits.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of healthy food.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">healthy food.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of public transport.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">public transport.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of language learning.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">language learning.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of the environment.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">the environment.</b></span>
+</div>
+<div class="frase-row" data-frase="I wish more people understood the importance of technology.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text">I wish more people understood the importance of <b class="frase-key">technology.</b></span>
+</div>
+</div>
+
+<div class="frase-section" data-code="PP">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">PP</span> Present Perfect</h3>
+      <div class="frase-formula">Fórmula: <b>I have learned that X plays an important role in our lives.</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('PP')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="I have learned that personal identity plays an important role in our lives.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">I have learned that personal identity plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that affordable housing plays an important role in our lives.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text">I have learned that <b class="frase-key">affordable housing</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that work-life balance plays an important role in our lives.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text">I have learned that <b class="frase-key">work-life balance</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that free time plays an important role in our lives.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text">I have learned that <b class="frase-key">free time</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that travelling plays an important role in our lives.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text">I have learned that <b class="frase-key">travelling</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that communication plays an important role in our lives.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text">I have learned that <b class="frase-key">communication</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that mental health plays an important role in our lives.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text">I have learned that <b class="frase-key">mental health</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that education plays an important role in our lives.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text">I have learned that <b class="frase-key">education</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that consumer habits plays an important role in our lives.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text">I have learned that <b class="frase-key">consumer habits</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that healthy food plays an important role in our lives.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text">I have learned that <b class="frase-key">healthy food</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that public transport plays an important role in our lives.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text">I have learned that <b class="frase-key">public transport</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that language learning plays an important role in our lives.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text">I have learned that <b class="frase-key">language learning</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that the environment plays an important role in our lives.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text">I have learned that <b class="frase-key">the environment</b> plays an important role in our lives.</span>
+</div>
+<div class="frase-row" data-frase="I have learned that technology plays an important role in our lives.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text">I have learned that <b class="frase-key">technology</b> plays an important role in our lives.</span>
+</div>
+</div>
+
+<div class="frase-section" data-code="UT">
+  <div class="frase-section-head">
+    <div class="frase-section-info">
+      <h3><span class="frase-code">UT</span> Used to</h3>
+      <div class="frase-formula">Fórmula: <b>I used to think X was not very important, but now I see it differently.</b></div>
+    </div>
+    <button class="frase-play" onclick="frasesPlayStruct('UT')">▶️ Reproducir 14</button>
+  </div>
+<div class="frase-row" data-frase="I used to think personal identity was not very important, but now I see it differently.">
+  <span class="frase-topic">01 · Identity</span>
+  <span class="frase-text">I used to think personal identity was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think affordable housing was not very important, but now I see it differently.">
+  <span class="frase-topic">02 · Housing</span>
+  <span class="frase-text">I used to think <b class="frase-key">affordable housing</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think work-life balance was not very important, but now I see it differently.">
+  <span class="frase-topic">03 · Daily Life</span>
+  <span class="frase-text">I used to think <b class="frase-key">work-life balance</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think free time was not very important, but now I see it differently.">
+  <span class="frase-topic">04 · Free Time</span>
+  <span class="frase-text">I used to think <b class="frase-key">free time</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think travelling was not very important, but now I see it differently.">
+  <span class="frase-topic">05 · Travel</span>
+  <span class="frase-text">I used to think <b class="frase-key">travelling</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think communication was not very important, but now I see it differently.">
+  <span class="frase-topic">06 · Relationships</span>
+  <span class="frase-text">I used to think <b class="frase-key">communication</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think mental health was not very important, but now I see it differently.">
+  <span class="frase-topic">07 · Health</span>
+  <span class="frase-text">I used to think <b class="frase-key">mental health</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think education was not very important, but now I see it differently.">
+  <span class="frase-topic">08 · Education</span>
+  <span class="frase-text">I used to think <b class="frase-key">education</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think consumer habits was not very important, but now I see it differently.">
+  <span class="frase-topic">09 · Shopping</span>
+  <span class="frase-text">I used to think <b class="frase-key">consumer habits</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think healthy food was not very important, but now I see it differently.">
+  <span class="frase-topic">10 · Food</span>
+  <span class="frase-text">I used to think <b class="frase-key">healthy food</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think public transport was not very important, but now I see it differently.">
+  <span class="frase-topic">11 · Transport</span>
+  <span class="frase-text">I used to think <b class="frase-key">public transport</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think language learning was not very important, but now I see it differently.">
+  <span class="frase-topic">12 · Language</span>
+  <span class="frase-text">I used to think <b class="frase-key">language learning</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think the environment was not very important, but now I see it differently.">
+  <span class="frase-topic">13 · Environment</span>
+  <span class="frase-text">I used to think <b class="frase-key">the environment</b> was not very important, but now I see it differently.</span>
+</div>
+<div class="frase-row" data-frase="I used to think technology was not very important, but now I see it differently.">
+  <span class="frase-topic">14 · Technology</span>
+  <span class="frase-text">I used to think <b class="frase-key">technology</b> was not very important, but now I see it differently.</span>
+</div>
+</div>
+</div>
+
+
+<!-- ========== C1 — ARCHIVO ========== -->
+<div class="page" id="page-c1">
+
+<div class="intro"><b>📚 Material C1 — Archivo</b><br>Versiones largas y elaboradas (nivel C1) del curso anterior · acordeones cerrados por defecto · disponible para próximos niveles.</div>
+
+<div class="card" style="margin-bottom:14px"><div class="lbl">Contenido archivado</div>
+<p style="font-size:13px;line-height:1.7;color:#555">14 topics largos originales (con audios MP3 grabados · 2-3 topics por audio) · Welcome to Holland versión extendida (~614 palabras) · Trabajos de clase con Shopping Monólogo extendido (~370 palabras) · Mis textos cómodos viejos (AI cómodo · Modern Life cómodo) · Multitask (Mediación corta).</p>
+<p style="font-size:12px;color:#888;font-style:italic;margin-top:6px">Útiles si quieres comparar variantes o subir a C1 el próximo curso.</p></div>
+
+<details class="c1-section" style="margin-bottom:12px">
+<summary style="cursor:pointer;padding:12px 14px;background:#f4f4f2;border-radius:10px;font-weight:700;font-size:14px;color:#1a1a1a">🎵 14 Topics oficiales — versión C1 larga (con audios MP3)</summary>
+<div style="padding:8px 0">
 <!-- GROUP 1: Topics 1-2-3 -->
 <div class="ag">
   <div class="ag-head">
@@ -901,6 +2621,13 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   </div>
 </div>
 
+
+</div>
+</details>
+
+<details class="c1-section" style="margin-bottom:12px">
+<summary style="cursor:pointer;padding:12px 14px;background:#f4f4f2;border-radius:10px;font-weight:700;font-size:14px;color:#1a1a1a">🌷 Welcome to Holland — versión extendida (~614 palabras)</summary>
+<div style="padding:8px 0">
 <!-- WELCOME TO HOLLAND (extra topic) -->
 <div class="ag is-fav">
   <div class="ag-head">
@@ -948,6 +2675,13 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   </div>
 </div>
 
+
+</div>
+</details>
+
+<details class="c1-section" style="margin-bottom:12px">
+<summary style="cursor:pointer;padding:12px 14px;background:#f4f4f2;border-radius:10px;font-weight:700;font-size:14px;color:#1a1a1a">📝 Trabajos de clase — con Shopping Monólogo (~370 palabras)</summary>
+<div style="padding:8px 0">
 <!-- TRABAJOS DE CLASE -->
 <div class="ag is-fav">
   <div class="ag-head">
@@ -1047,6 +2781,13 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   </div>
 </div>
 
+
+</div>
+</details>
+
+<details class="c1-section" style="margin-bottom:12px">
+<summary style="cursor:pointer;padding:12px 14px;background:#f4f4f2;border-radius:10px;font-weight:700;font-size:14px;color:#1a1a1a">🏸 Mis textos cómodos — versiones largas (Badminton · Family · AI · Modern Life)</summary>
+<div style="padding:8px 0">
 <!-- MIS TEXTOS COMODOS -->
 <div class="ag is-fav">
   <div class="ag-head">
@@ -1125,251 +2866,13 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   </div>
 </div>
 
-<!-- MEDIACION ORAL — ejemplos del examen (prioritario) -->
-<div class="ag is-fav">
-  <div class="ag-head">
-    <h3><span class="fav-mark">❤️</span>Mediación oral — ejemplos del examen</h3>
-    <p>Formato real · texto fuente en español + modelo de resumen en inglés · prioritario para practicar el registro</p>
-  </div>
-  <!-- Food Waste -->
-  <div class="topic-block">
-    <div class="topic-h" onclick="tp(this)">
-      <span class="tn">🍎</span><span class="tt"><span class="fav-mark">❤️</span>Food Waste — Decálogo Unilever <small style="font-size:11px;color:#888;font-weight:500">(mediación)</small></span><span class="tic">›</span>
-    </div>
-    <div class="topic-body">
-      <div class="topic-text">
-        <p class="no-tts" style="font-size:11.5px;color:#888;font-style:italic">Contexto: un amigo auxiliar de conversación necesita un resumen oral en inglés de un folleto sobre desperdicio de alimentos.</p>
-        <div class="no-tts" style="background:#fef3e2;padding:10px 12px;border-radius:8px;border-left:3px solid #d97706;margin:10px 0">
-          <div style="font-size:10.5px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px">📄 Texto fuente (español)</div>
-          <p style="font-size:12.5px;color:#444;line-height:1.55">Cada familia española desecha más de 76 kilos de alimentos al año, es decir, más del 18% de la comida que se compra acaba en la basura. Unilever ha creado un decálogo:</p>
-          <p style="font-size:12px;color:#555;line-height:1.55">PLANIFICAR (lista de la compra + menú semanal) · REAPROVECHAR (sobras en nuevas recetas) · ESCOGER (comprobar caducidades) · ORGANIZAR (poner delante lo que caduca antes) · CONGELAR (lo que no vas a usar) · RACIONAR (porciones moderadas) · RECICLAR (compost con cáscaras y restos de frutas y verduras) · TECNOLOGÍA (apps de seguimiento) · PROMOVER (charlas y talleres) · EN RESTAURANTE (pide las sobras para llevar)</p>
-        </div>
-        <div class="no-tts" style="font-size:10.5px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 5px">🗣️ Modelo de mediación oral (inglés)</div>
-        <p>Hi! I came across an interesting article on food waste that might be useful for your class. <b>Apparently,</b> every Spanish family throws away more than 76 kilos of food per year — that's about 18% of what they buy ending up in the bin. Unilever <b>has put together</b> <span class="gt gpp">PP</span> a list of ten tips to help reduce this waste at home.</p>
-        <p><b>The main ideas are:</b> plan ahead by making a shopping list and a weekly menu; reuse leftovers in new recipes; check expiry dates regularly; organise your fridge so the food that expires first is at the front; freeze what you cannot use in time; serve moderate portions; recycle peels and food scraps as compost for plants; use apps that track what you have bought; spread the message at school or work; and at restaurants, ask to take leftovers home.</p>
-        <p>It is a really practical list — every small habit adds up. <b>Hope it helps</b> for your class!</p>
-      </div>
-      <div class="gram-box">
-        <h4>Frases fijas de mediación informal</h4>
-        <div class="gram-item">
-          <span class="gs">Apertura</span>
-          <span class="ge">"Hi! I came across an interesting article on..." / "I read something the other day about..."<br>→ Tono cercano, casual. Nunca "The text says".</span>
-        </div>
-        <div class="gram-item">
-          <span class="gs">Introducir contenido</span>
-          <span class="ge">"Apparently,..." / "It says that..." / "The main ideas are..." / "Hope it helps!"<br>→ Estructura: contexto + idea principal + lista de puntos + cierre amable.</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Bullying -->
-  <div class="topic-block">
-    <div class="topic-h" onclick="tp(this)">
-      <span class="tn">🛡️</span><span class="tt"><span class="fav-mark">❤️</span>School Bullying — Acciones para prevenir <small style="font-size:11px;color:#888;font-weight:500">(mediación)</small></span><span class="tic">›</span>
-    </div>
-    <div class="topic-body">
-      <div class="topic-text">
-        <p class="no-tts" style="font-size:11.5px;color:#888;font-style:italic">Contexto: un vecino auxiliar de conversación necesita un resumen oral en inglés de una guía sobre acoso escolar.</p>
-        <div class="no-tts" style="background:#fef3e2;padding:10px 12px;border-radius:8px;border-left:3px solid #d97706;margin:10px 0">
-          <div style="font-size:10.5px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px">📄 Texto fuente (español)</div>
-          <p style="font-size:12.5px;color:#444;line-height:1.55">ACCIONES PARA PREVENIR EL ACOSO ESCOLAR — 4 pasos:</p>
-          <p style="font-size:12px;color:#555;line-height:1.55"><b>01. ENTENDER:</b> ver las cosas desde su perspectiva, sin demonizar a nadie. Comunicación y respeto. · <b>02. CONECTAR:</b> participar de su realidad como espectadores, tratarles con la misma dignidad que un adulto, respetarles. · <b>03. PREVENIR:</b> estar pendiente de las señales y saber detectarlas. · <b>04. ACTUAR:</b> no entrar en pánico, buscar soluciones eficaces, confiar en el profesorado y profesionales especializados.</p>
-        </div>
-        <div class="no-tts" style="font-size:10.5px;font-weight:700;color:#1e40af;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 5px">🗣️ Modelo de mediación oral (inglés)</div>
-        <p>Hi! I found a guide on preventing school bullying that might work for your conversation class. <b>It outlines four key actions</b> parents and teachers can take.</p>
-        <p><b>First, understand</b> the children — see things from their perspective without demonising anyone. Communication and respect are essential. <b>Second, connect</b> with them naturally. Take part in their world as observers, treat them with the same dignity you would an adult, and respect their boundaries.</p>
-        <p><b>Third, prevent</b> by being aware of warning signs and learning to spot them early. The guide gives some useful clues for that. <b>And fourth, act</b> — not by panicking, but by looking for effective solutions and trusting professionals like teachers and school counsellors.</p>
-        <p>In short, prevention is mostly about empathy, attention, and acting promptly through the right channels. <b>Hope it is useful</b> for your class!</p>
-      </div>
-      <div class="gram-box">
-        <h4>Estructura tipo de mediación con lista numerada</h4>
-        <div class="gram-item">
-          <span class="gs">Apertura + tesis</span>
-          <span class="ge">"I found a guide on... that might work for your class. It outlines [N] key actions..."<br>→ Patrón fijo: introducción + número de puntos = lector orientado desde el principio.</span>
-        </div>
-        <div class="gram-item">
-          <span class="gs">Conectores ordinales</span>
-          <span class="ge">"First, ..." / "Second, ..." / "Third, ..." / "And fourth, ..."<br>→ Para listas numeradas en oral. Más simples y claros que "firstly, secondly, thirdly".</span>
-        </div>
-        <div class="gram-item">
-          <span class="gs">Cierre típico</span>
-          <span class="ge">"In short, [resumen en una frase]. Hope it is useful for your class!"<br>→ Resumen en una frase + saludo amable. Tono informal pero estructurado.</span>
-        </div>
-      </div>
-    </div>
-  </div>
+
 </div>
+</details>
 
-<!-- Comodines speaking -->
-<div class="card"><div class="lbl">Comodines — funcionan en cualquier topic</div>
-<div class="ph">In my opinion, this is a topic that affects all of us in different ways.<span class="tr">Arranque universal — siempre funciona</span></div>
-<div class="ph">From my own experience, I have found that...<span class="tr">Conexión con experiencia personal</span></div>
-<div class="ph">I think it depends on the person and their circumstances.<span class="tr">Para ganar tiempo cuando no hay posición clara</span></div>
-<div class="ph">Another important aspect that is often overlooked is...<span class="tr">Para introducir el 2º punto</span></div>
-<div class="ph">I am convinced that the choices we make every day shape who we are and the world we live in.<span class="tr">Cierre universal — válido para cualquier topic</span></div>
-<div class="ph">That is a very interesting question. Let me think for a moment.<span class="tr">Para preguntas del examinador — alternativa al "mmm"</span></div>
-</div>
-
-</div><!-- end speaking -->
-
-<!-- ========== WRITING ========== -->
-<div class="page" id="page-writ">
-<div class="intro"><b>2 tareas · 75 min · 20 pts</b><br>Lee primero el ejemplo completo con las estructuras marcadas. Después estudia la plantilla. Así ves cómo funciona en contexto real.</div>
-
-<div class="ac" id="wa0">
-<div class="ac-h" onclick="ac('wa0')"><span class="title">Conectores — usa 8-10 distintos por texto</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p><b>Opinión:</b> In my opinion / From my point of view / I believe that / I am convinced that / It seems to me that</p>
-<p><b>Añadir:</b> In addition / Furthermore / Moreover / What is more / Not only...but also</p>
-<p><b>Contraste:</b> However / Although / Whereas / In contrast / Despite / Nevertheless / Even though / While</p>
-<p><b>Resultado:</b> As a result / For this reason / This means that / Therefore / Consequently</p>
-<p><b>Ejemplo:</b> For example / For instance / From my own experience / Such as / In particular</p>
-<p><b>Concesión:</b> Although / Despite the fact that / Admittedly / I also recognise that</p>
-<p><b>Conclusión:</b> In conclusion / To sum up / On balance / Overall / To conclude</p>
-<div class="bw">Nunca uses "Also" tres veces seguidas ni empieces dos párrafos con "Furthermore". Varía.</div>
-</div></div>
-
-<div class="ac is-fav" id="wa1">
-<div class="ac-h" onclick="ac('wa1')"><span class="title"><span class="fav-mark">❤️</span><span class="pill pb">Essay</span> Cocinar en casa vs restaurantes — plantilla universal</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p style="font-size:11px;color:#aaa;margin-bottom:10px">Lee el essay completo. Las etiquetas muestran qué estructura gramatical se usa y dónde.</p>
-<div class="essay-text">
-<p><b>Intro:</b> <b>From my point of view,</b> cooking at home has more advantages, particularly in terms of health, cost and cultural identity.</p>
-<p><b>Body 1:</b> <b>To begin with,</b> home cooking allows you to control exactly what you eat — the ingredients, the quantities, the method. <b>For example,</b> when I make a paella, I choose the rice, the sofrito, the stock — nothing is hidden. <b>This means that</b> you eat more consciously and, usually, more healthily. <b>In contrast,</b> restaurant food often contains more salt, sugar and fat than we realise.</p>
-<p><b>Body 2:</b> <b>Secondly,</b> cooking at home is significantly cheaper. <b>In addition,</b> it can be a social activity in itself — cooking together with family or friends is, <b>from my own experience,</b> one of the most genuine forms of connection. <b>If we all cooked at home more often,</b> <span class="gt g2c">2C</span> <b>we would be healthier and more connected as families.</b></p>
-<p><b>Concession:</b> <b>However, I also recognise that</b> eating out offers experiences that home cooking cannot replicate <span class="gt gp">PASS</span>: discovering new cuisines, trying dishes from other cultures. <b>Had I never eaten</b> <span class="gt g3ci">3CI</span> <b>in a Lebanese restaurant, I would never have discovered</b> one of my favourite foods.</p>
-<p><b>Conclusion:</b> <b>In conclusion, although</b> restaurants offer discovery and pleasure, <b>I firmly believe that</b> home cooking provides a healthier, more affordable and more meaningful experience. <b>For this reason, I would recommend</b> that anyone who wants to improve their relationship with food starts in their own kitchen — with a good sofrito.</p>
-</div>
-<div class="bw" style="margin-top:10px">3 estructuras B2.2 en un essay de 185 palabras — el rasgo que busca el examinador.</div>
-</div></div>
-
-<div class="ac" id="wa2">
-<div class="ac-h" onclick="ac('wa2')"><span class="title"><span class="pill pb">Essay</span> Plantilla universal</span><span class="ic">+</span></div>
-<div class="ac-b">
-<div class="tpl-line"><div class="tpl-lbl">Intro</div><div class="tpl-txt"><b>From my point of view,</b> [tema] has more advantages, particularly in terms of [A], [B] and [C].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Body 1</div><div class="tpl-txt"><b>To begin with,</b> [argumento]. <b>For example,</b> [ejemplo personal]. <b>This means that</b> [consecuencia]. <b>In contrast,</b> [lado opuesto] tends to [desventaja].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Body 2</div><div class="tpl-txt"><b>Secondly,</b> [argumento]. <b>In addition,</b> [detalle]. <b>As a result,</b> [consecuencia]. <b>From my own experience,</b> [conexión personal]. <b>If [condición], [resultado].</b> <span class="gt g2c">2C</span></div></div>
-<div class="tpl-line"><div class="tpl-lbl">Concesión</div><div class="tpl-txt"><b>However, I also recognise that</b> [punto opuesto]. <b>Had [condición pasada], [resultado].</b> <span class="gt g3ci">3CI</span></div></div>
-<div class="tpl-line"><div class="tpl-lbl">Conclusión</div><div class="tpl-txt"><b>In conclusion, although</b> [vista opuesta], <b>I firmly believe that</b> [posición]. <b>For this reason, I would recommend</b> [consejo] for anyone who [condición].</div></div>
-<div class="bg">150-190 palabras · Sin contracciones · Mínimo 2 estructuras B2.2</div>
-</div></div>
-
-<div class="ac" id="wa3">
-<div class="ac-h" onclick="ac('wa3')"><span class="title"><span class="pill pg">Blog/Post</span> Registro informal — autobiográfico</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p style="font-size:12px;color:#888;margin-bottom:8px">Tarea 1 habitual: infancia, logros y planes futuros. ~130 palabras. Contracciones OK.</p>
-<div class="essay-text">
-<p>Hi everyone! My name is Diego and I'm an architect from Murcia, Spain. I'm also a father of three and a musician — yes, all at once!</p>
-<p>When I was younger, I <b>used to</b> <span class="gt gut">UT</span> spend hours drawing and dreaming about buildings. I <b>would</b> <span class="gt gut">UT</span> cycle around my neighbourhood imagining what I'd redesign. I always dreamed of having a creative life, but I never thought I'd end up writing songs too.</p>
-<p>Looking back, I'm proud to say that I've built <span class="gt gpp">PP</span> a career I believe in, raised three incredible children, and found music as a second voice. <b>Not only have I</b> <span class="gt gno">NOBA</span> <b>achieved my professional goals, but I've also discovered</b> that the most meaningful things in life are often the ones you didn't plan for.</p>
-<p>As for the future, <b>I'd love to</b> publish my novel and keep making music with my son Guillermo by my side. I believe it's never too late to reinvent yourself.</p>
-</div>
-</div></div>
-
-<div class="ac" id="wa4">
-<div class="ac-h" onclick="ac('wa4')"><span class="title"><span class="pill po">Mediación</span> Email informal a amigo — parafrasea, no copies</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p style="font-size:12px;color:#888;margin-bottom:8px">Recibes un artículo y lo resumes en un email informal. El error más frecuente: copiar frases del texto. <b>Siempre parafrasea.</b></p>
-<div class="tpl-line"><div class="tpl-lbl">Apertura</div><div class="tpl-txt">Hey [nombre]! How are you? I just read something really interesting and thought of you straight away.</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Introducir tema</div><div class="tpl-txt">The article is about [tema en palabras propias]. <b>Apparently,</b> [punto principal 1]. <b>According to what I read,</b> [punto 2].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Punto más relevante</div><div class="tpl-txt"><b>What I found most interesting is that</b> [dato]. <b>It also mentions that</b> [dato secundario].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Opinión + cierre</div><div class="tpl-txt">I think this is [great/surprising/worrying] because [razón breve]. <b>Let me know what you think!</b> Speak soon, Diego</div></div>
-<div class="bw">NUNCA: "The text says that..." / "In the article it is written..."<br>SÍ: "Apparently..." / "It seems that..." / "According to what I read..."</div>
-</div></div>
-
-<div class="ac" id="wa5">
-<div class="ac-h" onclick="ac('wa5')"><span class="title"><span class="pill pp">Report</span> Informe con secciones</span><span class="ic">+</span></div>
-<div class="ac-b">
-<div class="tpl-line"><div class="tpl-lbl">Intro</div><div class="tpl-txt"><b>The aim of this report is to</b> describe/analyse [tema] and to make recommendations for [propósito].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Current Situation</div><div class="tpl-txt"><b>The area/facility offers</b> [descripción]. <b>One of the main strengths is</b> [fortaleza]. <b>In addition,</b> [fortaleza 2].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Issues Identified</div><div class="tpl-txt"><b>However, some issues can be identified, particularly</b> [problema]. <b>This may affect</b> [grupo] during [circunstancias].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Recommendations</div><div class="tpl-txt"><b>It is recommended that</b> [acción 1]. <b>In addition,</b> [acción 2] should be considered <span class="gt gp">PASS</span> in order to [beneficio].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Conclusion</div><div class="tpl-txt"><b>Overall,</b> [resumen positivo] and, with appropriate improvements, could provide a better experience for [usuarios].</div></div>
-</div></div>
-
-<div class="ac" id="wa6">
-<div class="ac-h" onclick="ac('wa6')"><span class="title"><span class="pill pr">Letter</span> Carta de solicitud formal</span><span class="ic">+</span></div>
-<div class="ac-b">
-<div class="tpl-line"><div class="tpl-lbl">Apertura</div><div class="tpl-txt">Dear Sir or Madam,</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Motivo</div><div class="tpl-txt"><b>I am writing to apply for the position of</b> [puesto] as advertised [dónde]. <b>I am particularly interested because</b> [razón]. <b>I believe this role would allow me to</b> [beneficio].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Experiencia</div><div class="tpl-txt"><b>I have previous experience in</b> [campo]. <b>In addition, I have developed strong</b> [habilidades], which would be useful in [contexto].</div></div>
-<div class="tpl-line"><div class="tpl-lbl">Idoneidad</div><div class="tpl-txt"><b>I believe I am well suited to this position as I am</b> [cualidades]. <b>Furthermore, I am confident that I could make a positive contribution to your organisation.</b></div></div>
-<div class="tpl-line"><div class="tpl-lbl">Cierre</div><div class="tpl-txt"><b>I hope you will consider my application. I look forward to hearing from you.</b><br>Yours faithfully, Diego Aroca Villalba</div></div>
-</div></div>
-
-<!-- COMPLAINT LETTER — prioritario -->
-<div class="ac is-fav" id="wa7">
-<div class="ac-h" onclick="ac('wa7')"><span class="title"><span class="fav-mark">❤️</span><span class="pill pr">Letter</span> Complaint — carta de reclamación</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p style="font-size:12px;color:#888;margin-bottom:8px">Modelo de carta de reclamación (formato del temario · prioritario para memorizar). Estructura fija: motivo + queja detallada + lo que pides + cierre formal.</p>
-<div class="essay-text">
-<p><b>Subject: Complaint Regarding Recent Order</b></p>
-<p>Dear Sir or Madam,</p>
-<p><b>I am writing to complain about</b> a meal I ordered from your restaurant on 3 May at your City Centre branch. <b>Unfortunately,</b> I was very disappointed with the service.</p>
-<p>The food arrived <span class="gt gp">PASS</span> over 30 minutes late, the fries were cold, and a soft drink was missing from my order. <b>In addition,</b> the burger was overcooked <span class="gt gp">PASS</span> and difficult to eat.</p>
-<p><b>As a regular customer, I expected a better standard of service.</b> I would appreciate a refund or a replacement meal as compensation.</p>
-<p>I look forward to your response.</p>
-<p>Yours faithfully,<br>Ainoa Aguilera</p>
-</div>
-<div class="bg" style="margin-top:10px"><b>Frases fijas para memorizar:</b><br>
-· <b>I am writing to complain about</b> [producto/servicio] · <b>Unfortunately,</b> I was very disappointed with [aspecto] · <b>As a regular customer, I expected a better standard of service</b> · <b>I would appreciate</b> a refund / replacement / compensation · <b>I look forward to your response</b> · <b>Yours faithfully,</b></div>
-<div class="bw" style="margin-top:8px"><b>Plantilla universal · adaptable a cualquier producto:</b><br>
-1. <b>Subject:</b> Complaint Regarding [tipo de problema]<br>
-2. <b>Apertura:</b> Dear Sir or Madam,<br>
-3. <b>Motivo:</b> I am writing to complain about [qué + cuándo + dónde]<br>
-4. <b>Quejas detalladas:</b> [problema 1]. In addition, [problema 2]. Furthermore, [problema 3].<br>
-5. <b>Lo que pides:</b> As a [regular customer/loyal client/...], I expected... I would appreciate [refund / replacement / compensation / formal apology]<br>
-6. <b>Cierre:</b> I look forward to your response. Yours faithfully, [nombre]</div>
-</div></div>
-
-<div class="card" style="margin-top:14px"><div class="lbl">⭐ Modelos personales · referencia</div>
-<p style="font-size:12.5px;line-height:1.6;color:#444">Textos personales para repaso. Los conectores y estructuras B2.2 aparecen <b>en negrita</b>.</p></div>
-
-<!-- MODEL 4: Report — Parks and Gardens -->
-<div class="ac is-fav" id="wm4">
-<div class="ac-h" onclick="ac('wm4')"><span class="title"><span class="fav-mark">❤️</span><span class="pill pp">Report</span> Parks and Gardens — alternativa cómoda al Environmental</span><span class="ic">+</span></div>
-<div class="ac-b">
-<div class="essay-text">
-<p><b>The aim of this report is to</b> describe the parks and gardens in the local area and to make recommendations for possible improvements for visitors.</p>
-<p>The area offers a number of parks and green spaces, which are generally well maintained <span class="gt gp">PASS</span>. <b>The main park is located</b> <span class="gt gp">PASS</span> near the city centre and includes a wide range of facilities <b>such as</b> walking paths, seating areas and playgrounds.</p>
-<p><b>One of the main strengths</b> of these facilities is the large amount of open space available for relaxation and outdoor activities. <b>In addition,</b> they are easily accessible by public transport, <b>which makes them suitable</b> for a wide range of visitors.</p>
-<p><b>However, some issues can be identified, particularly</b> the lack of shaded areas and benches in certain zones. This may affect elderly visitors during warmer months.</p>
-<p><b>It is recommended that</b> additional shaded areas and seating <b>be installed</b> <span class="gt gp">PASS</span>. <b>In addition,</b> improved lighting <b>should be considered</b> <span class="gt gp">PASS</span> to increase safety.</p>
-<p><b>Overall,</b> the parks and gardens offer good potential and, with appropriate improvements, could provide a better experience for visitors.</p>
-</div>
-<div class="bg" style="margin-top:10px"><b>5 pasivas</b> en un report — perfecto. La pasiva da el tono formal que el examen pide.</div>
-</div></div>
-
-<!-- MODEL 5: Letter of Application -->
-<div class="ac" id="wm5">
-<div class="ac-h" onclick="ac('wm5')"><span class="title"><span class="pill pr">Letter</span> Application — volunteer position</span><span class="ic">+</span></div>
-<div class="ac-b">
-<div class="essay-text">
-<p><b>Dear Sir or Madam,</b></p>
-<p><b>I am writing to apply for</b> the position of volunteer as advertised on your local English-language <span class="hw" data-tr="tablón de anuncios">noticeboard</span>.</p>
-<p><b>I am particularly interested in this opportunity because</b> I enjoy working with people and contributing to community activities. <b>I believe this role would allow me to</b> gain valuable experience while helping your organisation.</p>
-<p><b>I have previous experience in</b> working with the public, including assisting at local events and collaborating with teams. <b>In addition, I have developed strong</b> communication and organisational skills, which would be useful in a busy working environment.</p>
-<p><b>I believe I am well suited to this position as I am</b> reliable, motivated and able to work well under pressure. <b>Furthermore, I am confident that I could make a positive contribution</b> to your organisation.</p>
-<p><b>I hope you will consider my application. I look forward to hearing from you.</b> I would be available to start immediately if required.</p>
-<p><b>Yours faithfully,</b><br>Diego Aroca Villalba</p>
-</div>
-</div></div>
-
-<!-- MODEL 6: Mediación informal -->
-<div class="ac" id="wm6">
-<div class="ac-h" onclick="ac('wm6')"><span class="title"><span class="pill po">Mediación</span> Life in the city — your real one</span><span class="ic">+</span></div>
-<div class="ac-b">
-<div class="essay-text">
-<p><b>I am writing to help you understand what life in the city is like</b> and to prepare you for the changes you may experience.</p>
-<p><b>According to the information I received,</b> life in the city is fast-paced and highly organised. People are usually busy with work, social activities and personal commitments, and time management is very important.</p>
-<p><b>One of the main differences is</b> the use of technology and digital communication. Many daily activities are done through apps, and face-to-face interactions are less common during the week.</p>
-<p>This lifestyle may feel overwhelming at first, especially for someone used to a slower and more traditional way of living. The intense work routine and multitasking can be demanding.</p>
-<p><b>However,</b> once you find your own rhythm, the city can offer many opportunities. <b>I would recommend</b> staying open-minded, taking time to adapt gradually and making use of the cultural and social activities available.</p>
-<p><b>Overall, although</b> the change may be challenging, city life can be rewarding and enriching <b>if approached with</b> a positive attitude.</p>
-</div>
-<div class="bg" style="margin-top:10px"><b>Recuerda:</b> en mediación NUNCA digas "the text says". Usa "according to what I received / apparently / one of the main differences is".</div>
-</div></div>
-
+<details class="c1-section" style="margin-bottom:12px">
+<summary style="cursor:pointer;padding:12px 14px;background:#f4f4f2;border-radius:10px;font-weight:700;font-size:14px;color:#1a1a1a">🔄 Multitask — Mediación corta (eliminada del Writing activo)</summary>
+<div style="padding:8px 0">
 <!-- MODEL 7: Multitask -->
 <div class="ac" id="wm7">
 <div class="ac-h" onclick="ac('wm7')"><span class="title"><span class="pill po">Mediación</span> Multitask — short summary after a video</span><span class="ic">+</span></div>
@@ -1380,251 +2883,11 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 </div>
 <div class="bg" style="margin-top:10px">Resumen breve · ideal con poco material de partida y conexión personal solicitada.</div>
 </div></div>
-
-<div class="card"><div class="lbl">Checklist antes de entregar</div>
-<p style="font-size:13px;line-height:1.9">
-✓ ¿Palabras dentro del rango?<br>
-✓ ¿Contesté TODOS los puntos de la tarea?<br>
-✓ ¿Usé mínimo 2 estructuras B2.2?<br>
-✓ ¿8-10 conectores distintos?<br>
-✓ ¿Sin contracciones en essay/report/carta?<br>
-✓ <b>address</b> (no adress) · <b>destination</b> (no destiny) · <b>climate change</b> (no "the climate change")
-</p></div>
 </div>
-
-<!-- ========== READING ========== -->
-<div class="page" id="page-read">
-<div class="intro"><b>4 tipos de tarea · 60 min · 20 pts</b><br>La clave es la TÉCNICA. Puedes sacar 8/10 en Reading sin vocabulario extra si sigues el proceso exacto.</div>
-
-<div class="ac" id="ra1">
-<div class="ac-h" onclick="ac('ra1')"><span class="title"><span class="pill pb">Tarea 1</span> True / False — 8 frases · 8 pts</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p><b>Qué es:</b> 8 frases sobre un texto. La respuesta TRUE o FALSE depende exclusivamente del texto, no del conocimiento general.</p>
-<div class="bg"><b>Regla de oro:</b> La respuesta SIEMPRE está en el texto. Si no encuentras la frase correspondiente, busca más.</div>
-<p><b>El proceso (3 pasos):</b></p>
-<ul>
-<li>Lee la frase de la tarea y subraya la idea clave</li>
-<li>Encuentra el párrafo equivalente en el texto</li>
-<li>Compara PALABRA POR PALABRA — cualquier diferencia de significado = FALSE</li>
-</ul>
-<div class="bw"><b>Las 5 trampas más frecuentes:</b><br>
-1. Cuantificador cambiado: "some studies" → dicen "all studies"<br>
-2. Negación añadida: "is easy" → dicen "is not difficult"<br>
-3. Causa/efecto invertidos: A causa B → dicen B causa A<br>
-4. Demasiado extremo: texto dice "can help" → tarea dice "always helps"<br>
-5. Persona equivocada: lo dijo A → dicen que lo dijo B</div>
-<div class="be">Texto: "Some studies suggest mindfulness can be as effective as painkillers."<br>
-Tarea: "Mindfulness has been proven more effective than painkillers." → <b>FALSE</b><br>
-(some ≠ proven; as effective ≠ more effective)</div>
-<div class="be">Texto: "Basil walked past with his face concealed by a black bag on his shoulder."<br>
-Tarea: "Basil was recorded with his face covered under a black cap." → <b>FALSE</b><br>
-(bag ≠ cap — trampa clásica)</div>
-<p><b>Tiempo:</b> 15 min. Nunca dejes en blanco — 50% de probabilidad al azar.</p>
-</div></div>
-
-<div class="ac" id="ra2">
-<div class="ac-h" onclick="ac('ra2')"><span class="title"><span class="pill pg">Tarea 2</span> Párrafos → Títulos · 7 pts</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p><b>Qué es:</b> 7 párrafos numerados. Los emparejas con 9 títulos. 2 sobran.</p>
-<div class="bg">El título = IDEA PRINCIPAL del párrafo, no un detalle secundario.</div>
-<p><b>El proceso:</b></p>
-<ul>
-<li>Lee SOLO la primera y última frase de cada párrafo</li>
-<li>Formular mentalmente la idea central en 2-3 palabras</li>
-<li>Busca el título que expresa ESA IDEA (estará parafraseado)</li>
-<li>Los distractores mencionan algo del párrafo pero no el tema principal</li>
-</ul>
-<div class="bw">El texto puede decir "money" pero el título correcto dice "financial pressure". Busca el CONCEPTO, no la palabra exacta.</div>
-<div class="be">Párrafo: Una familia empieza a visitar a vecinos ancianos, van al parque, luego de compras...<br>
-Título correcto: "Gradually coming closer" ✓<br>
-Título distractor: "Meeting a neighbour" ✗ (solo describe el inicio)</div>
-<p><b>Tiempo:</b> 15 min.</p>
-</div></div>
-
-<div class="ac" id="ra3">
-<div class="ac-h" onclick="ac('ra3')"><span class="title"><span class="pill po">Tarea 3</span> Insertar frases en huecos · 7 pts</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p><b>Qué es:</b> Texto con 7 huecos. Eliges qué frase (A-I) va en cada hueco. 2 sobran.</p>
-<div class="bg">Las frases se insertan por COHESIÓN — la frase conecta lo que viene antes y lo que viene después.</div>
-<p><b>El proceso:</b></p>
-<ul>
-<li>Lee la frase ANTES del hueco → anota la última idea</li>
-<li>Lee la frase DESPUÉS del hueco → anota de qué empieza</li>
-<li>La frase correcta conecta ambas ideas</li>
-</ul>
-<p><b>Señales de cohesión que buscar en las frases opcionales:</b></p>
-<ul>
-<li>Pronombres: "it", "they", "this" → ¿a qué se refieren en el párrafo anterior?</li>
-<li>Conectores: "however", "therefore", "instead", "as a result"</li>
-<li>Palabras clave repetidas del contexto cercano</li>
-</ul>
-<div class="be">Antes del hueco: "...American teachers focused on correct procedures—"<br>
-Frase D: "primarily ignoring errors and complimenting students on correct answers only"<br>
-Después del hueco: "Japanese teachers, on the other hand, rarely praised..."<br>
-→ "on the other hand" confirma que D es el CONTRASTE con lo que viene después. ✓</div>
-<p><b>Tiempo:</b> 15 min.</p>
-</div></div>
-
-<div class="ac" id="ra4">
-<div class="ac-h" onclick="ac('ra4')"><span class="title"><span class="pill pp">Tarea 4</span> Elegir palabra (a/b/c) · 5 pts</span><span class="ic">+</span></div>
-<div class="ac-b">
-<p><b>Qué es:</b> Texto con 7-10 huecos. 3 opciones de palabra para cada uno.</p>
-<div class="bg">Proceso: GRAMÁTICA → SIGNIFICADO → COLOCACIÓN</div>
-<ul>
-<li>¿Qué categoría gramatical necesita el hueco? (nombre/verbo/adj/prep)</li>
-<li>¿Cuál tiene el significado correcto en este contexto?</li>
-<li>¿Cuál coloca bien con las palabras de alrededor?</li>
-</ul>
-<div class="bw">Las 3 opciones suelen ser sinónimos cercanos. La diferencia está en la colocación o el registro.<br>
-Ej: feel/bear/sense + "like" → solo "feel like" existe como expresión fija.</div>
-<div class="be">"you don't _____ like you belong anywhere"<br>
-a) bear &nbsp; b) feel &nbsp; c) sense → <b>b) feel</b> ("feel like" = tener la sensación de)</div>
-<div class="be">"a _____ solution, such as staying with family"<br>
-a) casual &nbsp; b) short &nbsp; c) temporary → <b>c) temporary</b> (colocación fija: temporary solution)</div>
-<p><b>Tiempo:</b> 10 min. Gestión total: 60 min = T1:15 + T2:15 + T3:15 + T4:10 + revisión:5</p>
-</div></div>
-
-<div class="card" style="margin-top:18px"><div class="lbl">⭐ Ejercicios reales</div>
-<p style="font-size:13px;line-height:1.7;color:#444"><b>4 ejercicios reales</b>, uno de cada tipo de tarea, sacados de los textos del examen modelo. Un ejercicio por día con solución al final.</p></div>
-
-<!-- READING EXERCISE 1: T/F (Heist text) -->
-<div class="ag is-fav" id="rex1">
-  <div class="ag-head"><h3><span class="fav-mark">❤️</span>Ejercicio 1 · True / False — técnica clave</h3><p>Texto: <i>The Hatton Garden Heist</i> — 8 frases · 15 min · concentra las 5 trampas reales del examen</p></div>
-  <div style="padding:12px 14px">
-    <div class="lbl" style="margin-bottom:8px">Texto</div>
-    <div class="essay-text" style="font-size:13px;background:#fafaf8;padding:12px;border-radius:8px;border:1px solid #f0f0ee">
-      <p>It would have been the country's biggest ever <span class="hw" data-tr="atraco, robo">heist</span>, but for the need for more tools. They might have got away with it. Only a third of the jewelry, rings, gold, diamonds, other precious stones, and cash has been recovered, and an unnamed ginger-haired man known as Basil got away. Total years 441, average age 63.</p>
-      <p>It was 3 years in the making, a raid on this safety deposit <span class="hw" data-tr="cámara acorazada">vault</span> whose security system was well <span class="hw" data-tr="caducado, obsoleto">past its sell by date</span>. The way in was through the fire escape round the corner next to number 38. From the moment a white van pulled up in Hatton Garden late on the night of Thursday, the 2nd of April last year, there was no going back. Basil was first in through the main door to the building. He had keys. How is not known. From a parked van, the gang unload bags, tools, and <span class="hw" data-tr="contenedores con ruedas">wheelie bins</span> take them through the fire exit and down the stairs.</p>
-      <p>Inside the building, the lift is disabled on the second floor, and from the ground floor, some <span class="hw" data-tr="descender en rappel">abseil</span> down the lift shaft to the basement. The CCTV is disabled. The phone cable from the alarm box is cut. Through the night, the men cut and drilled their way into the vault. That night, the gang hit a <span class="hw" data-tr="contratiempo, problema">snag</span> when they peered through the hole. Their hydraulic pump wasn't powerful enough. They abandoned the vault, but not the plan. They got another on the Saturday that did the job.</p>
-      <p>Brian Reer was the governor. At 76, he's the veteran villain. £14 million worth of valuables were stolen from 44 boxes. 9 million has still not been recovered. Several cameras caught Basil over that weekend walking past with his face concealed by a black bag on his shoulder. A £20,000 reward is still on offer to help identify and capture the one outstanding suspect.</p>
-    </div>
-    <div class="lbl" style="margin-top:14px;margin-bottom:6px">Marca True o False (toca el botón)</div>
-    <div id="rex1-q"></div>
-    <button class="check-btn" onclick="checkReading('rex1')">Comprobar</button>
-    <div id="rex1-result" class="result-box"></div>
-  </div>
-</div>
-
-<!-- READING EXERCISE 2: Match paragraphs to titles (M1 extracts) -->
-<div class="ag" id="rex2">
-  <div class="ag-head"><h3>📖 Ejercicio 2 · Párrafos → Títulos</h3><p>Texto: <i>8 short extracts</i> (Modelo 1) · empareja con titulares · 15 min</p></div>
-  <div style="padding:12px 14px">
-    <div class="lbl" style="margin-bottom:8px">Texto (8 extractos numerados)</div>
-    <div class="essay-text" style="font-size:13px;background:#fafaf8;padding:12px;border-radius:8px;border:1px solid #f0f0ee">
-      <p><b>1.</b> The sheer beauty of northern Mexico's Sierra Madre Mountains is only one reason why visitors come to enjoy quiet time in this part of the country known as the Copper Canyon. The opportunity to interact with the region's Tarahumara Indians is another reason this isn't an average mountain destination.</p>
-      <p><b>2.</b> In spring we move our clocks forward an hour and in fall we move them back an hour. In the United States, 48 states observe daylight saving time with Hawaii, most of Arizona, and the US territories choosing to ignore it.</p>
-      <p><b>3.</b> Indigenous peoples and local communities are among those <span class="hw" data-tr="los más afectados">hardest hit</span> by climate change. Despite this vulnerability, they have generations of experience and their knowledge is central to forging effective climate change solutions.</p>
-      <p><b>4.</b> These <span class="hw" data-tr="caminantes con esmoquin (pingüinos)">tuxedoed waddlers</span> are emperor penguins. The remarkable thing is the one who incubates the egg in a <span class="hw" data-tr="bolsa incubadora">brood pouch</span> is dad. Meanwhile, mom goes off to sea looking for food.</p>
-      <p><b>5.</b> 65 million years ago, something brought an abrupt end to the dinosaur age. Most scientists think a giant comet or asteroid smashed into the Earth, throwing massive clouds of dust into the atmosphere. As the planet grew cold and dark, the dinosaurs died off.</p>
-      <p><b>6.</b> Here in the Florida Everglades, they're after some party crashers, invasive Burmese pythons. Over the past decade, escaped or abandoned pythons have made a home of the Everglades and are wreaking havoc on the local bird populations <span class="hw" data-tr="causando estragos">wreaking havoc</span>.</p>
-      <p><b>7.</b> Taylor Swift fans' wildest dreams would be tickets for her tour, but Ticketmaster's website couldn't deliver tickets in a swift manner as it kept freezing.</p>
-      <p><b>8.</b> 500 new words have been added to the game's official Merriam-Webster online dictionary, and they're all playable in Scrabble. Guac, short for guacamole, made the cut. And finally, an oldie. Yeehaw.</p>
-    </div>
-    <div class="lbl" style="margin-top:14px;margin-bottom:6px">Empareja cada extracto con un título (2 sobran)</div>
-    <div class="be" style="margin-bottom:10px">
-      <b>A.</b> A change of clocks with mixed effects<br>
-      <b>B.</b> An animal causing damage in protected areas<br>
-      <b>C.</b> Words from the streets enter the dictionary<br>
-      <b>D.</b> Concerts cancelled due to weather<br>
-      <b>E.</b> Mountainous beauty and indigenous heritage<br>
-      <b>F.</b> The end of an era of giant reptiles<br>
-      <b>G.</b> A father bird's extreme dedication<br>
-      <b>H.</b> Local wisdom helps fight global change<br>
-      <b>I.</b> A website overwhelmed by demand<br>
-      <b>J.</b> Discovery of new dinosaur species
-    </div>
-    <div id="rex2-q"></div>
-    <button class="check-btn" onclick="checkReading('rex2')">Comprobar</button>
-    <div id="rex2-result" class="result-box"></div>
-  </div>
-</div>
-
-<!-- READING EXERCISE 3: Insert sentences in gaps (Brain text) -->
-<div class="ag" id="rex3">
-  <div class="ag-head"><h3>📖 Ejercicio 3 · Insertar frases en huecos</h3><p>Texto: <i>Brain Health</i> · 4 huecos · 6 frases (2 sobran) · 15 min</p></div>
-  <div style="padding:12px 14px">
-    <div class="lbl" style="margin-bottom:8px">Texto con huecos [1]–[4]</div>
-    <div class="essay-text" style="font-size:13px;background:#fafaf8;padding:12px;border-radius:8px;border:1px solid #f0f0ee">
-      <p>Your brain is the <span class="hw" data-tr="sin rival, supremo">unrivaled</span> organ in chief. We're talking 100 billion plus cells that collectively control basically everything your body does. <b>[1] _____</b></p>
-      <p>Research shows that sleeping with the head beneath the covers can cause brain damage. In fact, some studies indicate that up to 23% of individuals develop dementia. These conditions are in most cases as a result of lack of enough oxygen to the brain. <b>[2] _____</b></p>
-      <p>Water makes up at least two-thirds of the human body. Dehydration can lead to issues from migraines to kidney stones. <b>[3] _____</b> Symptoms of dehydration include being more prone to irritability, anxiety, and fatigue.</p>
-      <p>Studies show that mental decline is not an inevitable part of aging. People who lead mentally stimulating lives are more likely to be free of dementia. <b>[4] _____</b> So, make sure to go out, networking, join groups online and stay socially active.</p>
-    </div>
-    <div class="lbl" style="margin-top:14px;margin-bottom:6px">Frases (2 sobran)</div>
-    <div class="be" style="margin-bottom:10px">
-      <b>A.</b> Get between 7 to 8 hours of quality undisrupted sleep every single night.<br>
-      <b>B.</b> But what I find very odd is most people have negative habits that they're seemingly unaware of, causing damage.<br>
-      <b>C.</b> The brain works best when fed with red meat at every meal.<br>
-      <b>D.</b> The greater the variety of the ways in which you use your mind, the easier you will find remembering.<br>
-      <b>E.</b> It can also take a toll on your brain health, affecting your mood and overall function.<br>
-      <b>F.</b> Most diseases of the brain are completely irreversible regardless of habits.
-    </div>
-    <div id="rex3-q"></div>
-    <button class="check-btn" onclick="checkReading('rex3')">Comprobar</button>
-    <div id="rex3-result" class="result-box"></div>
-  </div>
-</div>
-
-<!-- READING EXERCISE 4: Word choice (Fashion text M4) -->
-<div class="ag" id="rex4">
-  <div class="ag-head"><h3>📖 Ejercicio 4 · Elegir palabra (a/b/c)</h3><p>Texto: <i>Fashion Industry Pollution</i> · 7 huecos · 10 min</p></div>
-  <div style="padding:12px 14px">
-    <div class="lbl" style="margin-bottom:8px">Lee y elige la palabra correcta</div>
-    <div id="rex4-q" style="font-size:13.5px;line-height:1.95;background:#fafaf8;padding:14px;border-radius:8px;border:1px solid #f0f0ee"></div>
-    <button class="check-btn" onclick="checkReading('rex4')">Comprobar</button>
-    <div id="rex4-result" class="result-box"></div>
-  </div>
-</div>
+</details>
 
 </div>
 
-<!-- ========== LISTENING ========== -->
-<div class="page" id="page-list">
-<div class="intro"><b>7 audios reales · práctica completa</b><br>Cada audio se escucha dos veces (el contador lo registra). Tres modos disponibles: leer la transcripción con palabras difíciles traducidas, rellenar huecos al dictado, o contestar preguntas estilo examen.</div>
-
-<div class="card"><div class="lbl">Reglas de oro del listening</div>
-<ul style="font-size:13px;line-height:1.85">
-<li><b>Lectura previa</b> de las preguntas antes de escuchar — siempre.</li>
-<li>El audio <b>parafrasea</b>: las palabras exactas no se repiten.</li>
-<li>1ª escucha → marcar la mejor opción. 2ª → confirmar o cambiar.</li>
-<li>Las preguntas van en <b>orden cronológico</b> dentro del audio.</li>
-<li>Nunca dejar en blanco — siempre intentar.</li>
-</ul></div>
-
-<div id="listening-container"></div>
-</div>
-
-<!-- ========== FLASHCARDS ========== -->
-<div class="page" id="page-flash">
-<div class="intro"><b>72 tarjetas · Anki-style</b><br>Toca para ver la respuesta. Verde si lo sabías, rojo si no. Las tarjetas rojas vuelven al mazo hasta que salgan todas verdes. Cada tarjeta de gramática lleva el <b>tag de color</b> que aparece en los textos del Speaking, su <b>fórmula</b>, y <b>ejemplos con traducción al español</b>.</div>
-<div class="fc-cats" id="fccats">
-  <button class="on" onclick="cat('all',this)">Todo</button>
-  <button onclick="cat('grammar',this)">Gramática</button>
-  <button onclick="cat('connectors',this)">Conectores</button>
-  <button onclick="cat('errors',this)">Errores</button>
-  <button onclick="cat('vocab',this)">Vocab</button>
-  <button onclick="cat('phrasal',this)">Phrasal</button>
-</div>
-<div class="fc-bar"><div class="fc-fill" id="fcfill" style="width:0%"></div></div>
-<div class="fc-info"><span id="fcpos">1 / <span id="fctot"></span></span><span id="fcscore">✓ 0 &nbsp;✗ 0</span></div>
-<div class="fccard" id="fccard" onclick="flip()">
-  <div class="fcf">
-    <div class="ftag" id="ftag">—</div>
-    <div class="fq" id="fq">—</div>
-  </div>
-  <div class="fcb">
-    <div class="ftag" id="ftag2">—</div>
-    <div class="fa" id="fa">—</div>
-    <div class="ff" id="ff"></div>
-    <div class="fex" id="fex"></div>
-  </div>
-  <div class="fchint" id="fchint">toca para ver</div>
-</div>
-<div class="fcbtns" id="fcbtns" style="display:none">
-  <button class="fcn" onclick="grade(false)">No lo sabía</button>
-  <button class="fcy" onclick="grade(true)">Lo tenía</button>
-</div>
-</div>
 
 <!-- Repaso Turbo barra flotante -->
 <div id="turbo-bar" class="turbo-bar">
@@ -1668,7 +2931,7 @@ function go(id,btn){
   if(id==='list')renderListening();
   if(id==='read')renderReading();
   if(id==='plan')initPlan();
-  if(id==='writ'||id==='speak')initTTS();
+  if(id==='writ'||id==='speak'||id==='c1'||id==='frases')initTTS();
   // Stop any audio TTS when switching tabs
   if(window.speechSynthesis)window.speechSynthesis.cancel();
   document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
@@ -2262,22 +3525,13 @@ function checkReading(id){
 
 // === REPASO TURBO ===
 const TURBO_PLAYLIST=[
- // PARA MEMORIZAR · IMPORTANTE
+ // PARA MEMORIZAR · IMPORTANTE (5 textos)
  {kind:'topic',tab:'speak',find:'Report — Environmental Proposals',label:'❤️ Report — Environmental Proposals'},
  {kind:'ac',tab:'writ',id:'wa7',label:'❤️ Complaint Letter'},
  {kind:'topic',tab:'speak',find:'TV News — DANA Valencia',label:'❤️ TV News — DANA Valencia'},
  {kind:'topic',tab:'speak',find:'Food Waste — Decálogo Unilever',label:'❤️ Food Waste — Decálogo'},
  {kind:'topic',tab:'speak',find:'School Bullying',label:'❤️ School Bullying'},
- {kind:'topic',tab:'speak',find:'Shopping — Monólogo',label:'❤️ Shopping — Monólogo'},
- // DE APOYO · ALTERNATIVAS
- {kind:'topic',tab:'speak',find:'Science and Technology',label:'❤️ Topic 14 — Science and Technology'},
- {kind:'topic',tab:'speak',find:'Welcome to Holland',label:'❤️ Welcome to Holland'},
- {kind:'topic',tab:'speak',find:'Badminton — My Favourite Sport',label:'Badminton — Topic 4'},
- {kind:'ac',tab:'writ',id:'wa1',label:'❤️ Essay Cooking at home (plantilla)'},
- {kind:'ac',tab:'writ',id:'wm5',label:'Letter Application volunteer'},
- {kind:'ac',tab:'writ',id:'wm7',label:'Mediación Multitask'},
- {kind:'ac',tab:'writ',id:'wm4',label:'❤️ Parks Report'},
- // RESTO — Topics oficiales
+ // 14 TOPICS B2 (versión simplificada · ~180 palabras cada uno)
  {kind:'topic',tab:'speak',find:'Personal Identity',label:'Topic 01 — Personal Identity'},
  {kind:'topic',tab:'speak',find:'Housing, Home and Surroundings',label:'Topic 02 — Housing'},
  {kind:'topic',tab:'speak',find:'Daily Life, Work and Entrepreneurship',label:'Topic 03 — Daily Life'},
@@ -2291,14 +3545,9 @@ const TURBO_PLAYLIST=[
  {kind:'topic',tab:'speak',find:'Transport, Goods and Services',label:'Topic 11 — Transport'},
  {kind:'topic',tab:'speak',find:'Language and Communication',label:'Topic 12 — Language'},
  {kind:'topic',tab:'speak',find:'Weather and the Natural Environment',label:'Topic 13 — Weather'},
- // RESTO — cómodos no prioritarios
- {kind:'topic',tab:'speak',find:'Family — Relationships',label:'Family (cómodo)'},
- {kind:'topic',tab:'speak',find:'AI and the Future of Work',label:'AI and the Future of Work (cómodo)'},
- {kind:'topic',tab:'speak',find:'Modern Life',label:'Modern Life (cómodo)'},
- // RESTO — Writing pendiente
- {kind:'ac',tab:'writ',id:'wa4',label:'Mediación Email informal a amigo'},
- {kind:'ac',tab:'writ',id:'wa6',label:'Letter solicitud formal'},
- {kind:'ac',tab:'writ',id:'wm6',label:'Mediación Life in the city'},
+ {kind:'topic',tab:'speak',find:'Science and Technology',label:'❤️ Topic 14 — Science and Technology'},
+ // EXTRA · COMODÍN
+ {kind:'topic',tab:'speak',find:'Welcome to Holland',label:'❤️ Welcome to Holland'},
 ];
 
 let turboState={idx:0,paused:false,active:false,currentBtn:null,currentUtter:null,gen:0};
@@ -2447,6 +3696,90 @@ function turboLocateAndPlay(item,myGen){
   turboState.currentUtter=u;
   synth.speak(u);
  },800);
+}
+
+
+// === FRASES AUTO PLAYBACK ===
+let _frasesState={playing:false,currentBtn:null,queue:[],idx:0,gen:0};
+
+function _frasesBumpGen(){return ++_frasesState.gen;}
+
+function _frasesGetSentences(scope){
+ // Returns array of {el, text} — "scope" can be 'all' or a struct code like '2C'
+ const sel = scope === 'all' ? '#page-frases .frase-row' : `.frase-section[data-code="${scope}"] .frase-row`;
+ return Array.from(document.querySelectorAll(sel)).map(el => ({el, text: el.dataset.frase || el.querySelector('.frase-text').innerText}));
+}
+
+function frasesStop(){
+ try{window.speechSynthesis.cancel();}catch(e){}
+ _frasesBumpGen();
+ _frasesState.playing=false;
+ _frasesState.queue=[];
+ _frasesState.idx=0;
+ if(_frasesState.currentBtn){_frasesState.currentBtn.classList.remove('playing');_frasesState.currentBtn.textContent=_frasesState.currentBtn.dataset.label || '▶️ Reproducir';}
+ _frasesState.currentBtn=null;
+ document.querySelectorAll('.frase-row.current').forEach(r=>r.classList.remove('current'));
+}
+
+function _frasesPlayQueue(myGen){
+ if(myGen!==_frasesState.gen)return;
+ if(_frasesState.idx>=_frasesState.queue.length){
+  // Done
+  _frasesState.playing=false;
+  if(_frasesState.currentBtn){_frasesState.currentBtn.classList.remove('playing');_frasesState.currentBtn.textContent=_frasesState.currentBtn.dataset.label || '▶️ Reproducir';}
+  document.querySelectorAll('.frase-row.current').forEach(r=>r.classList.remove('current'));
+  return;
+ }
+ const item=_frasesState.queue[_frasesState.idx];
+ // Highlight + scroll
+ document.querySelectorAll('.frase-row.current').forEach(r=>r.classList.remove('current'));
+ item.el.classList.add('current');
+ item.el.scrollIntoView({behavior:'smooth',block:'center'});
+ // TTS
+ const u=new SpeechSynthesisUtterance(item.text);
+ u.lang='en-GB';
+ u.rate=_ttsRate;
+ u.pitch=1;
+ const v=_pickVoice();if(v)u.voice=v;
+ u.onend=()=>{
+  if(myGen!==_frasesState.gen)return;
+  _frasesState.idx++;
+  setTimeout(()=>_frasesPlayQueue(myGen),300);
+ };
+ u.onerror=u.onend;
+ window.speechSynthesis.speak(u);
+}
+
+function frasesPlayStruct(code){
+ const btn=document.querySelector(`.frase-section[data-code="${code}"] .frase-play`);
+ if(!btn)return;
+ if(btn.classList.contains('playing')){frasesStop();return;}
+ frasesStop();
+ const myGen=_frasesBumpGen();
+ _frasesState.queue=_frasesGetSentences(code);
+ _frasesState.idx=0;
+ _frasesState.playing=true;
+ btn.dataset.label=btn.textContent;
+ btn.classList.add('playing');
+ btn.textContent='⏹ Detener';
+ _frasesState.currentBtn=btn;
+ _frasesPlayQueue(myGen);
+}
+
+function frasesPlayAll(){
+ const btn=document.querySelector('.frases-play-all');
+ if(!btn)return;
+ if(btn.classList.contains('playing')){frasesStop();return;}
+ frasesStop();
+ const myGen=_frasesBumpGen();
+ _frasesState.queue=_frasesGetSentences('all');
+ _frasesState.idx=0;
+ _frasesState.playing=true;
+ btn.dataset.label=btn.textContent;
+ btn.classList.add('playing');
+ btn.textContent='⏹ Detener reproducción';
+ _frasesState.currentBtn=btn;
+ _frasesPlayQueue(myGen);
 }
 
 // FLASHCARD DATA
