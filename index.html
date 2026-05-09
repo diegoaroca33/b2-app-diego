@@ -153,7 +153,20 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .ph-3{background:#f0fdf4}.ph-3 .phd{background:#16a34a}
 .ph-4{background:#f5f3ff}.ph-4 .phd{background:#7c3aed}
 /* repaso turbo */
-.turbo-launch{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#ef4444 0%,#b91c1c 100%);color:#fff;font-weight:800;padding:14px 18px;border-radius:12px;border:none;cursor:pointer;font-size:14px;width:100%;margin-bottom:14px;letter-spacing:.02em;box-shadow:0 6px 16px rgba(220,38,38,.35);transition:transform .15s,box-shadow .15s}
+.turbo-launch{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#ef4444 0%,#b91c1c 100%);color:#fff;font-weight:800;padding:14px 18px;border-radius:12px;border:none;cursor:pointer;font-size:14px;width:100%;margin-bottom:10px;letter-spacing:.02em;box-shadow:0 6px 16px rgba(220,38,38,.35);transition:transform .15s,box-shadow .15s}
+.turbo-writing{background:linear-gradient(135deg,#3b82f6 0%,#1e40af 100%);box-shadow:0 6px 16px rgba(30,64,175,.35)}
+.turbo-writing:hover{box-shadow:0 8px 22px rgba(30,64,175,.45)}
+/* daily plan */
+.daily-plan{padding:0!important;overflow:hidden}
+.daily-plan .lbl{padding:12px 14px 8px;background:#f8f8f5;border-bottom:1px solid #e5e5e0;margin:0}
+.dp-day{display:flex;gap:10px;padding:10px 14px;border-top:1px solid #f0f0ee;align-items:flex-start}
+.dp-day:first-of-type{border-top:none}
+.dp-date{font-size:11.5px;font-weight:800;color:#666;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0;width:115px;line-height:1.3}
+.dp-task{font-size:12.5px;line-height:1.55;flex:1;color:#1a1a1a}
+.dp-today{background:linear-gradient(90deg,#fffbeb 0%,#fff 100%);border-left:3px solid #f59e0b}
+.dp-today .dp-date{color:#92400e}
+.dp-exam{background:linear-gradient(90deg,#fef2f2 0%,#fff 100%);border-left:3px solid #dc2626}
+.dp-exam .dp-date{color:#991b1b}
 .turbo-launch:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(220,38,38,.45)}
 .turbo-launch:active{transform:translateY(0)}
 .turbo-launch .icon{font-size:20px}
@@ -363,12 +376,17 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   </div>
 </div>
 
-<button class="turbo-launch" onclick="turboStart()">
-  <span class="icon">🚀</span>
-  <div>Iniciar Repaso turbo<span class="sub">~45 min · 21 textos · 4.973 palabras · auto-TTS + scroll</span></div>
+<!-- TURBO WRITING — prioritario hasta el examen escrito -->
+<button class="turbo-launch turbo-writing" onclick="turboStartWriting()">
+  <span class="icon">🔁</span>
+  <div>TURBO WRITING — 6 textos PARA MEMORIZAR en bucle<span class="sub">Report · Complaint · DANA · Food Waste · Bullying · Shopping · ~13 min/vuelta · prioritario hasta el 13 mayo</span></div>
 </button>
 
-<div class="intro"><b>Rutina diaria — 3 bloques</b><br>Mañana flashcards (rapidez y precisión) · mediodía rotación (writing/reading/listening/mediación) · noche speaking (todos los días). Repetición + variación = voz, frases y mente entrenadas.</div>
+<!-- TURBO completo — para el oral -->
+<button class="turbo-launch" onclick="turboStart()">
+  <span class="icon">🚀</span>
+  <div>TURBO completo — 21 textos<span class="sub">~45 min · 4.973 palabras · prioritario después del 13 may para el oral</span></div>
+</button>
 
 <div class="fav-card">
   <div class="lbl">❤️ LO IMPRESCINDIBLE</div>
@@ -403,68 +421,40 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   </div>
 </div>
 
-<div class="time-block tb-am">
-  <div class="tb-h">
-    <span class="tb-emoji">🌅</span>
-    <div style="flex:1">
-      <h4>Mañana · Flashcards</h4>
-      <p>10–15 min. Aporta <b>seguridad y rapidez</b> para escribir con precisión. A final de la primera semana deja de ser necesario.</p>
-    </div>
+<div class="card daily-plan">
+  <div class="lbl">📅 Plan día a día — hasta el examen escrito (miércoles 13)</div>
+  <div class="dp-day" id="dp-sat">
+    <div class="dp-date">SÁBADO 9</div>
+    <div class="dp-task">⏯️ <b>TURBO WRITING completo 2 veces</b> · leer cada uno de los 6 textos identificando estructuras y keywords · 1 vuelta de TURBO completo (21 textos) por la noche</div>
   </div>
-  <button class="tb-cta" onclick="goTab('flash')">🃏 Abrir Flashcards</button>
-</div>
-
-<div class="time-block tb-md">
-  <div class="tb-h">
-    <span class="tb-emoji">☀️</span>
-    <div style="flex:1">
-      <h4>Mediodía · rotación</h4>
-      <p>30–45 min. Rotación diaria entre <b>Writing</b>, <b>Reading</b>, <b>Listening</b> y <b>Mediación</b> escrita. Distribución semanal:</p>
-    </div>
+  <div class="dp-day" id="dp-sun">
+    <div class="dp-date">DOMINGO 10</div>
+    <div class="dp-task">📝 Memorizar <b>Report Environmental + Complaint Letter</b> (escribir a mano cada uno 2 veces) · TURBO WRITING en bucle 30 min · 1 ronda de Reading + Listening</div>
   </div>
-  <div class="tb-rotation" id="rotweek">
-    <span data-d="1">L<br>Writing</span>
-    <span data-d="2">M<br>Reading</span>
-    <span data-d="3">X<br>Listening</span>
-    <span data-d="4">J<br>Mediación</span>
-    <span data-d="5">V<br>Writing</span>
-    <span data-d="6">S<br>Reading</span>
-    <span data-d="0">D<br>Listening</span>
+  <div class="dp-day" id="dp-mon">
+    <div class="dp-date">LUNES 11</div>
+    <div class="dp-task">📺 Memorizar <b>TV News DANA + Food Waste</b> (escribir a mano · marcar fórmulas 3CI · NOBA · UNL) · TURBO WRITING en bucle 30 min · noche: TURBO completo</div>
   </div>
-  <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
-    <button class="tb-cta" onclick="goTab('writ')">✍️ Writing</button>
-    <button class="tb-cta" onclick="goTab('read')">📖 Reading</button>
-    <button class="tb-cta" onclick="goTab('list')">🎧 Listening</button>
+  <div class="dp-day" id="dp-tue">
+    <div class="dp-date">MARTES 12</div>
+    <div class="dp-task">🛡️ Memorizar <b>School Bullying + Shopping monólogo</b> · repaso flashcards de conectores y errores · <b>TURBO WRITING bucle largo</b> (60 min mientras paseas o cocinas)</div>
+  </div>
+  <div class="dp-day dp-exam" id="dp-wed">
+    <div class="dp-date">MIÉRCOLES 13<br>EXAMEN ESCRITO</div>
+    <div class="dp-task">☀️ Mañana: <b>TURBO WRITING en bucle silencioso 20-30 min</b> mientras desayunas · 5 min antes del examen: respiración profunda, sin material nuevo · agua, snacks, calma 💪</div>
   </div>
 </div>
 
-<div class="time-block tb-pm">
-  <div class="tb-h">
-    <span class="tb-emoji">🌙</span>
-    <div style="flex:1">
-      <h4>Noche · Speaking — todos los días</h4>
-      <p>~30 min. <b>1–2 topics</b>: escucha el audio, lee el texto, repítelo en voz alta y escribe a mano una o dos frases clave. Es la mejor forma de fijarlo antes de dormir.</p>
-    </div>
+<div class="card daily-plan">
+  <div class="lbl">📅 Después del 13 — preparación oral (21 mayo)</div>
+  <div class="dp-day">
+    <div class="dp-date">14–20 MAYO</div>
+    <div class="dp-task">🚀 <b>TURBO completo (21 textos)</b> cada día · Speaking en voz alta + grabarte para corregir pronunciación · noche: 2-3 topics + monólogo global · flashcards solo de conectores</div>
   </div>
-  <button class="tb-cta" onclick="goTab('speak')">🗣️ Abrir Speaking</button>
-</div>
-
-<div class="card">
-  <div class="lbl">Hoy · marca lo que ya has hecho</div>
-  <div class="today-check">
-    <label class="tc-row" id="tcr-am"><input type="checkbox" id="tc-am" onchange="saveCheck()"><span>🌅 Mañana — Flashcards</span></label>
-    <label class="tc-row" id="tcr-md"><input type="checkbox" id="tc-md" onchange="saveCheck()"><span>☀️ Mediodía — <b id="tc-md-task">según rotación</b></span></label>
-    <label class="tc-row" id="tcr-pm"><input type="checkbox" id="tc-pm" onchange="saveCheck()"><span>🌙 Noche — Speaking (1–2 topics)</span></label>
+  <div class="dp-day dp-exam">
+    <div class="dp-date">21 MAYO<br>EXAMEN ORAL</div>
+    <div class="dp-task">Mañana: 5 min repaso de los comodines de speaking (3CI · NOBA · 2C combo) · sin material nuevo · respiración + agua</div>
   </div>
-  <div id="tc-streak" class="streak-line"></div>
-</div>
-
-<div class="card">
-  <div class="lbl">Fases — adapta el énfasis según fecha</div>
-  <div class="phase ph-1"><span class="phd">Hasta 12 may</span><div>Rutina completa. Énfasis equilibrado: writing, reading, listening, speaking. Mediación escrita 1–2 veces por semana.</div></div>
-  <div class="phase ph-2"><span class="phd">13 may</span><div><b>Examen escrito.</b> Por la mañana: flashcards de errores y conectores (15 min). Lleva agua y sal el día con calma.</div></div>
-  <div class="phase ph-3"><span class="phd">14–20 may</span><div>Vira casi todo a <b>Speaking</b>. Mañana: flashcards solo de conectores. Mediodía: 1 listening corto + 1 lectura ligera. Noche: 2–3 topics en voz alta + grábate.</div></div>
-  <div class="phase ph-4"><span class="phd">21 may</span><div><b>Examen oral.</b> Mañana del examen: 5 minutos de repaso de los comodines de speaking. Sin material nuevo.</div></div>
 </div>
 
 <div class="card">
@@ -3052,9 +3042,7 @@ function goTab(id){
   if(btn)go(id,btn);
 }
 
-// PLAN — countdowns, today's rotation, checklist, streak
-const TASK_BY_DOW={1:'Writing',2:'Reading',3:'Listening',4:'Mediación escrita',5:'Writing',6:'Reading',0:'Listening'};
-function todayKey(){const d=new Date();return d.toISOString().slice(0,10);}
+// PLAN — countdowns + highlight today's row in the day-by-day plan
 function initPlan(){
   const t=new Date();t.setHours(0,0,0,0);
   const escr=new Date('2026-05-13'),oral=new Date('2026-05-21');
@@ -3062,63 +3050,14 @@ function initPlan(){
   const dl1=document.getElementById('dl1'),dl2=document.getElementById('dl2');
   if(dl1)dl1.textContent=d1>=0?d1:'—';
   if(dl2)dl2.textContent=d2>=0?d2:'—';
-  const dow=t.getDay();
-  document.querySelectorAll('#rotweek span').forEach(s=>{
-    s.classList.toggle('today',parseInt(s.dataset.d)===dow);
-  });
-  const taskEl=document.getElementById('tc-md-task');
-  if(taskEl)taskEl.textContent=TASK_BY_DOW[dow]||'según rotación';
-  loadCheck();
-}
-function saveCheck(){
-  const k='check-'+todayKey();
-  const v={am:document.getElementById('tc-am').checked,md:document.getElementById('tc-md').checked,pm:document.getElementById('tc-pm').checked};
-  try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}
-  paintCheck();
-  updateStreak();
-}
-function loadCheck(){
-  const k='check-'+todayKey();
-  try{
-    const raw=localStorage.getItem(k);
-    if(raw){
-      const v=JSON.parse(raw);
-      document.getElementById('tc-am').checked=!!v.am;
-      document.getElementById('tc-md').checked=!!v.md;
-      document.getElementById('tc-pm').checked=!!v.pm;
-    } else {
-      document.getElementById('tc-am').checked=false;
-      document.getElementById('tc-md').checked=false;
-      document.getElementById('tc-pm').checked=false;
-    }
-  }catch(e){}
-  paintCheck();
-  updateStreak();
-}
-function paintCheck(){
-  ['am','md','pm'].forEach(s=>{
-    const row=document.getElementById('tcr-'+s),inp=document.getElementById('tc-'+s);
-    if(row&&inp)row.classList.toggle('done',inp.checked);
-  });
-}
-function updateStreak(){
-  let streak=0;
-  for(let i=0;i<60;i++){
-    const d=new Date();d.setDate(d.getDate()-i);
-    const k='check-'+d.toISOString().slice(0,10);
-    try{
-      const raw=localStorage.getItem(k);
-      if(!raw){if(i===0){streak=0;break;}else break;}
-      const v=JSON.parse(raw);
-      if(v.am&&v.md&&v.pm)streak++;
-      else if(i===0){break;}
-      else break;
-    }catch(e){break;}
+  // Highlight today's row in the day-by-day plan (May 9 = sat, 10 = sun, ..., 13 = wed)
+  const dayMap={9:'dp-sat',10:'dp-sun',11:'dp-mon',12:'dp-tue',13:'dp-wed'};
+  const md=t.getMonth(),dt=t.getDate();
+  document.querySelectorAll('.dp-day').forEach(el=>el.classList.remove('dp-today'));
+  if(md===4 && dayMap[dt]){
+    const row=document.getElementById(dayMap[dt]);
+    if(row && !row.classList.contains('dp-exam'))row.classList.add('dp-today');
   }
-  let todayDone=0;
-  try{const v=JSON.parse(localStorage.getItem('check-'+todayKey())||'{}');if(v.am)todayDone++;if(v.md)todayDone++;if(v.pm)todayDone++;}catch(e){}
-  const el=document.getElementById('tc-streak');
-  if(el)el.innerHTML=`Hoy: <b>${todayDone}/3</b> bloques · racha de días completos: <b>${streak}</b>${streak>=3?' 🔥':''}${streak>=7?' 🚀':''}`;
 }
 
 // ACCORDIONS
@@ -3837,7 +3776,17 @@ const TURBO_PLAYLIST=[
  {kind:'topic',tab:'speak',find:'Welcome to Holland',label:'❤️ Welcome to Holland'},
 ];
 
-let turboState={idx:0,paused:false,active:false,currentBtn:null,currentSession:null,gen:0};
+// TURBO WRITING — 6 textos PARA MEMORIZAR · loop infinito hasta el examen escrito
+const TURBO_WRITING_PLAYLIST=[
+ {kind:'topic',tab:'speak',find:'Report — Environmental Proposals',label:'❤️ Report — Environmental Proposals'},
+ {kind:'ac',tab:'writ',id:'wa7',label:'❤️ Complaint Letter'},
+ {kind:'topic',tab:'speak',find:'TV News — DANA Valencia',label:'❤️ TV News — DANA Valencia'},
+ {kind:'topic',tab:'speak',find:'Food Waste — Decálogo Unilever',label:'❤️ Food Waste — Decálogo'},
+ {kind:'topic',tab:'speak',find:'School Bullying',label:'❤️ School Bullying'},
+ {kind:'topic',tab:'speak',find:'Shopping and Commercial Activities',label:'❤️ Shopping — Topic 9 monólogo'},
+];
+
+let turboState={idx:0,paused:false,active:false,currentBtn:null,currentSession:null,gen:0,playlist:null,loop:false,loopCount:1};
 
 // Increment generation counter — invalidates any pending async callbacks (setTimeout, onend)
 function _turboBump(){turboState.gen++;return turboState.gen;}
@@ -3850,7 +3799,17 @@ function _turboReset(){
 function turboStart(){
  if(window.speechSynthesis)window.speechSynthesis.cancel();
  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
- turboState={idx:0,paused:false,active:true,currentBtn:null,currentSession:null,gen:0};
+ turboState={idx:0,paused:false,active:true,currentBtn:null,currentSession:null,gen:0,playlist:TURBO_PLAYLIST,loop:false,loopCount:1};
+ document.getElementById('turbo-bar').classList.add('show');
+ document.getElementById('turbo-play-btn').textContent='⏸';
+ turboPlay();
+}
+
+// Variante writing: 6 textos PARA MEMORIZAR en bucle infinito (hasta que el usuario pare).
+function turboStartWriting(){
+ if(window.speechSynthesis)window.speechSynthesis.cancel();
+ document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
+ turboState={idx:0,paused:false,active:true,currentBtn:null,currentSession:null,gen:0,playlist:TURBO_WRITING_PLAYLIST,loop:true,loopCount:1};
  document.getElementById('turbo-bar').classList.add('show');
  document.getElementById('turbo-play-btn').textContent='⏸';
  turboPlay();
@@ -3901,16 +3860,27 @@ function turboPauseToggle(){
 function turboPlay(){
  if(!turboState.active)return;
  const myGen=_turboBump(); // capture gen for this play call
- if(turboState.idx>=TURBO_PLAYLIST.length){
+ const playlist=turboState.playlist||TURBO_PLAYLIST;
+ if(turboState.idx>=playlist.length){
+  if(turboState.loop){
+   // Loop: vuelve al principio y sigue. Pequeño delay para que se note.
+   turboState.loopCount=(turboState.loopCount||1)+1;
+   turboState.idx=0;
+   document.getElementById('turbo-title').textContent='🔁 Vuelta '+turboState.loopCount+' — empezando...';
+   document.getElementById('turbo-progress').textContent='0 / '+playlist.length;
+   setTimeout(()=>{if(myGen===turboState.gen && turboState.active)turboPlay();},1500);
+   return;
+  }
   document.getElementById('turbo-title').textContent='✓ Repaso completado';
-  document.getElementById('turbo-progress').textContent=TURBO_PLAYLIST.length+' / '+TURBO_PLAYLIST.length;
+  document.getElementById('turbo-progress').textContent=playlist.length+' / '+playlist.length;
   setTimeout(()=>{if(myGen===turboState.gen)turboStop();},3000);
   return;
  }
  if(turboState.idx<0)turboState.idx=0;
- const item=TURBO_PLAYLIST[turboState.idx];
- document.getElementById('turbo-title').textContent=item.label;
- document.getElementById('turbo-progress').textContent=(turboState.idx+1)+' / '+TURBO_PLAYLIST.length;
+ const item=playlist[turboState.idx];
+ const loopSuffix=turboState.loop?' · 🔁 vuelta '+(turboState.loopCount||1):'';
+ document.getElementById('turbo-title').textContent=item.label+loopSuffix;
+ document.getElementById('turbo-progress').textContent=(turboState.idx+1)+' / '+playlist.length;
  goTab(item.tab);
  setTimeout(()=>{if(myGen===turboState.gen)turboLocateAndPlay(item,myGen);},400);
 }
