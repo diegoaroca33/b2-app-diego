@@ -3406,11 +3406,10 @@ function ttsCleanText(srcEl){
  return text;
 }
 
-// Split text into TTS-friendly chunks (~150 chars desktop, ~100 mobile).
-// Mobile speechSynthesis engines (iOS Safari, Android Chrome, Samsung) drop chunks even more
-// aggressively than desktop. Smaller chunks = each finishes well under any browser timeout.
+// Split text into TTS-friendly chunks (~150 chars desktop, ~110 mobile).
+// Chrome and mobile engines silently drop or cut off long utterances — small chunks + watchdog avoid this.
 function _splitForTTS(text, maxLen){
- maxLen = maxLen || (_isMobile ? 100 : 150);
+ maxLen = maxLen || (_isMobile ? 110 : 150);
  const out = [];
  const sentences = text.split(/(?<=[.!?])\s+/);
  for (const s of sentences){
@@ -3502,22 +3501,15 @@ function _speakChunked(text, opts, onAllEnd){
   };
   u.onend = advance;
   u.onerror = advance;
-  // Watchdog: if browser silently drops onend (known bug on mobile + Chrome long playbacks),
-  // force-advance after expected duration × multiplier + safety. Avoids hangs.
+  // Watchdog: if browser silently drops onend (known bug on long playbacks),
+  // force-advance after expected duration × 2.5 + 10s safety. Avoids hangs.
   // Approx: 12 chars/sec at rate 1.0 → adjust for actual rate.
-  // Mobile uses tighter watchdog because chunks are smaller and failures recover faster.
   const expectedSec = chunks[i].length / (12 * u.rate);
-  const wdMult = _isMobile ? 1500 : 2500;
-  const wdSafety = _isMobile ? 5000 : 10000;
-  const wdMin = _isMobile ? 12000 : 30000;
-  const watchdogMs = Math.max(expectedSec * wdMult + wdSafety, wdMin);
+  const watchdogMs = Math.max(expectedSec * 2500 + 10000, 30000);
   watchdog = setTimeout(() => {
    try { synth.cancel(); } catch(e){}
    advance();
   }, watchdogMs);
-  // Extra safety: cancel any leftover queue before speaking. Mobile engines sometimes
-  // get confused by residual pending utterances.
-  if (_isMobile){ try { synth.cancel(); } catch(e){} }
   synth.speak(u);
  };
  _ttsKeepAliveStart();
