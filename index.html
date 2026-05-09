@@ -3451,10 +3451,10 @@ function ttsCleanText(srcEl){
  return text;
 }
 
-// Split text into TTS-friendly chunks (~220 chars, broken on sentence boundaries)
-// Chrome silently drops or cuts off long utterances — chunking avoids the issue.
+// Split text into TTS-friendly chunks (~150 chars, broken on sentence boundaries)
+// Chrome silently drops or cuts off long utterances — small chunks + watchdog avoid the issue.
 function _splitForTTS(text, maxLen){
- maxLen = maxLen || 220;
+ maxLen = maxLen || 150;
  const out = [];
  const sentences = text.split(/(?<=[.!?])\s+/);
  for (const s of sentences){
@@ -3526,15 +3526,26 @@ function _speakChunked(text, opts, onAllEnd){
   u.pitch = 1;
   if (opts.voice) u.voice = opts.voice;
   let fired = false;  // per-utterance double-fire guard
+  let watchdog = null;
   const advance = () => {
    if (fired) return;
    fired = true;
+   if (watchdog){ clearTimeout(watchdog); watchdog = null; }
    if (cancelled || endedFlag) return;
    i++;
    speakNext();
   };
   u.onend = advance;
   u.onerror = advance;
+  // Watchdog: if Chrome silently drops onend (known bug on long playbacks),
+  // force-advance after expected duration × 2.5 + 10s safety. Avoids hangs.
+  // Approx: 12 chars/sec at rate 1.0 → adjust for actual rate.
+  const expectedSec = chunks[i].length / (12 * u.rate);
+  const watchdogMs = Math.max(expectedSec * 2500 + 10000, 30000);
+  watchdog = setTimeout(() => {
+   try { synth.cancel(); } catch(e){}
+   advance();
+  }, watchdogMs);
   synth.speak(u);
  };
  _ttsKeepAliveStart();
