@@ -3513,21 +3513,30 @@ function _speakChunked(text, opts, onAllEnd){
   u.onend = advance;
   u.onerror = advance;
   synth.speak(u);
-  // Polling monitor: detect when engine goes idle. Catches missed onend events
-  // (common on mobile). 300ms polling = max 300ms gap between chunks if onend missed.
+  // Polling monitor: detect when engine goes idle. Catches missed onend events.
+  // CRITICAL: require N consecutive idle polls before advancing — Android Chrome briefly
+  // reports speaking=false DURING normal speech (between internal processing steps).
+  // A single false reading would cut off mid-sentence. Requiring multiple consecutive
+  // idle polls (4 × 400ms = 1.6s) ensures the engine is truly done with this chunk.
   let everStarted = false;
+  let idleCount = 0;
+  const IDLE_THRESHOLD = 4;
   const startMs = Date.now();
   monitor = setInterval(() => {
    if (advanced || cancelled || endedFlag){ stopMonitor(); return; }
    const active = synth.speaking || synth.pending;
-   if (active){ everStarted = true; return; }
-   // Engine idle. Advance only if we've seen it speaking (avoid premature advance
-   // before engine has had time to start). Also advance after 5s if it never started
-   // (engine refused the utterance — happens on mobile).
-   if (everStarted || Date.now() - startMs > 5000){
+   if (active){ everStarted = true; idleCount = 0; return; }
+   idleCount++;
+   // Once started, advance only after sustained idle (true completion).
+   if (everStarted && idleCount >= IDLE_THRESHOLD){
+    advance();
+    return;
+   }
+   // If never started after 5s, engine refused the utterance — force advance.
+   if (!everStarted && Date.now() - startMs > 5000){
     advance();
    }
-  }, 300);
+  }, 400);
  };
 
  // Watchdog for the whole paragraph (last-resort safety net).
