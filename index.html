@@ -524,7 +524,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
     <div class="topic-body">
       <div class="topic-text">
         <p><span class="c1pers">Today I would like to talk about identity — who we are, where we come from, and what shapes us over time. </span>I was born in France but grew up in Murcia, and I feel completely Murcian. I am an architect by profession and a musician by necessity — I write songs, more than thirty, and I sing in a group called The Pelikans. <span class="c1pers">In my opinion, identity is built through experience rather than circumstance. </span><span class="ph-tpl">People who value <span class="ph-key">personal identity</span> usually make better decisions.</span>   <span class="gt gre">REL</span></p>
-        <p>The most important person in my life is my youngest son, Guillermo. He has Down syndrome and has had seven heart operations. He has lived with a pacemaker since he was five months old. And yet he skis, reads and rides a bike. He says &#x27;papapi&#x27; and hugs with a strength that says everything words cannot. <span class="c1pers">He comes from the most personal corners of my family story. </span><span class="ph-tpl"><span class="ph-key">Communication</span> not only affects individuals, but also entire communities.</span>   <span class="gt gno">NOBA</span> <span class="c1pers">In my view, relationships are the central thread of a meaningful life.</span></p>
+        <p>The most important person in my life is my youngest son, Guillermo. He has Down syndrome and has had seven heart operations. He has lived with a pacemaker since he was five months old. And yet he skis, reads and rides a bike. He says &#x27;papapi&#x27; and hugs with a strength that says everything words cannot. <b>He has changed the way our whole family communicates.</b> <span class="gt gpp">PP</span> <span class="c1pers">He comes from the most personal corners of my family story. </span><span class="ph-tpl"><span class="ph-key">Communication</span> not only affects individuals, but also entire communities.</span>   <span class="gt gno">NOBA</span> <span class="c1pers">In my view, relationships are the central thread of a meaningful life.</span></p>
         <p>The text I want to share is called Welcome to Holland, written by Emily Perl Kingsley in 1987. She compares raising a disabled child to planning a trip to Italy and landing in Holland. I was planning Italy. But the plane landed in Holland. <span class="ph-tpl">I used to think <span class="ph-key">personal identity</span> was not very important, but now I see it differently.</span>   <span class="gt gut">UT</span> Guillermo is twelve now. He rides a bike, he skis, he reads. Not only is this about disability — it is about life. <span class="c1pers">I used to be more rigid, more certain. I have become more patient, more curious, and more willing to say: I do not know.</span></p>
         <p>I work as an architect in public administration, managing school building projects. I also write songs and sing in The Pelikans. <span class="ph-tpl"><span class="ph-key">Work-life balance</span> is still not taken seriously enough.</span>   <span class="gt gp">PASS</span> <span class="c1pers">Burnout is real and arrives quietly. The most productive people are not the ones who do the most, but the ones who choose well what they do not do.</span></p>
         <p>I play badminton regularly and try to walk or cycle every day. <span class="c1pers">I believe that consistency is worth more than intensity in almost everything. </span>Guillermo&#x27;s doctors in the Spanish public health system were extraordinary. <span class="b21">Prevention is better than cure. </span><span class="ph-tpl">I have learned that <span class="ph-key">mental health</span> is more important than people realise.</span>   <span class="gt gpp">PP</span></p>
@@ -572,7 +572,7 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
       <div class="topic-text">
         <p><span class="c1pers">Today I would like to talk about identity — who we are, where we come from, and what shapes us over time. </span><span class="ph-tpl">Today I would like to talk about <span class="ph-key">personal identity</span> — a topic that is more important than people often realise.</span></p>
         <p>I was born in France but grew up in Murcia, and I feel completely Murcian. I am an architect by profession and a musician by necessity — I write songs, more than thirty, and I sing in a group called The Pelikans. <span class="ph-tpl">People who value <span class="ph-key">personal identity</span> usually make better decisions.</span>   <span class="gt gre">REL</span> <span class="c1pers">In my opinion, identity is built through experience rather than circumstance.</span></p>
-        <p>The most important person in my life is my youngest son, Guillermo. He has Down syndrome and has had seven heart operations. He skis, reads and rides a bike. He says &#x27;papapi&#x27; and hugs with a strength that says everything words cannot. <span class="c1pers">He comes from the most personal corners of my family story. </span><span class="ph-tpl"><span class="ph-key">Personal identity</span> is still not taken seriously enough.</span>   <span class="gt gp">PASS</span></p>
+        <p>The most important person in my life is my youngest son, Guillermo. He has Down syndrome and has had seven heart operations. He skis, reads and rides a bike. He says &#x27;papapi&#x27; and hugs with a strength that says everything words cannot. <b>He has changed the way our whole family communicates.</b> <span class="gt gpp">PP</span> <span class="c1pers">He comes from the most personal corners of my family story. </span><span class="ph-tpl"><span class="ph-key">Personal identity</span> is still not taken seriously enough.</span>   <span class="gt gp">PASS</span></p>
         <p><span class="ph-tpl">I used to think <span class="ph-key">personal identity</span> was not very important, but now I see it differently.</span>   <span class="gt gut">UT</span> <span class="ph-tpl">I have learned that <span class="ph-key">personal identity</span> plays an important role in our lives.</span>   <span class="gt gpp">PP</span> <span class="ph-tpl">Although <span class="ph-key">personal identity</span> may seem simple, it is actually very important.</span>   <span class="gt gco">CONC</span> <span class="c1pers">I used to be more rigid, more certain. I have become more patient, more curious, and more willing to say: I do not know.</span> To sum up, the choices we make every day shape who we are.</p>
       </div>
       <div class="gram-box">
@@ -3406,10 +3406,10 @@ function ttsCleanText(srcEl){
  return text;
 }
 
-// Split text into TTS-friendly chunks (~150 chars, broken on sentence boundaries)
-// Chrome silently drops or cuts off long utterances — small chunks + watchdog avoid the issue.
+// Split text into TTS-friendly chunks (~150 chars desktop, ~110 iOS).
+// Chrome and Safari/iOS silently drop or cut off long utterances — small chunks + watchdog avoid this.
 function _splitForTTS(text, maxLen){
- maxLen = maxLen || 150;
+ maxLen = maxLen || (_isIOS ? 110 : 150);
  const out = [];
  const sentences = text.split(/(?<=[.!?])\s+/);
  for (const s of sentences){
@@ -3439,10 +3439,17 @@ function _splitForTTS(text, maxLen){
  return out;
 }
 
-// Chrome keep-alive: speechSynthesis silently dies after ~15s without pause/resume cycle.
+// Detect iOS/iPadOS — Safari's speechSynthesis breaks if you call pause()/resume() programmatically.
+// On iOS, instead of keep-alive we rely solely on small chunks (<10s each) + watchdog.
+const _isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+// Chrome desktop keep-alive: speechSynthesis silently dies after ~15s without pause/resume cycle.
 // We pulse pause+resume every 10s while any TTS is active to keep the engine alive.
+// SKIPPED on iOS/iPadOS where this same trick BREAKS playback.
 let _ttsKeepAliveTimer = null;
 function _ttsKeepAliveStart(){
+ if (_isIOS) return;  // iOS hates this — let chunks + watchdog handle it
  if (_ttsKeepAliveTimer) return;
  _ttsKeepAliveTimer = setInterval(() => {
   try {
