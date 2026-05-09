@@ -3467,57 +3467,66 @@ function _ttsKeepAliveStop(){
 }
 
 // Speak long text by chunking. Returns { cancel } controller.
-// onAllEnd fires once after the LAST chunk completes (or never if cancelled).
+// STRATEGY: queue ALL chunks at once via synth.speak() and let the engine handle the sequence.
+// Then only listen to the LAST utterance's onend. This avoids JS-level chunk transitions which
+// fail unreliably on mobile browsers (the engine handles inter-chunk flow internally).
+// A single watchdog covers the entire paragraph as safety net.
 function _speakChunked(text, opts, onAllEnd){
  opts = opts || {};
  const synth = window.speechSynthesis;
  const chunks = _splitForTTS(text);
- let i = 0;
  let cancelled = false;
- let endedFlag = false;  // guard so onAllEnd fires at most once
+ let endedFlag = false;
+ let watchdog = null;
+
  const finishAll = () => {
   if (endedFlag) return;
   endedFlag = true;
+  if (watchdog){ clearTimeout(watchdog); watchdog = null; }
   _ttsKeepAliveStop();
   if (onAllEnd) onAllEnd();
  };
- const speakNext = () => {
-  if (cancelled || endedFlag) return;
-  if (i >= chunks.length){ finishAll(); return; }
-  const u = new SpeechSynthesisUtterance(chunks[i]);
+
+ if (chunks.length === 0){ finishAll(); return { cancel: () => {} }; }
+
+ // Queue all chunks at once. Engine handles sequential playback internally.
+ chunks.forEach((chunk, idx) => {
+  const u = new SpeechSynthesisUtterance(chunk);
   u.lang = opts.lang || 'en-GB';
   u.rate = opts.rate || _ttsRate;
   u.pitch = 1;
   if (opts.voice) u.voice = opts.voice;
-  let fired = false;  // per-utterance double-fire guard
-  let watchdog = null;
-  const advance = () => {
-   if (fired) return;
-   fired = true;
-   if (watchdog){ clearTimeout(watchdog); watchdog = null; }
-   if (cancelled || endedFlag) return;
-   i++;
-   speakNext();
-  };
-  u.onend = advance;
-  u.onerror = advance;
-  // Watchdog: if browser silently drops onend (known bug on long playbacks),
-  // force-advance after expected duration × 2.5 + 10s safety. Avoids hangs.
-  // Approx: 12 chars/sec at rate 1.0 → adjust for actual rate.
-  const expectedSec = chunks[i].length / (12 * u.rate);
-  const watchdogMs = Math.max(expectedSec * 2500 + 10000, 30000);
-  watchdog = setTimeout(() => {
-   try { synth.cancel(); } catch(e){}
-   advance();
-  }, watchdogMs);
+  if (idx === chunks.length - 1){
+   // Last chunk fires the paragraph-finished callback
+   let fired = false;
+   const finalEnd = () => {
+    if (fired) return;
+    fired = true;
+    finishAll();
+   };
+   u.onend = finalEnd;
+   u.onerror = finalEnd;
+  }
   synth.speak(u);
- };
+ });
+
+ // Single watchdog for the whole paragraph (safety net if engine silently dies).
+ const totalChars = chunks.reduce((s, c) => s + c.length, 0);
+ const expectedSec = totalChars / (12 * (opts.rate || _ttsRate));
+ const watchdogMs = Math.max(expectedSec * 2000 + 15000, 30000);
+ watchdog = setTimeout(() => {
+  if (endedFlag) return;
+  try { synth.cancel(); } catch(e){}
+  finishAll();
+ }, watchdogMs);
+
  _ttsKeepAliveStart();
- speakNext();
+
  return { cancel: () => {
   if (cancelled) return;
   cancelled = true;
   endedFlag = true;
+  if (watchdog){ clearTimeout(watchdog); watchdog = null; }
   _ttsKeepAliveStop();
   try{synth.cancel();}catch(e){}
  } };
