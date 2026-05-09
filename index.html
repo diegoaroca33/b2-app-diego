@@ -156,6 +156,10 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
 .turbo-launch{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#ef4444 0%,#b91c1c 100%);color:#fff;font-weight:800;padding:14px 18px;border-radius:12px;border:none;cursor:pointer;font-size:14px;width:100%;margin-bottom:10px;letter-spacing:.02em;box-shadow:0 6px 16px rgba(220,38,38,.35);transition:transform .15s,box-shadow .15s}
 .turbo-writing{background:linear-gradient(135deg,#3b82f6 0%,#1e40af 100%);box-shadow:0 6px 16px rgba(30,64,175,.35)}
 .turbo-writing:hover{box-shadow:0 8px 22px rgba(30,64,175,.45)}
+.turbo-topics{background:linear-gradient(135deg,#22c55e 0%,#15803d 100%);box-shadow:0 6px 16px rgba(21,128,61,.35)}
+.turbo-topics:hover{box-shadow:0 8px 22px rgba(21,128,61,.45)}
+.turbo-global{background:linear-gradient(135deg,#a855f7 0%,#6b21a8 100%);box-shadow:0 6px 16px rgba(107,33,168,.35)}
+.turbo-global:hover{box-shadow:0 8px 22px rgba(107,33,168,.45)}
 /* daily plan */
 .daily-plan{padding:0!important;overflow:hidden}
 .daily-plan .lbl{padding:12px 14px 8px;background:#f8f8f5;border-bottom:1px solid #e5e5e0;margin:0}
@@ -382,7 +386,19 @@ audio{width:100%;margin:10px 0;border-radius:8px;display:block}
   <div>TURBO WRITING — 6 textos PARA MEMORIZAR en bucle<span class="sub">Report · Complaint · DANA · Food Waste · Bullying · Shopping · ~13 min/vuelta · prioritario hasta el 13 mayo</span></div>
 </button>
 
-<!-- TURBO completo — para el oral -->
+<!-- TURBO GLOBAL — solo el monólogo síntesis en bucle -->
+<button class="turbo-launch turbo-global" onclick="turboStartGlobal()">
+  <span class="icon">🌍</span>
+  <div>TURBO GLOBAL — Monólogo síntesis en bucle<span class="sub">15 topics + 10 estructuras en 1 solo texto · 921 palabras · ~8 min/vuelta</span></div>
+</button>
+
+<!-- TURBO TOPICS — los 14 topics oficiales en bucle -->
+<button class="turbo-launch turbo-topics" onclick="turboStartTopics()">
+  <span class="icon">🎯</span>
+  <div>TURBO TOPICS — los 14 topics oficiales en bucle<span class="sub">Topic 01 → 14 · 3.000 palabras · ~26 min/vuelta · base universal del oral</span></div>
+</button>
+
+<!-- TURBO completo — todo junto -->
 <button class="turbo-launch" onclick="turboStart()">
   <span class="icon">🚀</span>
   <div>TURBO completo — 21 textos<span class="sub">~45 min · 4.973 palabras · prioritario después del 13 may para el oral</span></div>
@@ -3810,6 +3826,45 @@ function turboStartWriting(){
  if(window.speechSynthesis)window.speechSynthesis.cancel();
  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
  turboState={idx:0,paused:false,active:true,currentBtn:null,currentSession:null,gen:0,playlist:TURBO_WRITING_PLAYLIST,loop:true,loopCount:1};
+ document.getElementById('turbo-bar').classList.add('show');
+ document.getElementById('turbo-play-btn').textContent='⏸';
+ turboPlay();
+}
+
+// TURBO TOPICS — solo los 14 topics oficiales en bucle infinito (base universal del oral).
+const TURBO_TOPICS_PLAYLIST=[
+ {kind:'topic',tab:'speak',find:'Personal Identity',label:'Topic 01 — Personal Identity'},
+ {kind:'topic',tab:'speak',find:'Housing, Home and Surroundings',label:'Topic 02 — Housing'},
+ {kind:'topic',tab:'speak',find:'Daily Life, Work and Entrepreneurship',label:'Topic 03 — Daily Life'},
+ {kind:'topic',tab:'speak',find:'Free Time and Leisure',label:'Topic 04 — Free Time'},
+ {kind:'topic',tab:'speak',find:'Travel and Holidays',label:'Topic 05 — Travel'},
+ {kind:'topic',tab:'speak',find:'Personal and Social Relationships',label:'Topic 06 — Relationships'},
+ {kind:'topic',tab:'speak',find:'Health and Physical Care',label:'Topic 07 — Health'},
+ {kind:'topic',tab:'speak',find:'Education and Study',label:'Topic 08 — Education'},
+ {kind:'topic',tab:'speak',find:'Shopping and Commercial Activities',label:'Topic 09 — Shopping'},
+ {kind:'topic',tab:'speak',find:'Food and Restaurants',label:'Topic 10 — Food'},
+ {kind:'topic',tab:'speak',find:'Transport, Goods and Services',label:'Topic 11 — Transport'},
+ {kind:'topic',tab:'speak',find:'Language and Communication',label:'Topic 12 — Language'},
+ {kind:'topic',tab:'speak',find:'Weather and the Natural Environment',label:'Topic 13 — Weather'},
+ {kind:'topic',tab:'speak',find:'Science and Technology',label:'❤️ Topic 14 — Science and Technology'},
+];
+function turboStartTopics(){
+ if(window.speechSynthesis)window.speechSynthesis.cancel();
+ document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
+ turboState={idx:0,paused:false,active:true,currentBtn:null,currentSession:null,gen:0,playlist:TURBO_TOPICS_PLAYLIST,loop:true,loopCount:1};
+ document.getElementById('turbo-bar').classList.add('show');
+ document.getElementById('turbo-play-btn').textContent='⏸';
+ turboPlay();
+}
+
+// TURBO GLOBAL — solo el monólogo síntesis en bucle infinito.
+const TURBO_GLOBAL_PLAYLIST=[
+ {kind:'topic',tab:'speak',find:'Monólogo Global',label:'❤️ Monólogo Global — síntesis (15 topics · 10 estructuras)'},
+];
+function turboStartGlobal(){
+ if(window.speechSynthesis)window.speechSynthesis.cancel();
+ document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
+ turboState={idx:0,paused:false,active:true,currentBtn:null,currentSession:null,gen:0,playlist:TURBO_GLOBAL_PLAYLIST,loop:true,loopCount:1};
  document.getElementById('turbo-bar').classList.add('show');
  document.getElementById('turbo-play-btn').textContent='⏸';
  turboPlay();
