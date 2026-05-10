@@ -3449,7 +3449,8 @@ function _chunkLongPara(text, maxLen){
 
 // Speak a topic-text/essay-text element with paragraph-by-paragraph scroll + highlight.
 // Each paragraph speaks as a single utterance UNLESS it's > 250 chars (then chunked).
-// Returns { cancel } controller. onAllEnd fires once when fully done.
+// Returns { cancel, pause, resume } controller. onAllEnd fires once when fully done.
+// Pause preserves position; resume replays the chunk where it was paused.
 function _speakElementSimple(srcEl, opts, onAllEnd){
  opts = opts || {};
  const synth = window.speechSynthesis;
@@ -3457,51 +3458,91 @@ function _speakElementSimple(srcEl, opts, onAllEnd){
  if (paras.length === 0){
   // Fallback: speak whole element as one utterance
   const text = ttsCleanText(srcEl);
-  if (!text){ if (onAllEnd) onAllEnd(); return { cancel: () => {} }; }
+  if (!text){ if (onAllEnd) onAllEnd(); return { cancel: () => {}, pause: () => {}, resume: () => {} }; }
+  let paused = false;
+  let cancelled = false;
   const u = new SpeechSynthesisUtterance(text);
   u.lang = opts.lang || 'en-GB';
   u.rate = opts.rate || _ttsRate;
   u.pitch = 1;
   if (opts.voice) u.voice = opts.voice;
-  u.onend = u.onerror = () => { if (onAllEnd) onAllEnd(); };
+  u.onend = u.onerror = () => { if (cancelled || paused) return; if (onAllEnd) onAllEnd(); };
   synth.speak(u);
-  return { cancel: () => { try{synth.cancel();}catch(e){} } };
+  return {
+   cancel: () => { cancelled = true; try{synth.cancel();}catch(e){} },
+   pause: () => { paused = true; try{synth.cancel();}catch(e){} },
+   resume: () => { paused = false; synth.speak(u); }
+  };
  }
- let pi = 0;  // paragraph index
+ // Outer state — survives across chunks/paragraphs for pause/resume
+ let pi = 0;            // paragraph index
+ let ci = 0;            // chunk index within current paragraph
+ let chunks = null;     // chunks of current paragraph
  let cancelled = false;
+ let paused = false;
  const clearHl = () => document.querySelectorAll('.tts-current').forEach(el => el.classList.remove('tts-current'));
- const speakPara = () => {
-  if (cancelled) return;
-  if (pi >= paras.length){ clearHl(); if (onAllEnd) onAllEnd(); return; }
+
+ const startPara = () => {
+  // Set up chunks for paragraph pi and reset ci to 0; show highlight + scroll
+  if (pi >= paras.length){ chunks = null; return false; }
   const item = paras[pi];
   clearHl();
   item.el.classList.add('tts-current');
   try { item.el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){}
-  // Decide chunking: paragraphs > 250 chars get split into utterances chained via onend.
-  const chunks = item.text.length > 250 ? _chunkLongPara(item.text) : [item.text];
-  let ci = 0;
-  const speakChunk = () => {
-   if (cancelled) return;
-   if (ci >= chunks.length){ pi++; speakPara(); return; }
-   const u = new SpeechSynthesisUtterance(chunks[ci]);
-   u.lang = opts.lang || 'en-GB';
-   u.rate = opts.rate || _ttsRate;
-   u.pitch = 1;
-   if (opts.voice) u.voice = opts.voice;
-   let fired = false;
-   const next = () => { if (fired || cancelled) return; fired = true; ci++; speakChunk(); };
-   u.onend = next;
-   u.onerror = next;
-   synth.speak(u);
-  };
-  speakChunk();
+  chunks = item.text.length > 250 ? _chunkLongPara(item.text) : [item.text];
+  ci = 0;
+  return true;
  };
- speakPara();
+
+ const speakChunk = () => {
+  if (cancelled || paused) return;
+  // If we don't have chunks yet (e.g., just resumed at paragraph start), set them up
+  if (chunks === null){
+   if (!startPara()){ clearHl(); if (onAllEnd) onAllEnd(); return; }
+  }
+  // If finished current paragraph's chunks, advance to next paragraph
+  if (ci >= chunks.length){
+   pi++;
+   if (!startPara()){ clearHl(); if (onAllEnd) onAllEnd(); return; }
+  }
+  const u = new SpeechSynthesisUtterance(chunks[ci]);
+  u.lang = opts.lang || 'en-GB';
+  u.rate = opts.rate || _ttsRate;
+  u.pitch = 1;
+  if (opts.voice) u.voice = opts.voice;
+  let fired = false;
+  const next = () => {
+   if (fired) return;
+   fired = true;
+   if (cancelled || paused) return;
+   ci++;
+   speakChunk();
+  };
+  u.onend = next;
+  u.onerror = next;
+  synth.speak(u);
+ };
+
+ // Initial start: load chunks for first paragraph and speak
+ startPara();
+ speakChunk();
+
  return {
   cancel: () => {
    cancelled = true;
    try { synth.cancel(); } catch(e){}
    clearHl();
+  },
+  pause: () => {
+   if (paused || cancelled) return;
+   paused = true;
+   try { synth.cancel(); } catch(e){}  // pending onend will see paused=true and bail
+   // ci stays at the current chunk → resume will replay this chunk
+  },
+  resume: () => {
+   if (!paused || cancelled) return;
+   paused = false;
+   speakChunk();  // replays chunks[ci] (the one that was paused)
   }
  };
 }
@@ -3831,29 +3872,25 @@ function turboPauseToggle(){
  if(!turboState.active)return;
  const btn=document.getElementById('turbo-play-btn');
  if(turboState.paused){
-  // Resume: restart current item from the top (same as forward/back).
-  // Reason: with the chunked session approach, synth.resume() doesn't reliably
-  // continue the chained chunks. Restart is more reliable.
+  // Resume from saved position (replays the chunk that was paused).
   turboState.paused=false;
   btn.textContent='⏸';btn.title='Pausa';btn.classList.remove('play');
-  // Cancel current session (if any) and any paused synth state
-  if(turboState.currentUtter && typeof turboState.currentUtter.cancel==='function'){
-   try{turboState.currentUtter.cancel();}catch(e){}
+  if(turboState.currentUtter && typeof turboState.currentUtter.resume==='function'){
+   turboState.currentUtter.resume();
+  } else {
+   // Fallback: no session pause/resume available, restart current item
+   try{window.speechSynthesis.cancel();}catch(e){}
+   turboPlay();
   }
-  turboState.currentUtter=null;
-  try{window.speechSynthesis.cancel();}catch(e){}
-  document.querySelectorAll('.tts-current').forEach(el=>el.classList.remove('tts-current'));
-  // Restart current item (turboState.idx unchanged)
-  turboPlay();
  } else {
+  // Pause preserving position
   turboState.paused=true;
   btn.textContent='▶️';btn.title='Reanudar';btn.classList.add('play');
-  // Cancel session entirely so the chained chunks don't continue advancing
-  if(turboState.currentUtter && typeof turboState.currentUtter.cancel==='function'){
-   try{turboState.currentUtter.cancel();}catch(e){}
+  if(turboState.currentUtter && typeof turboState.currentUtter.pause==='function'){
+   turboState.currentUtter.pause();
+  } else {
+   try{window.speechSynthesis.cancel();}catch(e){}
   }
-  turboState.currentUtter=null;
-  try{window.speechSynthesis.cancel();}catch(e){}
  }
 }
 
