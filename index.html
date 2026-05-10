@@ -3536,13 +3536,23 @@ function _speakElementSimple(srcEl, opts, onAllEnd){
   pause: () => {
    if (paused || cancelled) return;
    paused = true;
-   try { synth.cancel(); } catch(e){}  // pending onend will see paused=true and bail
-   // ci stays at the current chunk → resume will replay this chunk
+   // Try native pause first (preserves exact position in current utterance)
+   try { synth.pause(); } catch(e){}
   },
   resume: () => {
    if (!paused || cancelled) return;
    paused = false;
-   speakChunk();  // replays chunks[ci] (the one that was paused)
+   // Try native resume first
+   try { synth.resume(); } catch(e){}
+   // Fallback: if browser actually cancelled on pause (some Chrome versions do),
+   // replay current chunk after a brief delay so pause/resume still works.
+   setTimeout(() => {
+    if (cancelled || paused) return;
+    if (!synth.speaking && !synth.paused){
+     // Engine is idle → native resume failed → replay current chunk
+     speakChunk();
+    }
+   }, 300);
   }
  };
 }
