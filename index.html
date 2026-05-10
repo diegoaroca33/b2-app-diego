@@ -3406,35 +3406,41 @@ function ttsCleanText(srcEl){
  return text;
 }
 
-// Split text into TTS-friendly chunks (~150 chars desktop, ~110 mobile).
-// Chrome and mobile engines silently drop or cut off long utterances — small chunks + watchdog avoid this.
+// Split text into TTS-friendly chunks (~150 chars desktop, ~80 mobile).
+// Mobile engines (Android Chrome, Samsung Internet) silently CUT speech mid-utterance
+// for utterances over ~8 seconds (~80-100 chars at normal rate). Smaller chunks + comma
+// splitting on long sentences keep every chunk under that threshold.
 function _splitForTTS(text, maxLen){
- maxLen = maxLen || (_isMobile ? 110 : 150);
+ maxLen = maxLen || (_isMobile ? 80 : 150);
  const out = [];
  const sentences = text.split(/(?<=[.!?])\s+/);
- for (const s of sentences){
-  if (!s) continue;
-  if (s.length <= maxLen){
-   // Try to append to previous chunk if it fits
-   if (out.length > 0 && (out[out.length-1].length + 1 + s.length) <= maxLen){
-    out[out.length-1] += ' ' + s;
-   } else {
-    out.push(s);
-   }
+ const pushChunk = (s) => {
+  if (!s) return;
+  if (out.length > 0 && (out[out.length-1].length + 1 + s.length) <= maxLen){
+   out[out.length-1] += ' ' + s;
   } else {
-   // Sentence too long: split on commas
-   const parts = s.split(/,\s+/);
-   let cur = '';
-   for (const p of parts){
-    if (cur && (cur.length + 2 + p.length) > maxLen){
-     out.push(cur);
-     cur = p;
-    } else {
-     cur = cur ? cur + ', ' + p : p;
-    }
-   }
-   if (cur) out.push(cur);
+   out.push(s);
   }
+ };
+ for (const sRaw of sentences){
+  if (!sRaw) continue;
+  if (sRaw.length <= maxLen){
+   pushChunk(sRaw);
+   continue;
+  }
+  // Sentence too long → split on commas
+  const parts = sRaw.split(/,\s+/);
+  let cur = '';
+  for (const p of parts){
+   const candidate = cur ? cur + ', ' + p : p;
+   if (candidate.length > maxLen){
+    if (cur) { pushChunk(cur); cur = p; }
+    else { pushChunk(p); cur = ''; }  // single part already too long, push anyway
+   } else {
+    cur = candidate;
+   }
+  }
+  if (cur) pushChunk(cur);
  }
  return out;
 }
