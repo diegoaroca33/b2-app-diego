@@ -3831,15 +3831,29 @@ function turboPauseToggle(){
  if(!turboState.active)return;
  const btn=document.getElementById('turbo-play-btn');
  if(turboState.paused){
+  // Resume: restart current item from the top (same as forward/back).
+  // Reason: with the chunked session approach, synth.resume() doesn't reliably
+  // continue the chained chunks. Restart is more reliable.
   turboState.paused=false;
   btn.textContent='⏸';btn.title='Pausa';btn.classList.remove('play');
-  try{window.speechSynthesis.resume();}catch(e){}
-  // If browser actually cancelled instead of pausing, restart current item
-  setTimeout(()=>{if(turboState.active && !turboState.paused && !window.speechSynthesis.speaking)turboPlay();},200);
+  // Cancel current session (if any) and any paused synth state
+  if(turboState.currentUtter && typeof turboState.currentUtter.cancel==='function'){
+   try{turboState.currentUtter.cancel();}catch(e){}
+  }
+  turboState.currentUtter=null;
+  try{window.speechSynthesis.cancel();}catch(e){}
+  document.querySelectorAll('.tts-current').forEach(el=>el.classList.remove('tts-current'));
+  // Restart current item (turboState.idx unchanged)
+  turboPlay();
  } else {
   turboState.paused=true;
   btn.textContent='▶️';btn.title='Reanudar';btn.classList.add('play');
-  try{window.speechSynthesis.pause();}catch(e){}
+  // Cancel session entirely so the chained chunks don't continue advancing
+  if(turboState.currentUtter && typeof turboState.currentUtter.cancel==='function'){
+   try{turboState.currentUtter.cancel();}catch(e){}
+  }
+  turboState.currentUtter=null;
+  try{window.speechSynthesis.cancel();}catch(e){}
  }
 }
 
