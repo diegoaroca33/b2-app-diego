@@ -3404,15 +3404,123 @@ function ttsCleanText(srcEl){
  return text;
 }
 
+// Get paragraph-by-paragraph cleaned text from a topic-text/essay-text element.
+// Returns array of {text, el}. Long paragraphs are NOT pre-chunked — that happens at speak time.
+function _getParagraphs(srcEl){
+ const out = [];
+ srcEl.querySelectorAll('p').forEach(p => {
+  if (p.closest('.no-tts')) return;
+  const clone = p.cloneNode(true);
+  clone.querySelectorAll('.gt, .no-tts').forEach(el => el.remove());
+  clone.querySelectorAll('.hw').forEach(el => el.replaceWith(document.createTextNode(el.textContent)));
+  let text = clone.innerText
+   .replace(/(^|\n)\s*(Intro|Body\s*\d+|Concession|Conclusion|Apertura|Motivo|Experiencia|Idoneidad|Cierre|Current Situation|Issues Identified|Recommendations|Punto más relevante|Opinión \+ cierre|Introducir tema)\s*:\s*/gi, '$1')
+   .replace(/\b(2C|3CI?|PASS|NOBA|REL|UNL|CONC|WISH|PP|UT)\b/g, '')
+   .replace(/\s+/g, ' ').trim();
+  if (text) out.push({ text, el: p });
+ });
+ return out;
+}
+
+// Split text into chunks at sentence boundaries (only used for paragraphs > 250 chars).
+function _chunkLongPara(text, maxLen){
+ maxLen = maxLen || 200;
+ const out = [];
+ const sentences = text.split(/(?<=[.!?])\s+/);
+ const push = s => { if (!s) return;
+  if (out.length && (out[out.length-1].length + 1 + s.length) <= maxLen){ out[out.length-1] += ' ' + s; }
+  else { out.push(s); }
+ };
+ for (const s of sentences){
+  if (s.length <= maxLen){ push(s); continue; }
+  // Sentence too long → split on commas
+  const parts = s.split(/,\s+/);
+  let cur = '';
+  for (const p of parts){
+   const cand = cur ? cur + ', ' + p : p;
+   if (cand.length > maxLen){
+    if (cur){ push(cur); cur = p; } else { push(p); cur = ''; }
+   } else { cur = cand; }
+  }
+  if (cur) push(cur);
+ }
+ return out;
+}
+
+// Speak a topic-text/essay-text element with paragraph-by-paragraph scroll + highlight.
+// Each paragraph speaks as a single utterance UNLESS it's > 250 chars (then chunked).
+// Returns { cancel } controller. onAllEnd fires once when fully done.
+function _speakElementSimple(srcEl, opts, onAllEnd){
+ opts = opts || {};
+ const synth = window.speechSynthesis;
+ const paras = _getParagraphs(srcEl);
+ if (paras.length === 0){
+  // Fallback: speak whole element as one utterance
+  const text = ttsCleanText(srcEl);
+  if (!text){ if (onAllEnd) onAllEnd(); return { cancel: () => {} }; }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = opts.lang || 'en-GB';
+  u.rate = opts.rate || _ttsRate;
+  u.pitch = 1;
+  if (opts.voice) u.voice = opts.voice;
+  u.onend = u.onerror = () => { if (onAllEnd) onAllEnd(); };
+  synth.speak(u);
+  return { cancel: () => { try{synth.cancel();}catch(e){} } };
+ }
+ let pi = 0;  // paragraph index
+ let cancelled = false;
+ const clearHl = () => document.querySelectorAll('.tts-current').forEach(el => el.classList.remove('tts-current'));
+ const speakPara = () => {
+  if (cancelled) return;
+  if (pi >= paras.length){ clearHl(); if (onAllEnd) onAllEnd(); return; }
+  const item = paras[pi];
+  clearHl();
+  item.el.classList.add('tts-current');
+  try { item.el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(e){}
+  // Decide chunking: paragraphs > 250 chars get split into utterances chained via onend.
+  const chunks = item.text.length > 250 ? _chunkLongPara(item.text) : [item.text];
+  let ci = 0;
+  const speakChunk = () => {
+   if (cancelled) return;
+   if (ci >= chunks.length){ pi++; speakPara(); return; }
+   const u = new SpeechSynthesisUtterance(chunks[ci]);
+   u.lang = opts.lang || 'en-GB';
+   u.rate = opts.rate || _ttsRate;
+   u.pitch = 1;
+   if (opts.voice) u.voice = opts.voice;
+   let fired = false;
+   const next = () => { if (fired || cancelled) return; fired = true; ci++; speakChunk(); };
+   u.onend = next;
+   u.onerror = next;
+   synth.speak(u);
+  };
+  speakChunk();
+ };
+ speakPara();
+ return {
+  cancel: () => {
+   cancelled = true;
+   try { synth.cancel(); } catch(e){}
+   clearHl();
+  }
+ };
+}
+
+let _ttsCurrentSession = null;
+
 function ttsToggle(btn){
  const synth=window.speechSynthesis;
  if(!synth){alert('Este navegador no soporta lectura por voz.');return;}
- if(btn.classList.contains('playing')){synth.cancel();return;} // onend will reset
+ if(btn.classList.contains('playing')){
+  if (_ttsCurrentSession){ _ttsCurrentSession.cancel(); _ttsCurrentSession = null; }
+  synth.cancel();
+  btn.classList.remove('playing');btn.textContent='🔊';
+  return;
+ }
  // Stop any other currently playing
+ if (_ttsCurrentSession){ _ttsCurrentSession.cancel(); _ttsCurrentSession = null; }
  document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
  synth.cancel();
- // The TTS bar is inserted right BEFORE the text element — use nextElementSibling.
- // Fallback: search the parent for any .essay-text/.topic-text.
  const bar=btn.closest('.tts-bar');
  let txtEl=null;
  if(bar){
@@ -3425,16 +3533,13 @@ function ttsToggle(btn){
  if(!txtEl){alert('No encuentro texto que leer aquí.');return;}
  const text=ttsCleanText(txtEl);
  if(!text){alert('El texto está vacío.');return;}
- const u=new SpeechSynthesisUtterance(text);
- u.lang='en-GB';
- u.rate=_ttsRate;
- u.pitch=1;
- const v=_pickVoice();if(v)u.voice=v;
- const reset=()=>{btn.classList.remove('playing');btn.textContent='🔊';};
- u.onend=reset; u.onerror=reset;
- synth.speak(u);
+ const v=_pickVoice();
  btn.classList.add('playing');
  btn.textContent='⏹';
+ _ttsCurrentSession = _speakElementSimple(txtEl, {lang:'en-GB', rate:_ttsRate, voice:v}, () => {
+  btn.classList.remove('playing');btn.textContent='🔊';
+  _ttsCurrentSession = null;
+ });
 }
 function ttsSetRate(btn,rate){
  _ttsRate=rate;
@@ -3630,7 +3735,12 @@ function _turboBump(){turboState.gen++;return turboState.gen;}
 function _turboReset(){
  if(turboState.currentBtn){turboState.currentBtn.classList.remove('playing');turboState.currentBtn.textContent='🔊';}
  turboState.currentBtn=null;
+ if(turboState.currentUtter && typeof turboState.currentUtter.cancel==='function'){
+  try{turboState.currentUtter.cancel();}catch(e){}
+ }
  turboState.currentUtter=null;
+ // Clear any leftover paragraph highlight
+ document.querySelectorAll('.tts-current').forEach(el=>el.classList.remove('tts-current'));
 }
 
 function turboStart(){
@@ -3799,31 +3909,24 @@ function turboLocateAndPlay(item,myGen){
    console.warn('Turbo: text element missing',item);
    setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;
   }
-  const text=ttsCleanText(txtEl);
-  if(!text){console.warn('Turbo: empty text',item);setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;}
+  const previewText=ttsCleanText(txtEl);
+  if(!previewText){console.warn('Turbo: empty text',item);setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},300);return;}
   const synth=window.speechSynthesis;
   synth.cancel();
   document.querySelectorAll('.tts-btn.playing').forEach(b=>{b.classList.remove('playing');b.textContent='🔊';});
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang='en-GB';
-  u.rate=_ttsRate;
-  u.pitch=1;
-  const v2=_pickVoice();if(v2)u.voice=v2;
+  const v2=_pickVoice();
   const btn=ttsBar.querySelector('.tts-btn');
   if(btn){btn.classList.add('playing');btn.textContent='⏹';}
   turboState.currentBtn=btn;
-  u.onend=()=>{
-   // Check stale BEFORE doing anything
+  // Paragraph-by-paragraph scroll + highlight; long paragraphs (>250c) chunked internally
+  turboState.currentUtter = _speakElementSimple(txtEl, {lang:'en-GB', rate:_ttsRate, voice:v2}, () => {
    if(myGen!==turboState.gen)return;
    if(btn){btn.classList.remove('playing');btn.textContent='🔊';}
    turboState.currentUtter=null;turboState.currentBtn=null;
    if(turboState.active && !turboState.paused){
     setTimeout(()=>{if(myGen===turboState.gen){turboState.idx++;turboPlay();}},800);
    }
-  };
-  u.onerror=u.onend;
-  turboState.currentUtter=u;
-  synth.speak(u);
+  });
  },800);
 }
 
